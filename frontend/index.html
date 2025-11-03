@@ -282,25 +282,33 @@
     
     <!-- ============================================================
          MOBILE UI (Custom Banking) - Shows on screens < 768px
+         
+         NOTE: This is the PUBLIC HOMEPAGE for non-logged-in users.
+         Features shown:
+         - Welcome message and branding
+         - Website features and benefits
+         - Register/Login buttons
+         - Why Choose Us section
+         
+         For LOGGED-IN users, the dashboard.html should have:
+         - Account balance card
+         - Quick Actions (Deposit, Withdraw, Transfer, History)
+         - Recent transactions
+         - Account management features
          ============================================================ -->
     <div class="mobile-ui">
         
-        <!-- Mobile Header -->
+        <!-- Mobile Header (Public Homepage) -->
         <header class="mobile-header">
             <div class="mobile-header-content">
                 <div class="mobile-logo">
                     <i class="fas fa-university"></i>
                     <span>SecureBank</span>
                 </div>
-                <div class="mobile-user-menu">
-                    <button class="mobile-notification-btn" aria-label="Notifications">
-                        <i class="fas fa-bell"></i>
-                    </button>
-                </div>
             </div>
         </header>
         
-        <!-- Mobile Hero Section -->
+        <!-- Mobile Hero Section (Public - Not Logged In) -->
         <section class="mobile-hero">
             <div class="mobile-hero-content">
                 <h1 class="mobile-hero-title">Welcome to SecureBank</h1>
@@ -330,37 +338,6 @@
                         <div class="mobile-stat-label">Secure</div>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <!-- Mobile Quick Actions -->
-        <section class="mobile-quick-actions">
-            <h2 class="section-title">Quick Actions</h2>
-            <div class="quick-actions-grid">
-                <a href="deposit.html" class="quick-action-btn">
-                    <div class="quick-action-icon">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                    <div class="quick-action-label">Deposit</div>
-                </a>
-                <a href="withdraw.html" class="quick-action-btn">
-                    <div class="quick-action-icon">
-                        <i class="fas fa-minus"></i>
-                    </div>
-                    <div class="quick-action-label">Withdraw</div>
-                </a>
-                <a href="transfer.html" class="quick-action-btn">
-                    <div class="quick-action-icon">
-                        <i class="fas fa-exchange-alt"></i>
-                    </div>
-                    <div class="quick-action-label">Transfer</div>
-                </a>
-                <a href="history.html" class="quick-action-btn">
-                    <div class="quick-action-icon">
-                        <i class="fas fa-history"></i>
-                    </div>
-                    <div class="quick-action-label">History</div>
-                </a>
             </div>
         </section>
         
