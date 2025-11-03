@@ -110,6 +110,64 @@
     margin-bottom: var(--space-md);
 }
 
+.balance-info {
+    position: relative;
+    z-index: 1;
+}
+
+.balance-refresh {
+    position: absolute;
+    top: var(--space-lg);
+    right: var(--space-lg);
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.balance-refresh:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(180deg);
+}
+
+.balance-refresh:active {
+    transform: rotate(360deg) scale(0.95);
+}
+
+.balance-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.stat-value {
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
 .balance-actions {
     display: flex;
     justify-content: center;
@@ -146,7 +204,130 @@
     font-size: 1.125rem;
 }
 
-/* ========== MOBILE QUICK ACTIONS ========== */
+/* ========== MOBILE FORM ELEMENTS ========== */
+.mobile-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.mobile-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.mobile-form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.mobile-form-input {
+    width: 100%;
+    padding: var(--space-md);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    background: var(--surface-primary);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    min-height: var(--touch-target);
+}
+
+.mobile-form-input:focus {
+    outline: none;
+    border-color: var(--bank-primary);
+    box-shadow: 0 0 0 3px var(--bank-primary-light);
+}
+
+.mobile-form-input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.mobile-form-submit {
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    background: linear-gradient(135deg, var(--bank-primary), var(--bank-primary-dark));
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    font-weight: 600;
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+}
+
+.mobile-form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mobile-form-submit:active {
+    transform: translateY(0);
+}
+
+.mobile-info-box {
+    background: var(--surface-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.mobile-info-box h6 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.mobile-info-box ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.mobile-info-box li {
+    margin-bottom: var(--space-xs);
+}
+
+.mobile-quick-amount {
+    background: var(--surface-secondary);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-sm);
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.875rem;
+    min-height: var(--touch-target);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.mobile-quick-amount:hover,
+.mobile-quick-amount:active {
+    background: var(--bank-primary);
+    color: white;
+    border-color: var(--bank-primary);
+    transform: scale(1.05);
+}
+
+/* ========== MOBILE QUICK ACTIONS GRID ========== */
 .mobile-quick-actions {
     padding: var(--space-md);
 }
@@ -241,6 +422,26 @@
     color: var(--status-error);
 }
 
+.transaction-icon.deposit {
+    background: var(--status-success-bg);
+    color: var(--status-success);
+}
+
+.transaction-icon.withdraw {
+    background: var(--status-warning-bg);
+    color: var(--status-warning);
+}
+
+.transaction-icon.transfer_out {
+    background: var(--bank-primary-light);
+    color: var(--bank-primary);
+}
+
+.transaction-icon.transfer_in {
+    background: var(--status-info-bg);
+    color: var(--status-info);
+}
+
 .transaction-details {
     flex: 1;
     min-width: 0;
@@ -250,7 +451,20 @@
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: var(--space-xs);
+    margin-bottom: 0.125rem;
+}
+
+.transaction-time {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin-bottom: 0.25rem;
+}
+
+.transaction-ref {
+    font-size: 0.625rem;
+    color: var(--text-tertiary);
+    font-family: monospace;
+    margin: 0;
 }
 
 .transaction-date {
@@ -263,6 +477,14 @@
     font-weight: 700;
     font-family: var(--font-mono);
     white-space: nowrap;
+}
+
+.amount-positive {
+    color: var(--status-success);
+}
+
+.amount-negative {
+    color: var(--status-error);
 }
 
 .transaction-amount.credit {
