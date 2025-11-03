@@ -108,8 +108,8 @@
     --status-success-bg: #064e3b;
     --status-error: #ef4444;
     --status-error-bg: #7f1d1d;
-    --status-warning: #f59e0b;
-    --status-warning-bg: #78350f;
+    --status-warning: #fbbf24;         /* Bright yellow/orange */
+    --status-warning-bg: #92400e;      /* Medium brown - visible background */
     --status-info: #3b82f6;
     --status-info-bg: #1e3a8a;
     
