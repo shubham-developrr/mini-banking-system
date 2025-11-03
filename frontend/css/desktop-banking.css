@@ -248,14 +248,18 @@
 }
 
 .desktop-balance-card.primary {
-    background: linear-gradient(135deg, var(--bank-primary), var(--bank-secondary));
+    background: linear-gradient(135deg, #1e40af, #3b82f6);
     color: white;
     box-shadow: var(--shadow-md);
 }
 
+[data-theme="dark"] .desktop-balance-card.primary {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+}
+
 .desktop-balance-card.primary .desktop-balance-label,
 .desktop-balance-card.primary .desktop-balance-meta {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
 }
 
 .desktop-balance-card.primary::before {
@@ -304,6 +308,7 @@
 
 .desktop-balance-card.primary .desktop-balance-amount {
     color: white;
+    font-weight: 700;
 }
 
 .desktop-balance-card.success-card .desktop-balance-icon {
