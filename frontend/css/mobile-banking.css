@@ -89,30 +89,30 @@
 
 /* Apply animations to elements */
 .mobile-balance-card {
-    animation: slideDown 0.5s ease-out;
+    animation: slideDown 0.4s ease-out;
 }
 
 .mobile-quick-actions {
-    animation: fadeIn 0.6s ease-out;
+    animation: fadeIn 0.4s ease-out;
 }
 
 .transaction-item {
-    animation: slideUp 0.4s ease-out;
+    animation: slideUp 0.3s ease-out;
     animation-fill-mode: both;
 }
 
-.transaction-item:nth-child(1) { animation-delay: 0.05s; }
-.transaction-item:nth-child(2) { animation-delay: 0.1s; }
-.transaction-item:nth-child(3) { animation-delay: 0.15s; }
-.transaction-item:nth-child(4) { animation-delay: 0.2s; }
-.transaction-item:nth-child(5) { animation-delay: 0.25s; }
+.transaction-item:nth-child(1) { animation-delay: 0.03s; }
+.transaction-item:nth-child(2) { animation-delay: 0.06s; }
+.transaction-item:nth-child(3) { animation-delay: 0.09s; }
+.transaction-item:nth-child(4) { animation-delay: 0.12s; }
+.transaction-item:nth-child(5) { animation-delay: 0.15s; }
 
 .mobile-form-submit:active {
-    animation: pulse 0.3s ease;
+    animation: none;
 }
 
 .quick-action-btn:active {
-    animation: pulse 0.2s ease;
+    animation: none;
 }
 
 /* Loading States */
@@ -526,18 +526,20 @@
     align-items: center;
     justify-content: center;
     gap: var(--space-sm);
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     box-shadow: var(--shadow-md);
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.mobile-form-submit:hover {
-    transform: translateY(-2px);
+.mobile-form-submit:hover,
+.mobile-form-submit:focus {
     box-shadow: var(--shadow-lg);
+    transform: none;
 }
 
 .mobile-form-submit:active {
-    transform: translateY(0);
+    transform: scale(0.98);
 }
 
 .mobile-info-box {
@@ -579,16 +581,20 @@
     font-weight: 600;
     font-size: 0.875rem;
     min-height: var(--touch-target);
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .mobile-quick-amount:hover,
-.mobile-quick-amount:active {
+.mobile-quick-amount:focus {
     background: var(--bank-primary);
     color: white;
     border-color: var(--bank-primary);
-    transform: scale(1.05);
+}
+
+.mobile-quick-amount:active {
+    transform: scale(0.95);
 }
 
 /* ========== MOBILE QUICK ACTIONS GRID ========== */
@@ -620,14 +626,22 @@
     padding: var(--space-md) var(--space-sm);
     color: var(--text-primary);
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
     min-height: var(--touch-target);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.quick-action-btn:hover {
-    transform: translateY(-2px);
+.quick-action-btn:hover,
+.quick-action-btn:focus {
     box-shadow: var(--shadow-md);
     border-color: var(--bank-primary);
+    transform: none;
+}
+
+.quick-action-btn:active {
+    transform: scale(0.98);
+    box-shadow: var(--shadow-sm);
 }
 
 .quick-action-icon {

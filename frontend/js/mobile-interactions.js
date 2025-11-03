@@ -107,16 +107,16 @@ function showToast(message, type = 'info', duration = 3000) {
 
 // Initialize mobile interactions
 function initializeMobileInteractions() {
-    // Add ripple effect to all buttons
-    document.querySelectorAll('.mobile-form-submit, .mobile-quick-amount, .quick-action-btn').forEach(button => {
+    // Add ripple effect only to form submit buttons and quick amount buttons (not navigation)
+    document.querySelectorAll('.mobile-form-submit, .mobile-quick-amount').forEach(button => {
         button.addEventListener('click', function(e) {
             hapticFeedback('light');
             createRipple(e);
         });
     });
     
-    // Add touch feedback to nav items
-    document.querySelectorAll('.mobile-bottom-nav .nav-item').forEach(item => {
+    // Add touch feedback to nav items (haptic only, no ripple for navigation)
+    document.querySelectorAll('.mobile-bottom-nav .mobile-nav-item, .quick-action-btn').forEach(item => {
         item.addEventListener('click', function() {
             hapticFeedback('light');
         });

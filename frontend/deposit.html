@@ -213,9 +213,9 @@
                     <i class="fas fa-history"></i>
                     <span class="mobile-nav-label">History</span>
                 </a>
-                <a href="withdraw.html" class="mobile-nav-item">
-                    <i class="fas fa-minus-circle"></i>
-                    <span class="mobile-nav-label">Withdraw</span>
+                <a href="#" class="mobile-nav-item" id="mobileLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="mobile-nav-label">Logout</span>
                 </a>
             </div>
         </nav>
@@ -305,6 +305,12 @@
                     window.mobileUI.setButtonLoading(submitBtn, false);
                 }
             }
+        });
+        
+        // Mobile logout handler
+        document.getElementById('mobileLogoutBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            logout();
         });
         
         // Load current balance on page load
