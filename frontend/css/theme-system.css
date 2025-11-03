@@ -1,0 +1,190 @@
+/* ============================================================================
+   SECUREBANK - PROFESSIONAL BANKING THEME SYSTEM
+   Dual UI: Desktop (Bootstrap) + Mobile (Custom Banking Design)
+   Light/Dark Theme Support - NO HARDCODED COLORS
+   ============================================================================ */
+
+/* ========== ROOT VARIABLES - LIGHT THEME (DEFAULT) ========== */
+:root {
+    /* Banking Primary Colors - Trust & Security */
+    --bank-primary: #1e40af;           /* Deep banking blue */
+    --bank-primary-light: #3b82f6;     /* Bright blue */
+    --bank-primary-dark: #1e3a8a;      /* Darker blue */
+    --bank-accent: #059669;            /* Success green for money */
+    --bank-accent-light: #10b981;      /* Lighter green */
+    
+    /* Surface Colors */
+    --surface-primary: #ffffff;        /* Cards, modals */
+    --surface-secondary: #f8fafc;      /* Page background */
+    --surface-tertiary: #f1f5f9;       /* Subtle backgrounds */
+    
+    /* Text Colors */
+    --text-primary: #1e293b;           /* Main text */
+    --text-secondary: #64748b;         /* Secondary text */
+    --text-tertiary: #94a3b8;          /* Disabled, hints */
+    --text-on-primary: #ffffff;        /* Text on primary color */
+    
+    /* Border Colors */
+    --border-light: #e2e8f0;
+    --border-medium: #cbd5e1;
+    --border-dark: #94a3b8;
+    
+    /* Status Colors */
+    --status-success: #059669;
+    --status-success-bg: #d1fae5;
+    --status-error: #dc2626;
+    --status-error-bg: #fee2e2;
+    --status-warning: #d97706;
+    --status-warning-bg: #fef3c7;
+    --status-info: #0284c7;
+    --status-info-bg: #e0f2fe;
+    
+    /* Shadows - Banking Professional */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Spacing System (mobile-optimized) */
+    --space-xs: 0.25rem;    /* 4px */
+    --space-sm: 0.5rem;     /* 8px */
+    --space-md: 1rem;       /* 16px */
+    --space-lg: 1.5rem;     /* 24px */
+    --space-xl: 2rem;       /* 32px */
+    --space-2xl: 3rem;      /* 48px */
+    
+    /* Typography */
+    --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+    
+    /* Border Radius - Banking Professional */
+    --radius-sm: 0.375rem;  /* 6px */
+    --radius-md: 0.5rem;    /* 8px */
+    --radius-lg: 0.75rem;   /* 12px */
+    --radius-xl: 1rem;      /* 16px */
+    
+    /* Touch Targets (mobile) */
+    --touch-target: 48px;
+    --touch-target-sm: 44px;
+}
+
+/* ========== DARK THEME ========== */
+[data-theme="dark"] {
+    /* Banking Primary Colors - Softer for dark mode */
+    --bank-primary: #3b82f6;
+    --bank-primary-light: #60a5fa;
+    --bank-primary-dark: #2563eb;
+    --bank-accent: #10b981;
+    --bank-accent-light: #34d399;
+    
+    /* Surface Colors - Dark Banking Professional */
+    --surface-primary: #1e293b;        /* Cards, modals */
+    --surface-secondary: #0f172a;      /* Page background */
+    --surface-tertiary: #334155;       /* Subtle backgrounds */
+    
+    /* Text Colors */
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    --text-on-primary: #ffffff;
+    
+    /* Border Colors */
+    --border-light: #334155;
+    --border-medium: #475569;
+    --border-dark: #64748b;
+    
+    /* Status Colors - Adjusted for dark mode */
+    --status-success: #10b981;
+    --status-success-bg: #064e3b;
+    --status-error: #ef4444;
+    --status-error-bg: #7f1d1d;
+    --status-warning: #f59e0b;
+    --status-warning-bg: #78350f;
+    --status-info: #3b82f6;
+    --status-info-bg: #1e3a8a;
+    
+    /* Shadows - Darker for depth */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== BASE STYLES ========== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--surface-secondary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ========== DESKTOP UI (Bootstrap - shown on >= 768px) ========== */
+.desktop-ui {
+    display: block;
+}
+
+.mobile-ui {
+    display: none;
+}
+
+/* ========== MOBILE UI (Custom Banking - shown on < 768px) ========== */
+@media (max-width: 767px) {
+    .desktop-ui {
+        display: none !important;
+    }
+    
+    .mobile-ui {
+        display: block !important;
+    }
+}
+
+/* ========== THEME TOGGLE BUTTON ========== */
+.theme-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--surface-primary);
+    border: 2px solid var(--border-light);
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-lg);
+}
+
+.theme-toggle i {
+    font-size: 1.25rem;
+    color: var(--bank-primary);
+}
+
+[data-theme="dark"] .theme-toggle .fa-sun {
+    display: inline;
+}
+
+[data-theme="dark"] .theme-toggle .fa-moon {
+    display: none;
+}
+
+[data-theme="light"] .theme-toggle .fa-sun {
+    display: none;
+}
+
+[data-theme="light"] .theme-toggle .fa-moon {
+    display: inline;
+}

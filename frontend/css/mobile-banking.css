@@ -1,0 +1,523 @@
+/* ============================================================================
+   MOBILE BANKING UI - PROFESSIONAL DESIGN
+   Optimized for phones < 768px
+   Expert-level mobile banking experience
+   ============================================================================ */
+
+/* ========== MOBILE CONTAINER ========== */
+.mobile-ui {
+    min-height: 100vh;
+    background: var(--surface-secondary);
+    padding-bottom: 80px; /* Space for bottom nav */
+}
+
+/* ========== MOBILE HEADER ========== */
+.mobile-header {
+    background: var(--surface-primary);
+    border-bottom: 1px solid var(--border-light);
+    padding: var(--space-md);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+}
+
+.mobile-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    color: var(--bank-primary);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.mobile-logo i {
+    font-size: 1.5rem;
+}
+
+.mobile-user-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.mobile-notification-btn,
+.mobile-profile-btn {
+    width: var(--touch-target-sm);
+    height: var(--touch-target-sm);
+    border-radius: 50%;
+    background: var(--surface-tertiary);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    position: relative;
+}
+
+.mobile-notification-btn .badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--status-error);
+    color: white;
+    border-radius: 10px;
+    padding: 2px 6px;
+    font-size: 0.625rem;
+    font-weight: 700;
+}
+
+/* ========== MOBILE BALANCE CARD ========== */
+.mobile-balance-card {
+    background: linear-gradient(135deg, var(--bank-primary-dark), var(--bank-primary));
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    margin: var(--space-md);
+    color: white;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.mobile-balance-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+.balance-label {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-bottom: var(--space-xs);
+}
+
+.balance-amount {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    margin-bottom: var(--space-md);
+}
+
+.balance-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+}
+
+.balance-action-btn {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    min-height: var(--touch-target);
+    justify-content: center;
+}
+
+.balance-action-btn i {
+    font-size: 1.125rem;
+}
+
+/* ========== MOBILE QUICK ACTIONS ========== */
+.mobile-quick-actions {
+    padding: var(--space-md);
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+}
+
+.quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+}
+
+.quick-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    background: var(--surface-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md) var(--space-sm);
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    min-height: var(--touch-target);
+}
+
+.quick-action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--bank-primary);
+}
+
+.quick-action-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bank-primary-light), var(--bank-primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.quick-action-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--text-secondary);
+}
+
+/* ========== MOBILE TRANSACTIONS FEED ========== */
+.mobile-transactions {
+    padding: var(--space-md);
+}
+
+.transaction-item {
+    background: var(--surface-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.transaction-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+}
+
+.transaction-icon.credit {
+    background: var(--status-success-bg);
+    color: var(--status-success);
+}
+
+.transaction-icon.debit {
+    background: var(--status-error-bg);
+    color: var(--status-error);
+}
+
+.transaction-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.transaction-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.transaction-date {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+}
+
+.transaction-amount {
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+}
+
+.transaction-amount.credit {
+    color: var(--status-success);
+}
+
+.transaction-amount.debit {
+    color: var(--status-error);
+}
+
+/* ========== MOBILE BOTTOM NAVIGATION ========== */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface-primary);
+    border-top: 1px solid var(--border-light);
+    padding: var(--space-sm) 0;
+    z-index: 1000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-nav-items {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    min-width: 64px;
+}
+
+.mobile-nav-item.active {
+    color: var(--bank-primary);
+}
+
+.mobile-nav-item i {
+    font-size: 1.5rem;
+}
+
+.mobile-nav-label {
+    font-size: 0.625rem;
+    font-weight: 600;
+}
+
+.mobile-nav-item.center {
+    transform: translateY(-8px);
+}
+
+.mobile-nav-item.center .mobile-nav-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bank-primary), var(--bank-primary-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    box-shadow: var(--shadow-lg);
+}
+
+/* ========== MOBILE FORM STYLES ========== */
+.mobile-form-container {
+    padding: var(--space-md);
+}
+
+.mobile-form-group {
+    margin-bottom: var(--space-lg);
+}
+
+.mobile-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.mobile-input,
+.mobile-select {
+    width: 100%;
+    min-height: var(--touch-target);
+    padding: var(--space-md);
+    background: var(--surface-primary);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.mobile-input:focus,
+.mobile-select:focus {
+    outline: none;
+    border-color: var(--bank-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.mobile-btn {
+    width: 100%;
+    min-height: var(--touch-target);
+    padding: var(--space-md);
+    background: var(--bank-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mobile-btn:hover {
+    background: var(--bank-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mobile-btn:active {
+    transform: translateY(0);
+}
+
+.mobile-btn-secondary {
+    background: var(--surface-tertiary);
+    color: var(--text-primary);
+}
+
+.mobile-btn-success {
+    background: var(--bank-accent);
+}
+
+/* ========== MOBILE CARDS ========== */
+.mobile-card {
+    background: var(--surface-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.mobile-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+}
+
+.mobile-card-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* ========== MOBILE HERO (Homepage) ========== */
+.mobile-hero {
+    background: linear-gradient(135deg, var(--bank-primary-dark), var(--bank-primary));
+    color: white;
+    padding: var(--space-2xl) var(--space-md);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.mobile-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+}
+
+.mobile-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.mobile-hero-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: var(--space-md);
+}
+
+.mobile-hero-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: var(--space-xl);
+}
+
+.mobile-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+}
+
+.mobile-stat {
+    text-align: center;
+}
+
+.mobile-stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: var(--space-xs);
+}
+
+.mobile-stat-label {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mobile-card,
+.transaction-item {
+    animation: slideUp 0.3s ease;
+}
+
+/* ========== ACCESSIBILITY ========== */
+.mobile-input:focus,
+.mobile-btn:focus,
+.mobile-nav-item:focus {
+    outline: 2px solid var(--bank-primary);
+    outline-offset: 2px;
+}
+
+/* ========== LOADING STATES ========== */
+.mobile-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-2xl);
+}
+
+.mobile-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--border-light);
+    border-top-color: var(--bank-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

@@ -1,20 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SecureBank - Modern Banking Made Simple</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#1e40af">
+    <title>SecureBank - Professional Banking Made Simple</title>
     
-    <!-- Bootstrap 5 CSS -->
+    <!-- Bootstrap 5 CSS (Desktop UI) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    <!-- Custom CSS - Theme System + Dual UI -->
+    <link rel="stylesheet" href="css/theme-system.css">
+    <link rel="stylesheet" href="css/mobile-banking.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+    </button>
+    
+    <!-- ============================================================
+         DESKTOP UI (Bootstrap) - Shows on screens >= 768px
+         ============================================================ -->
+    <div class="desktop-ui">
     
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
@@ -263,9 +277,169 @@
             </div>
         </div>
     </footer>
+    
+    </div><!-- End Desktop UI -->
+    
+    <!-- ============================================================
+         MOBILE UI (Custom Banking) - Shows on screens < 768px
+         ============================================================ -->
+    <div class="mobile-ui">
+        
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <div class="mobile-header-content">
+                <div class="mobile-logo">
+                    <i class="fas fa-university"></i>
+                    <span>SecureBank</span>
+                </div>
+                <div class="mobile-user-menu">
+                    <button class="mobile-notification-btn" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Mobile Hero Section -->
+        <section class="mobile-hero">
+            <div class="mobile-hero-content">
+                <h1 class="mobile-hero-title">Welcome to SecureBank</h1>
+                <p class="mobile-hero-subtitle">Professional banking at your fingertips</p>
+                <div class="balance-actions">
+                    <a href="register.html" class="balance-action-btn">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Register</span>
+                    </a>
+                    <a href="login.html" class="balance-action-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                </div>
+                
+                <div class="mobile-hero-stats">
+                    <div class="mobile-stat">
+                        <div class="mobile-stat-value">99.9%</div>
+                        <div class="mobile-stat-label">Uptime</div>
+                    </div>
+                    <div class="mobile-stat">
+                        <div class="mobile-stat-value">50K+</div>
+                        <div class="mobile-stat-label">Users</div>
+                    </div>
+                    <div class="mobile-stat">
+                        <div class="mobile-stat-value">100%</div>
+                        <div class="mobile-stat-label">Secure</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Mobile Quick Actions -->
+        <section class="mobile-quick-actions">
+            <h2 class="section-title">Quick Actions</h2>
+            <div class="quick-actions-grid">
+                <a href="deposit.html" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="quick-action-label">Deposit</div>
+                </a>
+                <a href="withdraw.html" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-minus"></i>
+                    </div>
+                    <div class="quick-action-label">Withdraw</div>
+                </a>
+                <a href="transfer.html" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="quick-action-label">Transfer</div>
+                </a>
+                <a href="history.html" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="quick-action-label">History</div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Mobile Features -->
+        <section class="mobile-transactions">
+            <h2 class="section-title">Why Choose Us?</h2>
+            
+            <div class="mobile-card">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">
+                        <i class="fas fa-bolt text-primary me-2"></i> Instant Transfers
+                    </div>
+                </div>
+                <p class="text-secondary mb-0">Transfer money instantly to any account with zero delays. Real-time processing 24/7.</p>
+            </div>
+            
+            <div class="mobile-card">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">
+                        <i class="fas fa-shield-alt text-success me-2"></i> Bank-Grade Security
+                    </div>
+                </div>
+                <p class="text-secondary mb-0">Military-grade encryption and advanced fraud detection keep your money safe.</p>
+            </div>
+            
+            <div class="mobile-card">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">
+                        <i class="fas fa-chart-line text-warning me-2"></i> Smart Analytics
+                    </div>
+                </div>
+                <p class="text-secondary mb-0">Track spending with intelligent insights and visual reports to make better decisions.</p>
+            </div>
+            
+            <div class="mobile-card">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">
+                        <i class="fas fa-mobile-alt text-info me-2"></i> Mobile First
+                    </div>
+                </div>
+                <p class="text-secondary mb-0">Optimized for all devices with offline capabilities and seamless experience.</p>
+            </div>
+        </section>
+        
+        <!-- Mobile Bottom Navigation -->
+        <nav class="mobile-bottom-nav">
+            <div class="mobile-nav-items">
+                <a href="index.html" class="mobile-nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span class="mobile-nav-label">Home</span>
+                </a>
+                <a href="login.html" class="mobile-nav-item">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span class="mobile-nav-label">Login</span>
+                </a>
+                <a href="register.html" class="mobile-nav-item center">
+                    <div class="mobile-nav-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <span class="mobile-nav-label">Register</span>
+                </a>
+                <a href="history.html" class="mobile-nav-item">
+                    <i class="fas fa-history"></i>
+                    <span class="mobile-nav-label">History</span>
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-bars"></i>
+                    <span class="mobile-nav-label">More</span>
+                </a>
+            </div>
+        </nav>
+        
+    </div><!-- End Mobile UI -->
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Theme Management -->
+    <script src="js/theme.js"></script>
     
     <!-- Custom JavaScript -->
     <script>
