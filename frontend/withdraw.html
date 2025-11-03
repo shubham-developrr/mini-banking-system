@@ -142,7 +142,7 @@
             </div>
         </div>
     </div>
-    <!-- End Desktop UI -->
+    </div><!-- End Desktop UI -->
     
     <!-- Mobile UI -->
     <div class="mobile-ui">
@@ -276,6 +276,9 @@
     <!-- Theme Management -->
     <script src="js/theme.js"></script>
     
+    <!-- Mobile Interactions -->
+    <script src="js/mobile-interactions.js"></script>
+    
     <!-- Custom JavaScript -->
     <script src="js/auth.js"></script>
     <script src="js/transactions.js"></script>
@@ -304,9 +307,33 @@
         // Handle mobile form submission
         document.getElementById('mobileWithdrawForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            document.getElementById('amount').value = document.getElementById('mobileAmount').value;
-            document.getElementById('description').value = document.getElementById('mobileDescription').value;
-            await withdraw();
+            
+            const submitBtn = e.target.querySelector('.mobile-form-submit');
+            
+            if (window.mobileUI) {
+                window.mobileUI.setButtonLoading(submitBtn, true);
+                window.mobileUI.hapticFeedback('medium');
+            }
+            
+            try {
+                document.getElementById('amount').value = document.getElementById('mobileAmount').value;
+                document.getElementById('description').value = document.getElementById('mobileDescription').value;
+                await withdraw();
+                
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('success');
+                    window.mobileUI.showToast('Withdrawal successful!', 'success');
+                }
+            } catch (error) {
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('error');
+                    window.mobileUI.showToast('Withdrawal failed. Please try again.', 'error');
+                }
+            } finally {
+                if (window.mobileUI) {
+                    window.mobileUI.setButtonLoading(submitBtn, false);
+                }
+            }
         });
         
         // Mobile logout handler

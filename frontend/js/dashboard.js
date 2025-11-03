@@ -112,6 +112,7 @@ async function loadRecentTransactions() {
         
         if (response.ok && data.success) {
             displayRecentTransactions(data.transactions);
+            displayMobileRecentTransactions(data.transactions);
         } else {
             document.getElementById('recentTransactions').innerHTML = `
                 <tr>
@@ -121,6 +122,10 @@ async function loadRecentTransactions() {
                     </td>
                 </tr>
             `;
+            const mobileContainer = document.getElementById('mobileRecentTransactions');
+            if (mobileContainer) {
+                mobileContainer.innerHTML = '<p class="text-center text-secondary py-4">No transactions yet</p>';
+            }
         }
     } catch (error) {
         console.error('Error loading transactions:', error);
@@ -203,6 +208,74 @@ function displayRecentTransactions(transactions) {
                 <td>₹${txn.balance_after.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                 <td><code class="small">${txn.reference}</code></td>
             </tr>
+        `;
+    }).join('');
+}
+
+/**
+ * Display recent transactions in mobile UI
+ */
+function displayMobileRecentTransactions(transactions) {
+    const container = document.getElementById('mobileRecentTransactions');
+    
+    if (!container) return;
+    
+    if (transactions.length === 0) {
+        container.innerHTML = '<p class="text-center text-secondary py-4">No transactions yet</p>';
+        return;
+    }
+    
+    container.innerHTML = transactions.slice(0, 5).map(txn => {
+        const date = new Date(txn.timestamp);
+        const formattedDate = date.toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'short'
+        });
+        const formattedTime = date.toLocaleTimeString('en-IN', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        let icon = '';
+        let amountClass = '';
+        let amountPrefix = '';
+        
+        switch(txn.type) {
+            case 'deposit':
+                icon = 'fas fa-plus-circle';
+                amountClass = 'amount-positive';
+                amountPrefix = '+';
+                break;
+            case 'withdraw':
+                icon = 'fas fa-minus-circle';
+                amountClass = 'amount-negative';
+                amountPrefix = '-';
+                break;
+            case 'transfer_out':
+                icon = 'fas fa-arrow-up';
+                amountClass = 'amount-negative';
+                amountPrefix = '-';
+                break;
+            case 'transfer_in':
+                icon = 'fas fa-arrow-down';
+                amountClass = 'amount-positive';
+                amountPrefix = '+';
+                break;
+        }
+        
+        return `
+            <div class="transaction-item">
+                <div class="transaction-icon ${txn.type}">
+                    <i class="${icon}"></i>
+                </div>
+                <div class="transaction-details">
+                    <h4 class="transaction-title">${txn.description}</h4>
+                    <p class="transaction-date">${formattedDate} • ${formattedTime}</p>
+                </div>
+                <div class="transaction-amount ${amountClass}">
+                    ${amountPrefix}₹${txn.amount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                </div>
+            </div>
         `;
     }).join('');
 }

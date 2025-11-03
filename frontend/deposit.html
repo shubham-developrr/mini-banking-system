@@ -246,6 +246,9 @@
     <!-- Theme Management -->
     <script src="js/theme.js"></script>
     
+    <!-- Mobile Interactions -->
+    <script src="js/mobile-interactions.js"></script>
+    
     <!-- Custom JavaScript -->
     <script src="js/auth.js"></script>
     <script src="js/transactions.js"></script>
@@ -274,8 +277,34 @@
         // Handle mobile form submission
         document.getElementById('mobileDepositForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            document.getElementById('amount').value = document.getElementById('mobileAmount').value;
-            await deposit();
+            
+            const submitBtn = e.target.querySelector('.mobile-form-submit');
+            
+            // Show loading state
+            if (window.mobileUI) {
+                window.mobileUI.setButtonLoading(submitBtn, true);
+                window.mobileUI.hapticFeedback('medium');
+            }
+            
+            try {
+                document.getElementById('amount').value = document.getElementById('mobileAmount').value;
+                await deposit();
+                
+                // Show success feedback
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('success');
+                    window.mobileUI.showToast('Deposit successful!', 'success');
+                }
+            } catch (error) {
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('error');
+                    window.mobileUI.showToast('Deposit failed. Please try again.', 'error');
+                }
+            } finally {
+                if (window.mobileUI) {
+                    window.mobileUI.setButtonLoading(submitBtn, false);
+                }
+            }
         });
         
         // Load current balance on page load
