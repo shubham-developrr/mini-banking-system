@@ -2,179 +2,240 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#2563eb">
     <title>Deposit Money - SecureBank</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    <!-- Custom CSS - New Design System -->
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/mobile.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="dashboard-page">
+<body>
     
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="dashboard.html">
-                <i class="fas fa-university"></i> SecureBank
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.html">
-                            <i class="fas fa-home me-1"></i>Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="history.html">
-                            <i class="fas fa-history me-1"></i>Transactions
-                        </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt me-1"></i>Logout
-                        </a>
-                    </li>
-                </ul>
+    <nav class="navbar navbar-app">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="dashboard.html" class="btn btn-icon-only">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                
+                <h1 class="navbar-title">Deposit Money</h1>
+                
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <span class="theme-toggle-slider"></span>
+                    <span class="theme-toggle-icon">
+                        <i class="fas fa-sun"></i>
+                    </span>
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <!-- Back Button -->
-                <a href="dashboard.html" class="btn btn-outline-secondary mb-3">
-                    <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
-                </a>
+    <main class="transaction-main">
+        <div class="container">
+            <!-- Transaction Icon -->
+            <div class="transaction-icon transaction-icon-success">
+                <i class="fas fa-plus-circle"></i>
+            </div>
+            
+            <!-- Transaction Card -->
+            <div class="card transaction-card">
+                <div class="transaction-header">
+                    <h2>Add Funds</h2>
+                    <p>Enter the amount you want to deposit</p>
+                </div>
                 
-                <!-- Deposit Card -->
-                <div class="card transaction-card">
-                    <div class="card-body p-4">
-                        <div class="text-center mb-4">
-                            <div class="transaction-icon bg-success mb-3">
-                                <i class="fas fa-plus-circle fa-3x"></i>
-                            </div>
-                            <h3 class="fw-bold">Deposit Money</h3>
-                            <p class="text-muted">Add funds to your account</p>
+                <!-- Alert -->
+                <div id="depositAlert" style="display: none;" role="alert"></div>
+                
+                <!-- Account Info -->
+                <div class="account-info">
+                    <div class="account-info-label">Current Balance</div>
+                    <div class="account-info-value">₹<span id="currentBalance">0.00</span></div>
+                    <div class="account-info-meta">Account: <span id="accountNumber">-</span></div>
+                </div>
+                
+                <!-- Deposit Form -->
+                <form id="depositForm" class="transaction-form">
+                    <div class="form-group">
+                        <label for="amount" class="form-label">
+                            <i class="fas fa-rupee-sign"></i>
+                            <span>Amount to Deposit</span>
+                        </label>
+                        <div class="amount-input-wrapper">
+                            <span class="amount-currency">₹</span>
+                            <input 
+                                type="number" 
+                                class="form-control form-control-lg amount-input" 
+                                id="amount" 
+                                name="amount"
+                                placeholder="0.00" 
+                                inputmode="decimal"
+                                step="0.01"
+                                min="1"
+                                max="1000000"
+                                required>
                         </div>
-                        
-                        <!-- Current Balance -->
-                        <div class="alert alert-info mb-4">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span><i class="fas fa-wallet me-2"></i>Current Balance:</span>
-                                <strong class="fs-5">₹<span id="currentBalance">0.00</span></strong>
-                            </div>
-                        </div>
-                        
-                        <!-- Alert for messages -->
-                        <div id="depositAlert" class="alert d-none" role="alert"></div>
-                        
-                        <!-- Deposit Form -->
-                        <form id="depositForm">
-                            <div class="mb-4">
-                                <label for="amount" class="form-label">
-                                    <i class="fas fa-rupee-sign me-2"></i>Amount to Deposit
-                                </label>
-                                <input type="number" class="form-control form-control-lg" id="amount" 
-                                       placeholder="Enter amount" min="1" max="1000000" step="0.01" required>
-                                <small class="text-muted">Minimum: ₹1 | Maximum: ₹10,00,000</small>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <label for="description" class="form-label">
-                                    <i class="fas fa-comment me-2"></i>Description (Optional)
-                                </label>
-                                <input type="text" class="form-control" id="description" 
-                                       placeholder="e.g., Salary, Gift, Savings" maxlength="100">
-                            </div>
-                            
-                            <!-- Quick Amount Buttons -->
-                            <div class="mb-4">
-                                <label class="form-label d-block">Quick Amount:</label>
-                                <div class="d-flex gap-2 flex-wrap">
-                                    <button type="button" class="btn btn-outline-secondary quick-amount" data-amount="500">₹500</button>
-                                    <button type="button" class="btn btn-outline-secondary quick-amount" data-amount="1000">₹1,000</button>
-                                    <button type="button" class="btn btn-outline-secondary quick-amount" data-amount="5000">₹5,000</button>
-                                    <button type="button" class="btn btn-outline-secondary quick-amount" data-amount="10000">₹10,000</button>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-success btn-lg w-100" id="depositBtn">
-                                <i class="fas fa-check-circle me-2"></i>Deposit Money
-                            </button>
-                        </form>
-                        
-                        <!-- Info Box -->
-                        <div class="mt-4 p-3 bg-light rounded">
-                            <h6 class="fw-bold mb-2"><i class="fas fa-info-circle me-2"></i>Information</h6>
-                            <ul class="mb-0 small text-muted">
-                                <li>Deposits are processed instantly</li>
-                                <li>You will receive a transaction reference</li>
-                                <li>Your balance will be updated immediately</li>
-                                <li>All transactions are securely encrypted</li>
-                            </ul>
-                        </div>
+                        <small class="form-text">Minimum: ₹1 | Maximum: ₹10,00,000</small>
                     </div>
+                    
+                    <!-- Quick Amount Buttons -->
+                    <div class="quick-amounts">
+                        <button type="button" class="btn btn-outline btn-sm quick-amount-btn" data-amount="500">₹500</button>
+                        <button type="button" class="btn btn-outline btn-sm quick-amount-btn" data-amount="1000">₹1,000</button>
+                        <button type="button" class="btn btn-outline btn-sm quick-amount-btn" data-amount="2000">₹2,000</button>
+                        <button type="button" class="btn btn-outline btn-sm quick-amount-btn" data-amount="5000">₹5,000</button>
+                        <button type="button" class="btn btn-outline btn-sm quick-amount-btn" data-amount="10000">₹10,000</button>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-success btn-lg btn-block" id="depositBtn">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Deposit Now</span>
+                    </button>
+                    
+                    <a href="dashboard.html" class="btn btn-outline btn-lg btn-block">
+                        <i class="fas fa-times"></i>
+                        <span>Cancel</span>
+                    </a>
+                </form>
+            </div>
+            
+            <!-- Security Info -->
+            <div class="info-box">
+                <div class="info-box-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="info-box-content">
+                    <strong>Secure Transaction</strong>
+                    <div>All deposits are processed instantly and securely encrypted.</div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Success Modal -->
-    <div class="modal fade" id="successModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body text-center p-5">
-                    <div class="success-checkmark mb-4">
-                        <i class="fas fa-check-circle fa-5x text-success"></i>
-                    </div>
-                    <h4 class="fw-bold mb-3">Deposit Successful!</h4>
-                    <p class="text-muted mb-2">Amount Deposited: <strong class="text-success fs-4">₹<span id="modalAmount">0.00</span></strong></p>
-                    <p class="text-muted mb-2">New Balance: <strong class="fs-5">₹<span id="modalBalance">0.00</span></strong></p>
-                    <p class="text-muted small">Reference: <code id="modalReference">-</code></p>
-                    <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">Close</button>
-                    <a href="dashboard.html" class="btn btn-outline-primary mt-3">Go to Dashboard</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="bottom-nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="deposit.html" class="bottom-nav-item active">
+            <i class="fas fa-plus-circle"></i>
+            <span>Deposit</span>
+        </a>
+        <a href="transfer.html" class="bottom-nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transfer</span>
+        </a>
+        <a href="history.html" class="bottom-nav-item">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+    </nav>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
     <!-- Custom JavaScript -->
-    <script src="js/auth.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/transactions.js"></script>
     
     <script>
+        // Initialize theme
+        if (window.themeManager) {
+            window.themeManager.init();
+        }
+        
         // Quick amount buttons
-        document.querySelectorAll('.quick-amount').forEach(button => {
-            button.addEventListener('click', function() {
-                document.getElementById('amount').value = this.dataset.amount;
+        document.querySelectorAll('.quick-amount-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const amount = this.getAttribute('data-amount');
+                document.getElementById('amount').value = amount;
+                
+                // Visual feedback
+                document.querySelectorAll('.quick-amount-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Haptic feedback
+                if (window.triggerHaptic) {
+                    window.triggerHaptic('light');
+                }
             });
         });
         
-        // Handle form submission
-        document.getElementById('depositForm').addEventListener('submit', async function(e) {
+        // Handle deposit form submission
+        const depositForm = document.getElementById('depositForm');
+        const depositBtn = document.getElementById('depositBtn');
+        
+        depositForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            await deposit();
+            
+            const amount = parseFloat(document.getElementById('amount').value);
+            
+            // Validation
+            if (!amount || amount <= 0) {
+                if (window.showToast) {
+                    window.showToast('Please enter a valid amount', 'error');
+                }
+                return;
+            }
+            
+            if (amount < 1) {
+                if (window.showToast) {
+                    window.showToast('Minimum deposit amount is ₹1', 'error');
+                }
+                return;
+            }
+            
+            if (amount > 1000000) {
+                if (window.showToast) {
+                    window.showToast('Maximum deposit amount is ₹10,00,000', 'error');
+                }
+                return;
+            }
+            
+            // Prevent double submission
+            if (depositBtn.disabled) return;
+            
+            // Show loading state
+            depositBtn.disabled = true;
+            const originalHTML = depositBtn.innerHTML;
+            depositBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Processing...</span>';
+            
+            try {
+                await deposit();
+            } catch (error) {
+                console.error('Deposit error:', error);
+            } finally {
+                // Re-enable button
+                depositBtn.disabled = false;
+                depositBtn.innerHTML = originalHTML;
+            }
         });
         
-        // Load current balance on page load
+        // Load account info on page load
         window.addEventListener('DOMContentLoaded', async function() {
-            await checkAuth();
-            await loadCurrentBalance();
+            if (window.showLoading) {
+                window.showLoading();
+            }
+            
+            try {
+                // Load account balance (if function exists)
+                if (typeof loadAccountBalance === 'function') {
+                    await loadAccountBalance();
+                }
+            } catch (error) {
+                console.error('Error loading account info:', error);
+            } finally {
+                if (window.hideLoading) {
+                    window.hideLoading();
+                }
+            }
         });
     </script>
 </body>

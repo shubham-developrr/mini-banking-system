@@ -2,143 +2,207 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#2563eb">
     <title>Register - SecureBank</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    <!-- Custom CSS - New Design System -->
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/mobile.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="auth-page">
+<body>
     
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar">
         <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <i class="fas fa-university"></i> SecureBank
-            </a>
-            <div class="ms-auto">
-                <a href="login.html" class="text-white text-decoration-none">
-                    Already have an account? <strong>Login</strong>
+            <div class="navbar-content">
+                <a href="index.html" class="navbar-brand">
+                    <i class="fas fa-university"></i>
+                    <span>SecureBank</span>
                 </a>
+                
+                <div class="d-flex align-center gap-md">
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                        <span class="theme-toggle-slider"></span>
+                        <span class="theme-toggle-icon">
+                            <i class="fas fa-sun"></i>
+                        </span>
+                    </button>
+                    
+                    <a href="login.html" class="btn btn-sm btn-outline mobile-hide">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
     <!-- Register Section -->
-    <section class="auth-section">
+    <section class="auth-container">
         <div class="container">
-            <div class="row justify-content-center align-items-center min-vh-100 py-5">
-                <div class="col-md-10 col-lg-8">
-                    <div class="row auth-card">
-                        <!-- Left Side - Illustration -->
-                        <div class="col-md-6 auth-illustration d-none d-md-flex">
-                            <div class="text-center text-white p-5 d-flex flex-column justify-content-center">
-                                <i class="fas fa-user-plus fa-5x mb-4"></i>
-                                <h3 class="mb-3">Join SecureBank</h3>
-                                <p>Start your journey to smarter banking in just a few simple steps.</p>
-                                <div class="mt-4">
-                                    <div class="mb-3">
-                                        <i class="fas fa-check-circle me-2"></i>Quick Registration
-                                    </div>
-                                    <div class="mb-3">
-                                        <i class="fas fa-check-circle me-2"></i>Instant Account
-                                    </div>
-                                    <div>
-                                        <i class="fas fa-check-circle me-2"></i>Zero Fees
-                                    </div>
-                                </div>
-                            </div>
+            <div class="auth-wrapper">
+                <!-- Auth Card -->
+                <div class="card auth-card">
+                    <!-- Mobile Logo -->
+                    <div class="auth-mobile-logo">
+                        <i class="fas fa-user-plus"></i>
+                        <h2>Create Account</h2>
+                    </div>
+                    
+                    <!-- Form Container -->
+                    <div class="auth-form-container">
+                        <div class="auth-header">
+                            <h1>Join SecureBank</h1>
+                            <p>Create your account in seconds</p>
                         </div>
                         
-                        <!-- Right Side - Register Form -->
-                        <div class="col-md-6 p-5">
-                            <div class="text-center mb-4">
-                                <h2 class="fw-bold">Create Account</h2>
-                                <p class="text-muted">Get started with your free account</p>
+                        <!-- Alert for messages -->
+                        <div id="registerAlert" style="display: none;" role="alert"></div>
+                        
+                        <!-- Register Form -->
+                        <form id="registerForm" class="auth-form">
+                            <div class="form-group">
+                                <label for="fullName" class="form-label">
+                                    <i class="fas fa-user"></i>
+                                    <span>Full Name</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    class="form-control form-control-lg" 
+                                    id="fullName" 
+                                    name="fullName"
+                                    placeholder="Enter your full name" 
+                                    autocomplete="name"
+                                    required>
                             </div>
                             
-                            <!-- Alert for messages -->
-                            <div id="registerAlert" class="alert d-none" role="alert"></div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>Email Address</span>
+                                </label>
+                                <input 
+                                    type="email" 
+                                    class="form-control form-control-lg" 
+                                    id="email" 
+                                    name="email"
+                                    placeholder="Enter your email" 
+                                    autocomplete="email"
+                                    inputmode="email"
+                                    required>
+                            </div>
                             
-                            <!-- Register Form -->
-                            <form id="registerForm">
-                                <div class="mb-3">
-                                    <label for="fullName" class="form-label">
-                                        <i class="fas fa-user me-2"></i>Full Name
+                            <div class="form-group">
+                                <label for="phone" class="form-label">
+                                    <i class="fas fa-phone"></i>
+                                    <span>Phone Number</span>
+                                </label>
+                                <input 
+                                    type="tel" 
+                                    class="form-control form-control-lg" 
+                                    id="phone" 
+                                    name="phone"
+                                    placeholder="Enter your phone number" 
+                                    autocomplete="tel"
+                                    inputmode="tel"
+                                    pattern="[0-9]{10}"
+                                    required>
+                                <small class="form-text">10-digit mobile number</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="password" class="form-label">
+                                    <i class="fas fa-lock"></i>
+                                    <span>Password</span>
+                                </label>
+                                <div class="input-group">
+                                    <input 
+                                        type="password" 
+                                        class="form-control form-control-lg" 
+                                        id="password" 
+                                        name="password"
+                                        placeholder="Create a strong password"
+                                        autocomplete="new-password"
+                                        minlength="6"
+                                        required>
+                                    <button class="btn btn-icon" type="button" id="togglePassword" aria-label="Toggle password visibility">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <small class="form-text">Minimum 6 characters</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword" class="form-label">
+                                    <i class="fas fa-lock"></i>
+                                    <span>Confirm Password</span>
+                                </label>
+                                <div class="input-group">
+                                    <input 
+                                        type="password" 
+                                        class="form-control form-control-lg" 
+                                        id="confirmPassword" 
+                                        name="confirmPassword"
+                                        placeholder="Re-enter your password"
+                                        autocomplete="new-password"
+                                        minlength="6"
+                                        required>
+                                    <button class="btn btn-icon" type="button" id="toggleConfirmPassword" aria-label="Toggle password visibility">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="terms" required>
+                                    <label class="form-check-label" for="terms">
+                                        I agree to the <a href="#" class="link-primary">Terms & Conditions</a> and <a href="#" class="link-primary">Privacy Policy</a>
                                     </label>
-                                    <input type="text" class="form-control" id="fullName" 
-                                           placeholder="Enter your full name" required>
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">
-                                        <i class="fas fa-envelope me-2"></i>Email Address
-                                    </label>
-                                    <input type="email" class="form-control" id="email" 
-                                           placeholder="Enter your email" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" id="registerBtn">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Create Account</span>
+                            </button>
+                            
+                            <div class="auth-footer">
+                                <p>Already have an account? 
+                                    <a href="login.html" class="link-primary">Login here</a>
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Auth Illustration (Desktop Only) -->
+                    <div class="auth-illustration">
+                        <div class="auth-illustration-content">
+                            <div class="auth-illustration-icon">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <h3>Join SecureBank</h3>
+                            <p>Start your journey to smarter banking in just a few simple steps.</p>
+                            <div class="auth-features">
+                                <div class="auth-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Quick Registration</span>
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">
-                                        <i class="fas fa-phone me-2"></i>Phone Number
-                                    </label>
-                                    <input type="tel" class="form-control" id="phone" 
-                                           placeholder="Enter 10-digit phone number" 
-                                           pattern="[0-9]{10}" maxlength="10" required>
-                                    <small class="text-muted">10 digits, no spaces or dashes</small>
+                                <div class="auth-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Instant Account</span>
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">
-                                        <i class="fas fa-lock me-2"></i>Password
-                                    </label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="password" 
-                                               placeholder="Create a password" required>
-                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </div>
-                                    <small class="text-muted">Minimum 6 characters</small>
+                                <div class="auth-feature">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Zero Fees</span>
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <label for="confirmPassword" class="form-label">
-                                        <i class="fas fa-lock me-2"></i>Confirm Password
-                                    </label>
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" id="confirmPassword" 
-                                               placeholder="Confirm your password" required>
-                                        <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-check mb-4">
-                                    <input class="form-check-input" type="checkbox" id="agreeTerms" required>
-                                    <label class="form-check-label small" for="agreeTerms">
-                                        I agree to the <a href="#" class="text-decoration-none">Terms of Service</a> 
-                                        and <a href="#" class="text-decoration-none">Privacy Policy</a>
-                                    </label>
-                                </div>
-                                
-                                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3" id="registerBtn">
-                                    <i class="fas fa-user-plus me-2"></i>Create Account
-                                </button>
-                                
-                                <div class="text-center">
-                                    <p class="mb-0">Already have an account? 
-                                        <a href="login.html" class="text-decoration-none fw-bold">Login here</a>
-                                    </p>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,48 +210,111 @@
         </div>
     </section>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
     <!-- Custom JavaScript -->
+    <script src="js/theme.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/auth.js"></script>
     
     <script>
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordField = document.getElementById('password');
-            const icon = this.querySelector('i');
+        // Initialize theme
+        if (window.themeManager) {
+            window.themeManager.init();
+        }
+        
+        // Password toggle functions
+        function setupPasswordToggle(toggleBtnId, inputId) {
+            const toggleBtn = document.getElementById(toggleBtnId);
+            const input = document.getElementById(inputId);
             
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordField.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+            toggleBtn.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                    this.setAttribute('aria-label', 'Hide password');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                    this.setAttribute('aria-label', 'Show password');
+                }
+                
+                // Haptic feedback
+                if (window.triggerHaptic) {
+                    window.triggerHaptic('light');
+                }
+            });
+        }
+        
+        setupPasswordToggle('togglePassword', 'password');
+        setupPasswordToggle('toggleConfirmPassword', 'confirmPassword');
+        
+        // Phone number formatting
+        const phoneInput = document.getElementById('phone');
+        phoneInput.addEventListener('input', function(e) {
+            // Remove non-numeric characters
+            this.value = this.value.replace(/[^0-9]/g, '');
+            
+            // Limit to 10 digits
+            if (this.value.length > 10) {
+                this.value = this.value.slice(0, 10);
             }
         });
         
-        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
-            const passwordField = document.getElementById('confirmPassword');
-            const icon = this.querySelector('i');
-            
-            if (passwordField.type === 'password') {
-                passwordField.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
+        // Password match validation
+        const registerForm = document.getElementById('registerForm');
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        
+        confirmPassword.addEventListener('input', function() {
+            if (password.value !== confirmPassword.value) {
+                confirmPassword.setCustomValidity('Passwords do not match');
             } else {
-                passwordField.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
+                confirmPassword.setCustomValidity('');
             }
         });
         
-        // Handle register form submission
-        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+        password.addEventListener('input', function() {
+            if (confirmPassword.value && password.value !== confirmPassword.value) {
+                confirmPassword.setCustomValidity('Passwords do not match');
+            } else {
+                confirmPassword.setCustomValidity('');
+            }
+        });
+        
+        // Handle registration form submission
+        const registerBtn = document.getElementById('registerBtn');
+        
+        registerForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            await register();
+            
+            // Validate passwords match
+            if (password.value !== confirmPassword.value) {
+                if (window.showToast) {
+                    window.showToast('Passwords do not match', 'error');
+                }
+                return;
+            }
+            
+            // Prevent double submission
+            if (registerBtn.disabled) return;
+            
+            // Show loading state
+            registerBtn.disabled = true;
+            const originalHTML = registerBtn.innerHTML;
+            registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Creating Account...</span>';
+            
+            try {
+                await register();
+            } catch (error) {
+                console.error('Registration error:', error);
+            } finally {
+                // Re-enable button
+                registerBtn.disabled = false;
+                registerBtn.innerHTML = originalHTML;
+            }
         });
     </script>
 </body>

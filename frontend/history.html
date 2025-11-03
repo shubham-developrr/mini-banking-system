@@ -2,290 +2,283 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#2563eb">
     <title>Transaction History - SecureBank</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS -->
+    <!-- Custom CSS - New Design System -->
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/mobile.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="dashboard-page">
+<body>
     
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="dashboard.html">
-                <i class="fas fa-university"></i> SecureBank
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.html">
-                            <i class="fas fa-home me-1"></i>Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="history.html">
-                            <i class="fas fa-history me-1"></i>Transactions
-                        </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt me-1"></i>Logout
-                        </a>
-                    </li>
-                </ul>
+    <nav class="navbar navbar-app">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="dashboard.html" class="btn btn-icon-only">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                
+                <h1 class="navbar-title">Transaction History</h1>
+                
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <span class="theme-toggle-slider"></span>
+                    <span class="theme-toggle-icon">
+                        <i class="fas fa-sun"></i>
+                    </span>
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-12 mb-4">
-                <h2 class="fw-bold">
-                    <i class="fas fa-history me-2"></i>Transaction History
-                </h2>
-                <p class="text-muted">View all your account transactions</p>
-            </div>
-            
-            <!-- Summary Cards -->
-            <div class="col-md-3 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <h6 class="text-muted mb-2">Total Transactions</h6>
-                        <h3 class="fw-bold mb-0"><span id="totalCount">0</span></h3>
-                    </div>
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Filter Section -->
+            <div class="card filter-card">
+                <div class="filter-header">
+                    <h3>Filter Transactions</h3>
+                </div>
+                <div class="filter-options">
+                    <button class="btn btn-sm btn-outline filter-btn active" data-filter="all">
+                        <i class="fas fa-list"></i>
+                        <span>All</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline filter-btn" data-filter="deposit">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Deposits</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline filter-btn" data-filter="withdraw">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Withdrawals</span>
+                    </button>
+                    <button class="btn btn-sm btn-outline filter-btn" data-filter="transfer">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>Transfers</span>
+                    </button>
                 </div>
             </div>
             
-            <div class="col-md-3 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <h6 class="text-muted mb-2">Total Deposits</h6>
-                        <h3 class="fw-bold mb-0 text-success">₹<span id="totalDeposits">0.00</span></h3>
-                    </div>
-                </div>
+            <!-- Transactions List -->
+            <div class="section-header">
+                <h2>All Transactions</h2>
+                <div id="transactionCount" class="badge">0</div>
             </div>
             
-            <div class="col-md-3 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <h6 class="text-muted mb-2">Total Withdrawals</h6>
-                        <h3 class="fw-bold mb-0 text-danger">₹<span id="totalWithdrawals">0.00</span></h3>
+            <div class="card">
+                <div class="transaction-list" id="transactionsList">
+                    <!-- Loading State -->
+                    <div class="loading-state" id="loadingState">
+                        <div class="skeleton-loader">
+                            <div class="skeleton-line"></div>
+                            <div class="skeleton-line"></div>
+                            <div class="skeleton-line"></div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            
-            <div class="col-md-3 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <h6 class="text-muted mb-2">Current Balance</h6>
-                        <h3 class="fw-bold mb-0 text-primary">₹<span id="currentBalance">0.00</span></h3>
+                    
+                    <!-- Empty State -->
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <h3>No transactions found</h3>
+                        <p>Your transactions will appear here</p>
+                        <a href="dashboard.html" class="btn btn-primary">
+                            <i class="fas fa-home"></i>
+                            <span>Go to Dashboard</span>
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Transactions Table -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="card-title mb-0">All Transactions</h5>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-outline-primary" id="refreshBtn">
-                                    <i class="fas fa-sync-alt me-2"></i>Refresh
-                                </button>
-                                <button class="btn btn-outline-success" id="exportBtn" disabled>
-                                    <i class="fas fa-download me-2"></i>Export
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Filter Section -->
-                        <div class="row mb-4">
-                            <div class="col-md-3">
-                                <select class="form-select" id="filterType">
-                                    <option value="">All Types</option>
-                                    <option value="deposit">Deposits</option>
-                                    <option value="withdraw">Withdrawals</option>
-                                    <option value="transfer_out">Transfers Out</option>
-                                    <option value="transfer_in">Transfers In</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" id="searchInput" 
-                                       placeholder="Search by description or reference...">
-                            </div>
-                        </div>
-                        
-                        <!-- Table -->
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th width="15%">Date & Time</th>
-                                        <th width="10%">Type</th>
-                                        <th width="25%">Description</th>
-                                        <th width="12%" class="text-end">Amount</th>
-                                        <th width="12%" class="text-end">Balance</th>
-                                        <th width="18%">Reference</th>
-                                        <th width="8%">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="transactionTableBody">
-                                    <tr>
-                                        <td colspan="7" class="text-center py-5">
-                                            <div class="spinner-border text-primary" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                            <p class="text-muted mt-2">Loading transactions...</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        
-                        <!-- Pagination (future enhancement) -->
-                        <div id="paginationInfo" class="text-muted small mt-3 text-center d-none">
-                            Showing <span id="showingCount">0</span> transactions
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </main>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="bottom-nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="deposit.html" class="bottom-nav-item">
+            <i class="fas fa-plus-circle"></i>
+            <span>Deposit</span>
+        </a>
+        <a href="transfer.html" class="bottom-nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transfer</span>
+        </a>
+        <a href="history.html" class="bottom-nav-item active">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+    </nav>
+
     <!-- Custom JavaScript -->
-    <script src="js/auth.js"></script>
-    <script src="js/transactions.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/history.js"></script>
     
     <script>
+        // Initialize theme
+        if (window.themeManager) {
+            window.themeManager.init();
+        }
+        
         let allTransactions = [];
+        let currentFilter = 'all';
         
-        // Load transactions on page load
-        window.addEventListener('DOMContentLoaded', async function() {
-            await checkAuth();
-            await loadTransactionHistory();
+        // Filter button handlers
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Update filter
+                currentFilter = this.getAttribute('data-filter');
+                
+                // Apply filter
+                filterTransactions(currentFilter);
+                
+                // Haptic feedback
+                if (window.triggerHaptic) {
+                    window.triggerHaptic('light');
+                }
+            });
         });
         
-        // Refresh button
-        document.getElementById('refreshBtn').addEventListener('click', async function() {
-            await loadTransactionHistory();
-        });
-        
-        // Filter functionality
-        document.getElementById('filterType').addEventListener('change', filterTransactions);
-        document.getElementById('searchInput').addEventListener('input', filterTransactions);
-        
-        function filterTransactions() {
-            const filterType = document.getElementById('filterType').value;
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        function filterTransactions(filter) {
+            const transactionsList = document.getElementById('transactionsList');
+            const transactionCount = document.getElementById('transactionCount');
+            const emptyState = document.getElementById('emptyState');
             
             let filtered = allTransactions;
             
-            // Filter by type
-            if (filterType) {
-                filtered = filtered.filter(txn => txn.type === filterType);
+            if (filter !== 'all') {
+                filtered = allTransactions.filter(t => t.transaction_type.toLowerCase() === filter);
             }
             
-            // Filter by search term
-            if (searchTerm) {
-                filtered = filtered.filter(txn => 
-                    txn.description.toLowerCase().includes(searchTerm) ||
-                    txn.reference.toLowerCase().includes(searchTerm)
-                );
-            }
+            // Update count
+            transactionCount.textContent = filtered.length;
             
-            displayTransactions(filtered);
-        }
-        
-        function displayTransactions(transactions) {
-            const tbody = document.getElementById('transactionTableBody');
+            // Clear list
+            transactionsList.innerHTML = '';
             
-            if (transactions.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="text-center py-5">
-                            <i class="fas fa-inbox fa-3x text-muted mb-3 d-block"></i>
-                            <p class="text-muted">No transactions found</p>
-                        </td>
-                    </tr>
-                `;
+            if (filtered.length === 0) {
+                emptyState.style.display = 'flex';
+                transactionsList.appendChild(emptyState);
                 return;
             }
             
-            tbody.innerHTML = transactions.map(txn => {
-                const date = new Date(txn.timestamp);
-                const formattedDate = date.toLocaleDateString('en-IN');
-                const formattedTime = date.toLocaleTimeString('en-IN', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-                
-                let typeLabel = '';
-                let typeClass = '';
-                let amountPrefix = '';
-                
-                switch(txn.type) {
-                    case 'deposit':
-                        typeLabel = '<span class="badge bg-success">Deposit</span>';
-                        typeClass = 'text-success';
-                        amountPrefix = '+';
-                        break;
-                    case 'withdraw':
-                        typeLabel = '<span class="badge bg-warning">Withdraw</span>';
-                        typeClass = 'text-danger';
-                        amountPrefix = '-';
-                        break;
-                    case 'transfer_out':
-                        typeLabel = '<span class="badge bg-primary">Transfer Out</span>';
-                        typeClass = 'text-danger';
-                        amountPrefix = '-';
-                        break;
-                    case 'transfer_in':
-                        typeLabel = '<span class="badge bg-info">Transfer In</span>';
-                        typeClass = 'text-success';
-                        amountPrefix = '+';
-                        break;
+            emptyState.style.display = 'none';
+            
+            // Render transactions
+            filtered.forEach(transaction => {
+                const item = createTransactionItem(transaction);
+                transactionsList.appendChild(item);
+            });
+        }
+        
+        function createTransactionItem(transaction) {
+            const item = document.createElement('div');
+            item.className = 'transaction-item';
+            
+            const type = transaction.transaction_type.toLowerCase();
+            let iconClass = 'transaction-item-icon';
+            let icon = '';
+            
+            if (type === 'deposit') {
+                iconClass += ' transaction-item-icon-success';
+                icon = 'fa-arrow-down';
+            } else if (type === 'withdraw') {
+                iconClass += ' transaction-item-icon-danger';
+                icon = 'fa-arrow-up';
+            } else if (type === 'transfer') {
+                iconClass += ' transaction-item-icon-primary';
+                icon = 'fa-exchange-alt';
+            }
+            
+            const date = new Date(transaction.timestamp);
+            const formattedDate = date.toLocaleDateString('en-IN', { 
+                day: 'numeric', 
+                month: 'short', 
+                year: 'numeric' 
+            });
+            const formattedTime = date.toLocaleTimeString('en-IN', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            item.innerHTML = `
+                <div class="${iconClass}">
+                    <i class="fas ${icon}"></i>
+                </div>
+                <div class="transaction-item-content">
+                    <div class="transaction-item-title">${transaction.transaction_type}</div>
+                    <div class="transaction-item-meta">
+                        <span><i class="fas fa-calendar"></i> ${formattedDate}</span>
+                        <span><i class="fas fa-clock"></i> ${formattedTime}</span>
+                    </div>
+                </div>
+                <div class="transaction-item-amount ${type === 'deposit' ? 'transaction-amount-success' : 'transaction-amount-danger'}">
+                    ${type === 'deposit' ? '+' : '-'}₹${parseFloat(transaction.amount).toFixed(2)}
+                </div>
+            `;
+            
+            return item;
+        }
+        
+        // Load transactions on page load
+        window.addEventListener('DOMContentLoaded', async function() {
+            const loadingState = document.getElementById('loadingState');
+            const emptyState = document.getElementById('emptyState');
+            const transactionsList = document.getElementById('transactionsList');
+            
+            try {
+                // Check if loadTransactions function exists (from history.js)
+                if (typeof loadTransactions === 'function') {
+                    await loadTransactions();
+                    
+                    // After loading, the history.js should populate the list
+                    // We'll wait a bit and check
+                    setTimeout(() => {
+                        loadingState.style.display = 'none';
+                        
+                        // Check if transactions were loaded
+                        const items = transactionsList.querySelectorAll('.transaction-item');
+                        if (items.length === 0) {
+                            emptyState.style.display = 'flex';
+                            transactionsList.appendChild(emptyState);
+                        }
+                    }, 500);
+                } else {
+                    // Fallback: load from API directly
+                    loadingState.style.display = 'none';
+                    emptyState.style.display = 'flex';
+                    transactionsList.appendChild(emptyState);
                 }
-                
-                return `
-                    <tr>
-                        <td>
-                            <div>${formattedDate}</div>
-                            <small class="text-muted">${formattedTime}</small>
-                        </td>
-                        <td>${typeLabel}</td>
-                        <td>${txn.description}</td>
-                        <td class="text-end ${typeClass} fw-bold">
-                            ${amountPrefix}₹${txn.amount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                        </td>
-                        <td class="text-end">
-                            ₹${txn.balance_after.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                        </td>
-                        <td><code class="small">${txn.reference}</code></td>
-                        <td>
-                            <span class="badge bg-success">Success</span>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
+            } catch (error) {
+                console.error('Error loading transactions:', error);
+                loadingState.style.display = 'none';
+                emptyState.style.display = 'flex';
+                transactionsList.appendChild(emptyState);
+            }
+        });
+        
+        // Pull to refresh on mobile
+        if (window.PullToRefresh && window.isMobileDevice()) {
+            new PullToRefresh(document.body, async () => {
+                if (typeof loadTransactions === 'function') {
+                    await loadTransactions();
+                }
+            });
         }
     </script>
 </body>

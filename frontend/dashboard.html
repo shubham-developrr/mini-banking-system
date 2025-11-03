@@ -2,11 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#2563eb">
     <title>Dashboard - SecureBank</title>
-    
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,206 +12,279 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- Custom CSS -->
+    <!-- Custom CSS - New Design System -->
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/mobile.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="dashboard-page">
+<body>
     
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="dashboard.html">
-                <i class="fas fa-university"></i> SecureBank
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="dashboard.html">
-                            <i class="fas fa-home me-1"></i>Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="history.html">
-                            <i class="fas fa-history me-1"></i>Transactions
-                        </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i>
+    <nav class="navbar navbar-app">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="dashboard.html" class="navbar-brand">
+                    <i class="fas fa-university"></i>
+                    <span>SecureBank</span>
+                </a>
+                
+                <div class="d-flex align-center gap-md">
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                        <span class="theme-toggle-slider"></span>
+                        <span class="theme-toggle-icon">
+                            <i class="fas fa-sun"></i>
+                        </span>
+                    </button>
+                    
+                    <!-- User Menu (Desktop) -->
+                    <div class="dropdown mobile-hide">
+                        <button class="btn btn-sm btn-icon dropdown-toggle" id="userMenuBtn">
+                            <i class="fas fa-user-circle"></i>
                             <span id="navUserName">User</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                        </button>
+                        <div class="dropdown-menu" id="userMenu">
+                            <a href="#" class="dropdown-item">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                            <a href="history.html" class="dropdown-item">
+                                <i class="fas fa-history"></i>
+                                <span>Transaction History</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container-fluid py-4">
-        <div class="row">
+    <!-- Main Dashboard Content -->
+    <main class="dashboard-main">
+        <div class="container">
             <!-- Welcome Header -->
-            <div class="col-12 mb-4">
-                <h2 class="fw-bold">Welcome back, <span id="userName">User</span>! 👋</h2>
-                <p class="text-muted">Here's what's happening with your account today.</p>
+            <div class="dashboard-header">
+                <div class="dashboard-welcome">
+                    <h1>Welcome back, <span id="userName">User</span>! 👋</h1>
+                    <p>Here's what's happening with your account today</p>
+                </div>
             </div>
             
-            <!-- Account Summary Cards -->
-            <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="text-muted mb-0">Account Balance</h6>
-                            <i class="fas fa-wallet fa-2x text-primary"></i>
-                        </div>
-                        <h2 class="fw-bold mb-0">₹<span id="accountBalance">0.00</span></h2>
-                        <small class="text-muted">Account: <span id="accountNumber">-</span></small>
+            <!-- Account Stats Cards -->
+            <div class="stats-grid">
+                <!-- Balance Card -->
+                <div class="card stat-card stat-card-primary">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-card-content">
+                        <div class="stat-card-label">Account Balance</div>
+                        <div class="stat-card-value">₹<span id="accountBalance">0.00</span></div>
+                        <div class="stat-card-meta">Account: <span id="accountNumber">-</span></div>
+                    </div>
+                </div>
+                
+                <!-- Income Card -->
+                <div class="card stat-card stat-card-success">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <div class="stat-card-content">
+                        <div class="stat-card-label">Total Deposits</div>
+                        <div class="stat-card-value">₹<span id="totalDeposits">0.00</span></div>
+                        <div class="stat-card-meta">This month</div>
+                    </div>
+                </div>
+                
+                <!-- Expense Card -->
+                <div class="card stat-card stat-card-danger">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="stat-card-content">
+                        <div class="stat-card-label">Total Withdrawals</div>
+                        <div class="stat-card-value">₹<span id="totalWithdrawals">0.00</span></div>
+                        <div class="stat-card-meta">This month</div>
+                    </div>
+                </div>
+                
+                <!-- Transactions Card -->
+                <div class="card stat-card stat-card-info">
+                    <div class="stat-card-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="stat-card-content">
+                        <div class="stat-card-label">Transactions</div>
+                        <div class="stat-card-value"><span id="transactionCount">0</span></div>
+                        <div class="stat-card-meta">This month</div>
                     </div>
                 </div>
             </div>
             
-            <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="text-muted mb-0">Total Deposits</h6>
-                            <i class="fas fa-arrow-down fa-2x text-success"></i>
-                        </div>
-                        <h2 class="fw-bold mb-0 text-success">₹<span id="totalDeposits">0.00</span></h2>
-                        <small class="text-muted">All time</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="text-muted mb-0">Total Withdrawals</h6>
-                            <i class="fas fa-arrow-up fa-2x text-danger"></i>
-                        </div>
-                        <h2 class="fw-bold mb-0 text-danger">₹<span id="totalWithdrawals">0.00</span></h2>
-                        <small class="text-muted">All time</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
             <!-- Quick Actions -->
-            <div class="col-lg-4 mb-4">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Quick Actions</h5>
-                        <div class="d-grid gap-3">
-                            <a href="deposit.html" class="btn btn-outline-success btn-lg">
-                                <i class="fas fa-plus-circle me-2"></i>Deposit Money
-                            </a>
-                            <a href="withdraw.html" class="btn btn-outline-warning btn-lg">
-                                <i class="fas fa-minus-circle me-2"></i>Withdraw Money
-                            </a>
-                            <a href="transfer.html" class="btn btn-outline-primary btn-lg">
-                                <i class="fas fa-exchange-alt me-2"></i>Transfer Funds
-                            </a>
-                            <a href="history.html" class="btn btn-outline-info btn-lg">
-                                <i class="fas fa-history me-2"></i>View History
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <div class="section-header">
+                <h2>Quick Actions</h2>
+                <p>Manage your money efficiently</p>
             </div>
             
-            <!-- Transaction Chart -->
-            <div class="col-lg-8 mb-4">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Transaction Overview</h5>
-                        <canvas id="transactionChart" height="100"></canvas>
+            <div class="quick-actions-grid">
+                <a href="deposit.html" class="card quick-action-card">
+                    <div class="quick-action-icon quick-action-success">
+                        <i class="fas fa-plus-circle"></i>
                     </div>
-                </div>
+                    <div class="quick-action-content">
+                        <h3>Deposit Money</h3>
+                        <p>Add funds to your account</p>
+                    </div>
+                    <div class="quick-action-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                
+                <a href="withdraw.html" class="card quick-action-card">
+                    <div class="quick-action-icon quick-action-danger">
+                        <i class="fas fa-minus-circle"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <h3>Withdraw Money</h3>
+                        <p>Take out cash from account</p>
+                    </div>
+                    <div class="quick-action-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                
+                <a href="transfer.html" class="card quick-action-card">
+                    <div class="quick-action-icon quick-action-primary">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <h3>Transfer Funds</h3>
+                        <p>Send money to others</p>
+                    </div>
+                    <div class="quick-action-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
+                
+                <a href="history.html" class="card quick-action-card">
+                    <div class="quick-action-icon quick-action-info">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="quick-action-content">
+                        <h3>Transaction History</h3>
+                        <p>View all your transactions</p>
+                    </div>
+                    <div class="quick-action-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </a>
             </div>
-        </div>
-        
-        <div class="row">
+            
             <!-- Recent Transactions -->
-            <div class="col-12">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="card-title mb-0">Recent Transactions</h5>
-                            <a href="history.html" class="btn btn-sm btn-outline-primary">View All</a>
+            <div class="section-header">
+                <h2>Recent Transactions</h2>
+                <a href="history.html" class="link-primary">View All</a>
+            </div>
+            
+            <div class="card">
+                <div class="transaction-list" id="recentTransactions">
+                    <!-- Transactions will be loaded here -->
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-receipt"></i>
                         </div>
-                        
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Date & Time</th>
-                                        <th>Type</th>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                        <th>Balance</th>
-                                        <th>Reference</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="recentTransactions">
-                                    <tr>
-                                        <td colspan="6" class="text-center py-5">
-                                            <div class="spinner-border text-primary" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                            <p class="text-muted mt-2">Loading transactions...</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <h3>No transactions yet</h3>
+                        <p>Your recent transactions will appear here</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Create Account Modal -->
-    <div class="modal fade" id="createAccountModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Create Your Bank Account</h5>
-                </div>
-                <div class="modal-body">
-                    <p>Welcome! You need to create a bank account to start using our services.</p>
-                    <form id="createAccountForm">
-                        <div class="mb-3">
-                            <label for="accountType" class="form-label">Account Type</label>
-                            <select class="form-select" id="accountType" required>
-                                <option value="savings" selected>Savings Account</option>
-                                <option value="current">Current Account</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="fas fa-check me-2"></i>Create Account
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="bottom-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="deposit.html" class="bottom-nav-item">
+            <i class="fas fa-plus-circle"></i>
+            <span>Deposit</span>
+        </a>
+        <a href="transfer.html" class="bottom-nav-item">
+            <i class="fas fa-exchange-alt"></i>
+            <span>Transfer</span>
+        </a>
+        <a href="history.html" class="bottom-nav-item">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+    </nav>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
     <!-- Custom JavaScript -->
-    <script src="js/auth.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/dashboard.js"></script>
+    
+    <script>
+        // Initialize theme
+        if (window.themeManager) {
+            window.themeManager.init();
+        }
+        
+        // User dropdown toggle
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userMenu = document.getElementById('userMenu');
+        
+        if (userMenuBtn && userMenu) {
+            userMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userMenu.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                userMenu.classList.remove('show');
+            });
+        }
+        
+        // Logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (confirm('Are you sure you want to logout?')) {
+                    // Clear session
+                    sessionStorage.clear();
+                    localStorage.removeItem('userEmail');
+                    
+                    // Show toast if available
+                    if (window.showToast) {
+                        window.showToast('Logged out successfully', 'success');
+                    }
+                    
+                    // Redirect to home
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 500);
+                }
+            });
+        }
+        
+        // Pull to refresh on mobile
+        if (window.PullToRefresh && window.isMobileDevice()) {
+            new PullToRefresh(document.body, async () => {
+                await loadAccountInfo();
+                await loadRecentTransactions();
+            });
+        }
+    </script>
 </body>
 </html>

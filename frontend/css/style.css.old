@@ -1,147 +1,75 @@
-/*/*
+/*
+========================================
+SecureBank - Custom Styles
+Mini Banking System
+========================================
+*/
 
-================================================================================
-
-SecureBank - Legacy Compatibility StylesSecureBank - Custom Styles
-
-Mini Banking SystemMini Banking System
-
-================================================================================
-
-Note: Main styles are now in theme.css and mobile.css*/
-
-This file provides backward compatibility for old pages
-
-========================================/* ========== GLOBAL STYLES ========== */
-
-*/:root {
-
+/* ========== GLOBAL STYLES ========== */
+:root {
     /* Modern Color Palette - High Contrast & Professional */
-
-/* Animation Utilities */    --primary-color: #2563eb;        /* Vibrant Blue */
-
-.animate-fade-in {    --primary-dark: #1e40af;         /* Dark Blue */
-
-    animation: fadeIn 1s ease-in;    --primary-light: #3b82f6;        /* Light Blue */
-
-}    --secondary-color: #64748b;      /* Slate Gray */
-
+    --primary-color: #2563eb;        /* Vibrant Blue */
+    --primary-dark: #1e40af;         /* Dark Blue */
+    --primary-light: #3b82f6;        /* Light Blue */
+    --secondary-color: #64748b;      /* Slate Gray */
     --success-color: #10b981;        /* Emerald Green */
-
-.animate-fade-in-delay {    --warning-color: #f59e0b;        /* Amber */
-
-    animation: fadeIn 1s ease-in 0.3s both;    --danger-color: #ef4444;         /* Red */
-
-}    --info-color: #06b6d4;           /* Cyan */
-
+    --warning-color: #f59e0b;        /* Amber */
+    --danger-color: #ef4444;         /* Red */
+    --info-color: #06b6d4;           /* Cyan */
     
-
-.animate-fade-in-delay-2 {    /* Backgrounds */
-
-    animation: fadeIn 1s ease-in 0.6s both;    --light-bg: #f8fafc;             /* Very Light Gray */
-
-}    --card-bg: #ffffff;              /* Pure White */
-
+    /* Backgrounds */
+    --light-bg: #f8fafc;             /* Very Light Gray */
+    --card-bg: #ffffff;              /* Pure White */
     --dark-bg: #0f172a;              /* Slate 900 */
-
-@keyframes fadeIn {    --hero-gradient-start: #1e3a8a;  /* Deep Blue */
-
-    from {    --hero-gradient-end: #2563eb;    /* Bright Blue */
-
-        opacity: 0;    
-
-        transform: translateY(20px);    /* Text Colors */
-
-    }    --text-dark: #1e293b;            /* Very Dark Slate */
-
-    to {    --text-medium: #475569;          /* Medium Slate */
-
-        opacity: 1;    --text-light: #94a3b8;           /* Light Slate */
-
-        transform: translateY(0);    --white: #ffffff;
-
-    }    
-
-}    /* Shadows - Enhanced for depth */
-
+    --hero-gradient-start: #1e3a8a;  /* Deep Blue */
+    --hero-gradient-end: #2563eb;    /* Bright Blue */
+    
+    /* Text Colors */
+    --text-dark: #1e293b;            /* Very Dark Slate */
+    --text-medium: #475569;          /* Medium Slate */
+    --text-light: #94a3b8;           /* Light Slate */
+    --white: #ffffff;
+    
+    /* Shadows - Enhanced for depth */
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
-/* Legacy Bootstrap-like utilities - will be removed once all pages migrate */    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-
-.text-muted {    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
-    color: var(--text-muted) !important;    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-
-}    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-.text-center {
-
-    text-align: center;* {
-
-}    margin: 0;
-
+* {
+    margin: 0;
     padding: 0;
-
-.mb-3 {    box-sizing: border-box;
-
-    margin-bottom: 1rem;}
-
+    box-sizing: border-box;
 }
 
 body {
-
-.mb-4 {    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
-    margin-bottom: 1.5rem;    line-height: 1.6;
-
-}    color: #333;
-
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
     background-color: var(--light-bg);
+}
 
-.mt-3 {}
-
-    margin-top: 1rem;
-
-}/* ========== NAVIGATION BAR ========== */
-
+/* ========== NAVIGATION BAR ========== */
 .navbar {
-
-.mt-4 {    box-shadow: var(--shadow-md);
-
-    margin-top: 1.5rem;    padding: 1rem 0;
-
-}    background: var(--white) !important;
-
+    box-shadow: var(--shadow-md);
+    padding: 1rem 0;
+    background: var(--white) !important;
     transition: all 0.3s ease;
+}
 
-.py-5 {}
-
-    padding-top: 3rem;
-
-    padding-bottom: 3rem;.navbar-brand {
-
-}    font-size: 1.5rem;
-
+.navbar-brand {
+    font-size: 1.5rem;
     font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--primary-color) !important;
+}
 
-/* Print Styles */    letter-spacing: -0.5px;
-
-@media print {    color: var(--primary-color) !important;
-
-    .navbar,}
-
-    .btn,
-
-    .footer {.navbar-nav .nav-link {
-
-        display: none;    color: var(--text-dark) !important;
-
-    }    font-weight: 500;
-
-}    padding: 0.5rem 1rem !important;
-
+.navbar-nav .nav-link {
+    color: var(--text-dark) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
     transition: color 0.3s ease;
 }
 
