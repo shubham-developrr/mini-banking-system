@@ -555,13 +555,16 @@ def serve_static(path):
     return send_from_directory(frontend_dir, path)
 
 if __name__ == '__main__':
+    # Get port from environment variable (for deployment) or use 5000 for local
+    port = int(os.getenv('PORT', 5000))
+    
     print("\n" + "="*50)
     print("MINI BANKING SYSTEM - BACKEND API")
     print("="*50)
-    print("[OK] Server starting on http://localhost:5000")
-    print("[OK] Frontend accessible at http://localhost:5000")
+    print(f"[OK] Server starting on port {port}")
+    print("[OK] Frontend accessible at the same URL")
     print("[OK] Press CTRL+C to stop the server")
     print("="*50 + "\n")
     
-    # Use Flask's built-in server with threading (works better on Windows)
-    app.run(host='0.0.0.0', port=5000, debug=False, threaded=True, use_reloader=False)
+    # Use Flask's built-in server with threading
+    app.run(host='0.0.0.0', port=port, debug=False, threaded=True, use_reloader=False)
