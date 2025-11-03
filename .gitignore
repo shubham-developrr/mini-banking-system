@@ -87,6 +87,3 @@ htmlcov/
 # Temporary files
 *.tmp
 *.temp
-docs/
-.github/
-.codacy/
