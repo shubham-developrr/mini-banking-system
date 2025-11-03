@@ -334,74 +334,78 @@
         }
         
         function displayTransactions(transactions) {
-            const tbody = document.getElementById('transactionTableBody');
+            const container = document.getElementById('transactionsContainer');
+            
+            if (!container) return;
             
             if (transactions.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="text-center py-5">
-                            <i class="fas fa-inbox fa-3x text-muted mb-3 d-block"></i>
-                            <p class="text-muted">No transactions found</p>
-                        </td>
-                    </tr>
+                container.innerHTML = `
+                    <div class="desktop-empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <h5>No Transactions Yet</h5>
+                        <p>Your transactions will appear here</p>
+                    </div>
                 `;
                 return;
             }
             
-            tbody.innerHTML = transactions.map(txn => {
+            container.innerHTML = transactions.map(txn => {
                 const date = new Date(txn.timestamp);
-                const formattedDate = date.toLocaleDateString('en-IN');
+                const formattedDate = date.toLocaleDateString('en-IN', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
                 const formattedTime = date.toLocaleTimeString('en-IN', {
                     hour: '2-digit',
                     minute: '2-digit'
                 });
                 
-                let typeLabel = '';
-                let typeClass = '';
+                let icon = '';
+                let iconClass = '';
+                let amountClass = '';
                 let amountPrefix = '';
                 
                 switch(txn.type) {
                     case 'deposit':
-                        typeLabel = '<span class="badge bg-success">Deposit</span>';
-                        typeClass = 'text-success';
+                        icon = 'fas fa-plus-circle';
+                        iconClass = 'deposit';
+                        amountClass = 'positive';
                         amountPrefix = '+';
                         break;
                     case 'withdraw':
-                        typeLabel = '<span class="badge bg-warning">Withdraw</span>';
-                        typeClass = 'text-danger';
+                        icon = 'fas fa-minus-circle';
+                        iconClass = 'withdraw';
+                        amountClass = 'negative';
                         amountPrefix = '-';
                         break;
                     case 'transfer_out':
-                        typeLabel = '<span class="badge bg-primary">Transfer Out</span>';
-                        typeClass = 'text-danger';
+                        icon = 'fas fa-arrow-up';
+                        iconClass = 'transfer-out';
+                        amountClass = 'negative';
                         amountPrefix = '-';
                         break;
                     case 'transfer_in':
-                        typeLabel = '<span class="badge bg-info">Transfer In</span>';
-                        typeClass = 'text-success';
+                        icon = 'fas fa-arrow-down';
+                        iconClass = 'transfer-in';
+                        amountClass = 'positive';
                         amountPrefix = '+';
                         break;
                 }
                 
                 return `
-                    <tr>
-                        <td>
-                            <div>${formattedDate}</div>
-                            <small class="text-muted">${formattedTime}</small>
-                        </td>
-                        <td>${typeLabel}</td>
-                        <td>${txn.description}</td>
-                        <td class="text-end ${typeClass} fw-bold">
+                    <div class="desktop-transaction-item">
+                        <div class="desktop-transaction-icon ${iconClass}">
+                            <i class="${icon}"></i>
+                        </div>
+                        <div class="desktop-transaction-details">
+                            <h6 class="desktop-transaction-title">${txn.description}</h6>
+                            <p class="desktop-transaction-meta">${formattedDate} • ${formattedTime} • Ref: ${txn.reference}</p>
+                        </div>
+                        <div class="desktop-transaction-amount ${amountClass}">
                             ${amountPrefix}₹${txn.amount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                        </td>
-                        <td class="text-end">
-                            ₹${txn.balance_after.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                        </td>
-                        <td><code class="small">${txn.reference}</code></td>
-                        <td>
-                            <span class="badge bg-success">Success</span>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 `;
             }).join('');
         }
