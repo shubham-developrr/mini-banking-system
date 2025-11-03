@@ -78,16 +78,16 @@
                     <!-- Stats -->
                     <div class="row mt-5 stats-row">
                         <div class="col-4">
-                            <h3 class="fw-bold mb-0">99.9%</h3>
-                            <p class="small opacity-75">Uptime</p>
+                            <h3 class="fw-bold mb-0">256-bit</h3>
+                            <p class="small opacity-75">Encryption</p>
                         </div>
                         <div class="col-4">
                             <h3 class="fw-bold mb-0">24/7</h3>
-                            <p class="small opacity-75">Support</p>
+                            <p class="small opacity-75">Available</p>
                         </div>
                         <div class="col-4">
-                            <h3 class="fw-bold mb-0">100%</h3>
-                            <p class="small opacity-75">Secure</p>
+                            <h3 class="fw-bold mb-0">Real-Time</h3>
+                            <p class="small opacity-75">Transfers</p>
                         </div>
                     </div>
                 </div>
@@ -326,16 +326,16 @@
                 
                 <div class="mobile-hero-stats">
                     <div class="mobile-stat">
-                        <div class="mobile-stat-value">99.9%</div>
-                        <div class="mobile-stat-label">Uptime</div>
+                        <div class="mobile-stat-value">256-bit</div>
+                        <div class="mobile-stat-label">Encryption</div>
                     </div>
                     <div class="mobile-stat">
-                        <div class="mobile-stat-value">50K+</div>
-                        <div class="mobile-stat-label">Users</div>
+                        <div class="mobile-stat-value">24/7</div>
+                        <div class="mobile-stat-label">Available</div>
                     </div>
                     <div class="mobile-stat">
-                        <div class="mobile-stat-value">100%</div>
-                        <div class="mobile-stat-label">Secure</div>
+                        <div class="mobile-stat-value">Real-Time</div>
+                        <div class="mobile-stat-label">Transfers</div>
                     </div>
                 </div>
             </div>
@@ -382,7 +382,48 @@
             </div>
         </section>
         
-        <!-- Mobile Bottom Navigation -->
+        <!-- Mobile About Section -->
+        <section class="mobile-transactions" id="about">
+            <h2 class="section-title">About SecureBank</h2>
+            
+            <div class="mobile-card">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">
+                        <i class="fas fa-graduation-cap text-primary me-2"></i> College Project
+                    </div>
+                </div>
+                <p class="text-secondary mb-0">SecureBank is a comprehensive banking system developed as an educational project to demonstrate modern web development practices and secure financial application architecture.</p>
+            </div>
+            
+            <div class="mobile-card">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">
+                        <i class="fas fa-code text-success me-2"></i> Built With Modern Tech
+                    </div>
+                </div>
+                <p class="text-secondary mb-0">Developed using Flask (Python), MongoDB, Bootstrap 5, and vanilla JavaScript. Features responsive design with dual UI for desktop and mobile devices.</p>
+            </div>
+            
+            <div class="mobile-card">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">
+                        <i class="fas fa-lock text-danger me-2"></i> Security First
+                    </div>
+                </div>
+                <p class="text-secondary mb-0">Implements industry-standard security practices including password hashing, JWT authentication, and secure session management to protect user data.</p>
+            </div>
+            
+            <div class="mobile-card">
+                <div class="mobile-card-header">
+                    <div class="mobile-card-title">
+                        <i class="fas fa-paint-brush text-warning me-2"></i> Professional Design
+                    </div>
+                </div>
+                <p class="text-secondary mb-0">Features a custom-built mobile banking UI with light/dark themes, professional banking aesthetics, and CSS variables for complete theme customization.</p>
+            </div>
+        </section>
+        
+        <!-- Mobile Bottom Navigation (Public Homepage) -->
         <nav class="mobile-bottom-nav">
             <div class="mobile-nav-items">
                 <a href="index.html" class="mobile-nav-item active">
@@ -399,13 +440,13 @@
                     </div>
                     <span class="mobile-nav-label">Register</span>
                 </a>
-                <a href="history.html" class="mobile-nav-item">
-                    <i class="fas fa-history"></i>
-                    <span class="mobile-nav-label">History</span>
+                <a href="#features" class="mobile-nav-item" onclick="document.querySelector('.mobile-transactions').scrollIntoView({behavior: 'smooth'}); return false;">
+                    <i class="fas fa-star"></i>
+                    <span class="mobile-nav-label">Features</span>
                 </a>
-                <a href="#" class="mobile-nav-item">
-                    <i class="fas fa-bars"></i>
-                    <span class="mobile-nav-label">More</span>
+                <a href="#about" class="mobile-nav-item" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'}); return false;">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="mobile-nav-label">About</span>
                 </a>
             </div>
         </nav>

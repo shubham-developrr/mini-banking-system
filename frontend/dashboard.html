@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1e40af">
     <title>Dashboard - SecureBank</title>
     
     <!-- Bootstrap 5 CSS -->
@@ -14,10 +15,27 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
+    <!-- Theme System (Must be loaded first) -->
+    <link rel="stylesheet" href="css/theme-system.css">
+    
+    <!-- Mobile Banking UI -->
+    <link rel="stylesheet" href="css/mobile-banking.css">
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="dashboard-page">
+    
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+        <i class="fas fa-sun"></i>
+    </button>
+    
+    <!-- ============================================================
+         DESKTOP UI (Bootstrap) - Shows on screens >= 768px
+         ============================================================ -->
+    <div class="desktop-ui">
     
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -209,11 +227,153 @@
         </div>
     </div>
 
+    </div><!-- End Desktop UI -->
+    
+    <!-- ============================================================
+         MOBILE UI (Custom Banking) - Shows on screens < 768px
+         ============================================================ -->
+    <div class="mobile-ui">
+        
+        <!-- Mobile Header (Dashboard - Logged In) -->
+        <header class="mobile-header">
+            <div class="mobile-header-content">
+                <div class="mobile-logo">
+                    <i class="fas fa-university"></i>
+                    <span>SecureBank</span>
+                </div>
+                <div class="mobile-user-menu">
+                    <button class="mobile-notification-btn" aria-label="Notifications">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Mobile Balance Card -->
+        <section class="mobile-balance-card">
+            <div class="balance-header">
+                <div class="balance-label">Total Balance</div>
+                <button class="balance-refresh" onclick="location.reload()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+            <div class="balance-amount" id="mobileBalance">₹0.00</div>
+            <div class="balance-account">
+                <span id="mobileAccountNumber">Account: Loading...</span>
+            </div>
+        </section>
+        
+        <!-- Mobile Quick Actions -->
+        <section class="mobile-quick-actions">
+            <h2 class="section-title">Quick Actions</h2>
+            <div class="quick-actions-grid">
+                <a href="deposit.html" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <div class="quick-action-label">Deposit</div>
+                </a>
+                <a href="withdraw.html" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-minus"></i>
+                    </div>
+                    <div class="quick-action-label">Withdraw</div>
+                </a>
+                <a href="transfer.html" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="quick-action-label">Transfer</div>
+                </a>
+                <a href="history.html" class="quick-action-btn">
+                    <div class="quick-action-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="quick-action-label">History</div>
+                </a>
+            </div>
+        </section>
+        
+        <!-- Mobile Recent Transactions -->
+        <section class="mobile-transactions">
+            <h2 class="section-title">Recent Transactions</h2>
+            <div id="mobileRecentTransactions">
+                <p class="text-center text-secondary py-4">Loading transactions...</p>
+            </div>
+        </section>
+        
+        <!-- Mobile Bottom Navigation (Dashboard) -->
+        <nav class="mobile-bottom-nav">
+            <div class="mobile-nav-items">
+                <a href="dashboard.html" class="mobile-nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span class="mobile-nav-label">Home</span>
+                </a>
+                <a href="deposit.html" class="mobile-nav-item">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="mobile-nav-label">Deposit</span>
+                </a>
+                <a href="transfer.html" class="mobile-nav-item center">
+                    <div class="mobile-nav-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <span class="mobile-nav-label">Transfer</span>
+                </a>
+                <a href="history.html" class="mobile-nav-item">
+                    <i class="fas fa-history"></i>
+                    <span class="mobile-nav-label">History</span>
+                </a>
+                <a href="#" class="mobile-nav-item" id="mobileLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="mobile-nav-label">Logout</span>
+                </a>
+            </div>
+        </nav>
+        
+    </div><!-- End Mobile UI -->
+
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Theme Management -->
+    <script src="js/theme.js"></script>
     
     <!-- Custom JavaScript -->
     <script src="js/auth.js"></script>
     <script src="js/dashboard.js"></script>
+    
+    <!-- Mobile UI Updates -->
+    <script>
+        // Update mobile balance and account when data loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Listen for balance updates
+            const observer = new MutationObserver(function() {
+                const desktopBalance = document.getElementById('accountBalance');
+                const desktopAccount = document.getElementById('accountNumber');
+                const mobileBalance = document.getElementById('mobileBalance');
+                const mobileAccount = document.getElementById('mobileAccountNumber');
+                
+                if (desktopBalance && mobileBalance) {
+                    mobileBalance.textContent = desktopBalance.textContent;
+                }
+                if (desktopAccount && mobileAccount) {
+                    mobileAccount.textContent = 'Account: ' + desktopAccount.textContent;
+                }
+            });
+            
+            // Observe changes to desktop balance
+            const balanceElement = document.getElementById('accountBalance');
+            if (balanceElement) {
+                observer.observe(balanceElement, { childList: true, characterData: true, subtree: true });
+            }
+            
+            // Mobile logout button
+            document.getElementById('mobileLogoutBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
 </body>
 </html>

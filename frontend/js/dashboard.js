@@ -242,6 +242,10 @@ function createTransactionChart(stats) {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: {
+                duration: 1500,  // Slow down animation to 1.5 seconds (default is 1 second)
+                easing: 'easeInOutQuart'  // Smooth easing function
+            },
             plugins: {
                 legend: {
                     position: 'bottom',
