@@ -12,21 +12,23 @@
     
     // Theme toggle functionality
     function initThemeToggle() {
-        const toggleBtn = document.querySelector('.theme-toggle');
-        if (!toggleBtn) return;
+        const toggleBtns = document.querySelectorAll('.theme-toggle');
+        if (!toggleBtns.length) return;
         
-        toggleBtn.addEventListener('click', function() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            // Add subtle animation
-            this.style.transform = 'rotate(360deg)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 300);
+        toggleBtns.forEach(toggleBtn => {
+            toggleBtn.addEventListener('click', function() {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                
+                // Add subtle animation to the clicked button
+                this.style.transform = 'rotate(360deg)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
+            });
         });
     }
     

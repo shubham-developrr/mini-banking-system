@@ -306,6 +306,24 @@
     color: white;
 }
 
+.desktop-balance-card.success-card .desktop-balance-icon {
+    background: var(--success-light);
+    color: var(--success);
+}
+
+.desktop-balance-card.success-card .desktop-balance-amount {
+    color: var(--success);
+}
+
+.desktop-balance-card.warning-card .desktop-balance-icon {
+    background: var(--warning-light);
+    color: var(--warning);
+}
+
+.desktop-balance-card.warning-card .desktop-balance-amount {
+    color: var(--warning);
+}
+
 .desktop-balance-meta {
     font-size: 0.875rem;
     color: var(--text-secondary);
