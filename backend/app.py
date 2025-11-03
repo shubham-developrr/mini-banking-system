@@ -109,15 +109,31 @@ def register():
         }
         
         result = users_collection.insert_one(user)
-        session['user_id'] = str(result.inserted_id)
+        user_id = result.inserted_id
+        
+        # Automatically create a banking account for the new user
+        account_number = generate_account_number()
+        account = {
+            'user_id': user_id,
+            'account_number': account_number,
+            'balance': 0.0,
+            'created_at': datetime.utcnow()
+        }
+        accounts_collection.insert_one(account)
+        
+        # Set session
+        session['user_id'] = str(user_id)
         session['user_email'] = email
         session['user_name'] = name
         
         print(f"[OK] User registered: {email}")
+        print(f"[OK] Banking account created: {account_number}")
+        
         return jsonify({
             'success': True,
             'message': 'Registration successful',
-            'user': {'id': str(result.inserted_id), 'name': name, 'email': email}
+            'user': {'id': str(user_id), 'name': name, 'email': email},
+            'account_number': account_number
         })
     
     except Exception as e:

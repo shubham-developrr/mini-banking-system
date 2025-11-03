@@ -20,6 +20,13 @@ async function loadAccountInfo() {
         const data = await response.json();
         
         if (response.ok && data.success) {
+            // Check if user has a banking account
+            if (!data.has_account || !data.account) {
+                // No account exists - show create account modal
+                showCreateAccountModal();
+                return null;
+            }
+            
             const account = data.account;
             
             // Update account number
@@ -38,10 +45,6 @@ async function loadAccountInfo() {
             }
             
             return account;
-        } else if (response.status === 404) {
-            // No account exists - show create account modal
-            showCreateAccountModal();
-            return null;
         } else {
             console.error('Failed to load account info');
             return null;
