@@ -1,6 +1,16 @@
 
-#Ignore vscode AI rules
-.github\instructions\codacy.instructions.md
+# Archive & Test Files
+.archive/
+.playwright-mcp/
+*.png
+*.jpg
+*.jpeg
+screenshots/
+
+# Documentation (keep in docs/ folder only)
+*.md
+!README.md
+!docs/*.md
 
 # Python
 __pycache__/
@@ -77,3 +87,6 @@ htmlcov/
 # Temporary files
 *.tmp
 *.temp
+docs/
+.github/
+.codacy/

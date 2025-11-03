@@ -1,345 +1,647 @@
+<div align="center">
+
 # 🏦 SecureBank - Mini Banking System
 
-A modern, secure mini banking system built with Python Flask and MongoDB for college project demonstration.
+### *A Modern, Secure, Cloud-Powered Banking Application*
+
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Flask](https://img.shields.io/badge/Flask-2.3.3-green.svg)](https://flask.palletsprojects.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen.svg)](https://www.mongodb.com/cloud/atlas)
+[![License](https://img.shields.io/badge/License-Educational-orange.svg)]()
+
+[🚀 Features](#-features) • [📦 Installation](#-quick-start) • [📖 Documentation](#-documentation) • [🎯 Demo](#-usage-guide)
+
+---
+
+</div>
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Features](#-features)
+- [Technology Stack](#️-technology-stack)
+- [Quick Start](#-quick-start)
+- [Usage Guide](#-usage-guide)
+- [Project Structure](#️-project-structure)
+- [API Documentation](#-api-documentation)
+- [Deployment](#-deployment)
+- [Troubleshooting](#-troubleshooting)
+
+---
+
+## 🌟 Overview
+
+**SecureBank** is a full-stack mini banking system built for educational purposes. It demonstrates modern web development practices with a clean, intuitive interface and robust backend architecture. Perfect for college projects, learning full-stack development, or understanding banking system fundamentals.
+
+### ✨ Why SecureBank?
+
+- 🌐 **Cloud-First**: MongoDB Atlas integration - access from anywhere
+- 🔒 **Secure**: Password hashing, session management, input validation
+- 📱 **Responsive**: Beautiful UI that works on all devices
+- 🚀 **Production-Ready**: Deployment-ready code structure
+- 📊 **Feature-Rich**: Complete banking operations with real-time updates
+- 🎨 **Modern Design**: Bootstrap 5 with custom styling
+
+---
 
 ## ✨ Features
 
-- **User Authentication**: Secure registration and login system
-- **Account Management**: Create and manage bank accounts
-- **Deposit Money**: Add funds to your account instantly
-- **Withdraw Money**: Withdraw funds with balance verification
-- **Transfer Funds**: Send money to other accounts
-- **Transaction History**: View detailed transaction records
-- **Beautiful Dashboard**: Interactive charts and real-time updates
-- **Responsive Design**: Works on desktop, tablet, and mobile
+<div align="center">
+
+| 🔐 Authentication | 💰 Transactions | 📊 Analytics | 🎨 UI/UX |
+|:----------------:|:---------------:|:------------:|:--------:|
+| ✅ User Registration | ✅ Deposit Money | ✅ Account Dashboard | ✅ Responsive Design |
+| ✅ Secure Login | ✅ Withdraw Funds | ✅ Transaction History | ✅ Interactive Charts |
+| ✅ Session Management | ✅ Transfer Money | ✅ Real-time Statistics | ✅ Modern Interface |
+| ✅ Password Hashing | ✅ Balance Tracking | ✅ Data Visualization | ✅ Mobile Friendly |
+
+</div>
+
+### 🎯 Core Functionalities
+
+1. **User Management**
+   - 📝 Register new account with email verification format
+   - 🔑 Secure login with hashed passwords
+   - 👤 Profile management
+   - 🚪 Session-based authentication
+
+2. **Account Operations**
+   - 🏦 Create bank account with unique 13-digit number
+   - 💳 View account details and balance
+   - 📈 Real-time balance updates
+   - 🔍 Account verification
+
+3. **Banking Transactions**
+   - 💵 **Deposit**: Add funds instantly (₹1 - ₹10,00,000)
+   - 💸 **Withdraw**: Withdraw with balance validation
+   - 🔄 **Transfer**: Send money to other accounts
+   - 📜 Complete transaction history with timestamps
+
+4. **Dashboard & Analytics**
+   - 📊 Interactive charts (deposits, withdrawals, trends)
+   - 💰 Total deposits and withdrawals summary
+   - 📅 Recent transactions overview
+   - 🎯 Quick action buttons
+
+---
 
 ## 🛠️ Technology Stack
 
 ### Frontend
-- HTML5, CSS3, JavaScript
-- Bootstrap 5 (Responsive UI framework)
-- Chart.js (Data visualization)
-- Font Awesome (Icons)
+```
+HTML5 + CSS3 + JavaScript (ES6+)
+├── Bootstrap 5.3.0      → Responsive UI Framework
+├── Chart.js             → Data Visualization
+├── Font Awesome         → Icon Library
+└── Custom CSS           → Brand Styling
+```
 
 ### Backend
-- Python 3.8+
-- Flask 2.3.3 (Web framework)
-- PyMongo 4.5.0 (MongoDB driver)
-- Flask-CORS 4.0.0 (Cross-origin support)
-- Werkzeug 2.3.7 (Security utilities)
+```python
+Python 3.8+
+├── Flask 2.3.3          → Web Framework
+├── PyMongo 4.5.0        → MongoDB Driver
+├── Flask-CORS 4.0.0     → Cross-Origin Support
+├── Werkzeug 2.3.7       → Security & Hashing
+└── Python-dotenv        → Environment Management
+```
 
 ### Database
-- MongoDB Atlas (Cloud NoSQL database - FREE tier)
-
-## 📋 Prerequisites
-
-Before running this project, ensure you have the following:
-
-1. **Python 3.8 or higher**
-   - Download from: https://www.python.org/downloads/
-   - Verify: `python --version`
-
-2. **MongoDB Atlas Account (FREE!)**
-   - Sign up at: https://cloud.mongodb.com
-   - NO local installation needed!
-   - See: `MONGODB-ATLAS-SETUP.md` for detailed setup
-
-3. **Git** (Optional, for cloning)
-   - Download from: https://git-scm.com/downloads/
-
-## 🚀 Installation & Setup
-
-### Step 1: Clone or Download Project
-
-```bash
-# If you have git
-git clone <repository-url>
-cd mini-banking-system
-
-# OR download ZIP and extract it
+```
+MongoDB Atlas (Cloud NoSQL Database)
+├── Users Collection     → User accounts & credentials
+├── Accounts Collection  → Bank accounts & balances
+└── Transactions         → All transaction records
 ```
 
-### Step 2: Setup MongoDB Atlas (Cloud Database)
+---
 
-**📖 See detailed guide:** `MONGODB-ATLAS-SETUP.md`
+## 🚀 Quick Start
 
-**Quick steps:**
-1. Go to https://cloud.mongodb.com
-2. Create FREE account
-3. Create FREE M0 cluster
-4. Create database user (username + password)
-5. Whitelist IP: 0.0.0.0/0 (all IPs)
-6. Get connection string
-7. Update `backend/.env` with your connection string
+### Prerequisites
 
-**⏱️ Takes only 5 minutes!**
+- ✅ Python 3.8 or higher ([Download](https://www.python.org/downloads/))
+- ✅ MongoDB Atlas account ([Sign Up FREE](https://cloud.mongodb.com))
+- ✅ Git (optional) ([Download](https://git-scm.com/))
 
-### Step 3: Setup Backend
+### Installation (5 Minutes Setup! ⚡)
 
-Open a NEW terminal in the project directory:
+#### Step 1: Clone Repository
 
 ```bash
-# Navigate to backend directory
+git clone https://github.com/yourusername/securebank.git
+cd securebank
+```
+
+#### Step 2: Setup MongoDB Atlas
+
+📖 **[See Detailed MongoDB Setup Guide](docs/MONGODB-ATLAS-SETUP.md)**
+
+**Quick Steps:**
+1. Go to [MongoDB Atlas](https://cloud.mongodb.com)
+2. Create FREE account (M0 cluster - no credit card needed!)
+3. Create database user (username + password)
+4. Whitelist IP: `0.0.0.0/0` (allows all IPs)
+5. Get connection string: `mongodb+srv://username:password@cluster.mongodb.net/`
+
+#### Step 3: Configure Backend
+
+```bash
+# Navigate to backend
 cd backend
 
-# Install Python dependencies
+# Install dependencies
 pip install -r requirements.txt
 
-# Update .env file with your MongoDB Atlas connection string
-# See MONGODB-ATLAS-SETUP.md for detailed instructions
-# Edit backend/.env and replace:
-# <username> with your database username
-# <password> with your database password
-# <cluster-url> with your cluster URL
+# Create .env file from example
+cp .env.example .env
+
+# Edit .env and add your MongoDB connection string
+# Use notepad, VS Code, or any text editor:
+notepad .env
 ```
 
-### Step 4: Run Backend Server
+**`.env` file should look like:**
+```env
+MONGODB_URI=mongodb+srv://your-username:your-password@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
+DATABASE_NAME=banking_system
+SECRET_KEY=your-super-secret-key-change-this
+```
+
+#### Step 4: Run the Application
 
 ```bash
-# Make sure you're in the backend directory
+# Start backend server (from backend directory)
 python app.py
 
-# You should see:
-# ✅ MongoDB Atlas connected successfully!
-# ✅ Database: banking_system
-# ✅ Server starting on http://localhost:5000
+# Server will start on http://localhost:5000
+# Frontend is served automatically from the same port!
 ```
 
-**Keep this terminal window open!**
+#### Step 5: Access the Application
 
-### Step 5: Open Frontend
-
-Open a NEW terminal:
-
-```bash
-# Navigate to frontend directory
-cd frontend
-
-# Open index.html in your browser
-# You can use any of these methods:
-
-# Method 1: Direct open
-start index.html
-
-# Method 2: Using Python HTTP server
-python -m http.server 8000
-# Then visit: http://localhost:8000
-
-# Method 3: Using VS Code Live Server extension
-# Right-click index.html -> "Open with Live Server"
+🌐 Open your browser and navigate to:
+```
+http://localhost:5000
 ```
 
-## 📱 How to Use
+**🎉 That's it! You're ready to go!**
 
-### 1. Register New Account
+---
 
-1. Open your browser and go to http://localhost:8000 (or wherever frontend is hosted)
-2. Click "Register" or "Get Started"
-3. Fill in the registration form:
-   - Full Name
-   - Email
-   - Phone (10 digits)
-   - Password (min 6 characters)
-4. Click "Create Account"
+## 📖 Usage Guide
 
-### 2. Login
+### 1️⃣ Register New User
 
-1. Click "Login" or "Sign In"
-2. Enter your email and password
-3. Click "Login"
+<details>
+<summary>Click to expand registration steps</summary>
 
-### 3. Create Bank Account
+1. Navigate to `http://localhost:5000`
+2. Click **"Get Started"** or **"Register"**
+3. Fill in the form:
+   - **Full Name**: Your name
+   - **Email**: Valid email address
+   - **Phone**: 10-digit mobile number
+   - **Password**: Minimum 6 characters
+4. Click **"Create Account"**
+5. You'll be redirected to login page
 
-- After first login, you'll see a modal to create your bank account
-- Choose account type (Savings or Current)
-- Click "Create Account"
-- You'll receive a 13-digit account number
+</details>
 
-### 4. Perform Transactions
+### 2️⃣ Login to Dashboard
 
-**Deposit Money:**
-- Go to Dashboard → Deposit Money
-- Enter amount and optional description
-- Click "Deposit Money"
+<details>
+<summary>Click to expand login steps</summary>
 
-**Withdraw Money:**
-- Go to Dashboard → Withdraw Money
-- Enter amount (must not exceed balance)
-- Click "Withdraw Money"
+1. Click **"Login"**
+2. Enter credentials:
+   - Email: `demo@securebank.com`
+   - Password: `demo1234`
+3. Click **"Login"**
+4. You'll be redirected to Dashboard
 
-**Transfer Funds:**
-- Go to Dashboard → Transfer Funds
-- Enter recipient's 13-digit account number
-- Enter amount and description
-- Click "Transfer Money"
+</details>
 
-**View History:**
-- Go to "Transactions" in navigation
-- See all your transaction history
-- Filter by type or search
+### 3️⃣ Create Bank Account
 
-## 🎨 Screenshots
+<details>
+<summary>Click to expand account creation</summary>
 
-### Landing Page
-Beautiful hero section with features overview
+- First-time users will see a modal to create bank account
+- Choose **Account Type**: Savings or Current
+- Click **"Create Account"**
+- You'll receive a unique 13-digit account number
+- Example: `1001745618456`
 
-### Dashboard
-Real-time account summary with charts
+</details>
 
-### Transaction Pages
-Clean, intuitive forms for all operations
+### 4️⃣ Perform Transactions
 
-### Transaction History
-Detailed records with filters and search
+#### 💵 Deposit Money
+```
+Dashboard → Deposit Money
+→ Enter Amount (₹1 - ₹10,00,000)
+→ Add Description (optional)
+→ Click "Deposit Money"
+→ ✅ Balance updated instantly!
+```
 
-## 🔒 Security Features
+#### 💸 Withdraw Money
+```
+Dashboard → Withdraw Money
+→ Enter Amount (must not exceed balance)
+→ Add Description (optional)
+→ Click "Withdraw Money"
+→ ✅ Balance deducted instantly!
+```
 
-- Password hashing using Werkzeug
-- Session-based authentication
-- Input validation on frontend and backend
-- CORS configuration
-- MongoDB injection prevention
+#### 🔄 Transfer Funds
+```
+Dashboard → Transfer Funds
+→ Enter Recipient's Account Number (13 digits)
+→ Enter Amount
+→ Add Description
+→ Click "Transfer Money"
+→ ✅ Both accounts updated!
+```
 
-## 📊 API Endpoints
+#### 📜 View Transaction History
+```
+Dashboard → View History
+→ See all transactions with:
+  - Date & Time
+  - Transaction Type
+  - Amount
+  - Balance After
+  - Description
+→ Filter by type or search
+```
 
-### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login user
-- `POST /api/auth/logout` - Logout user
-- `GET /api/auth/check` - Check session
-
-### Account
-- `POST /api/account/create` - Create bank account
-- `GET /api/account/info` - Get account info
-- `GET /api/account/balance` - Get current balance
-
-### Transactions
-- `POST /api/transaction/deposit` - Deposit money
-- `POST /api/transaction/withdraw` - Withdraw money
-- `POST /api/transaction/transfer` - Transfer funds
-- `GET /api/transaction/history` - Get transaction history
-
-### Statistics
-- `GET /api/stats` - Get account statistics
+---
 
 ## 🗂️ Project Structure
 
 ```
-mini-banking-system/
-├── backend/
-│   ├── app.py              # Main Flask application
-│   ├── requirements.txt     # Python dependencies
-│   └── .env.example        # Environment variables template
-├── frontend/
-│   ├── index.html          # Landing page
-│   ├── login.html          # Login page
-│   ├── register.html       # Registration page
-│   ├── dashboard.html      # Main dashboard
-│   ├── deposit.html        # Deposit page
-│   ├── withdraw.html       # Withdrawal page
-│   ├── transfer.html       # Transfer page
-│   ├── history.html        # Transaction history
-│   ├── css/
-│   │   └── style.css       # Custom styles
-│   └── js/
-│       ├── auth.js         # Authentication logic
-│       ├── dashboard.js    # Dashboard functionality
-│       └── transactions.js # Transaction operations
-├── README.md               # This file
-└── .gitignore             # Git ignore rules
+securebank/
+│
+├── 📂 backend/
+│   ├── app.py                 # 🔥 Main Flask application
+│   ├── requirements.txt       # 📦 Python dependencies
+│   ├── .env.example          # 🔧 Environment template
+│   └── .env                  # 🔒 Your config (git-ignored)
+│
+├── 📂 frontend/
+│   ├── 📄 index.html         # 🏠 Landing page
+│   ├── 📄 login.html         # 🔑 Login page
+│   ├── 📄 register.html      # 📝 Registration page
+│   ├── 📄 dashboard.html     # 📊 Main dashboard
+│   ├── 📄 deposit.html       # 💵 Deposit page
+│   ├── 📄 withdraw.html      # 💸 Withdrawal page
+│   ├── 📄 transfer.html      # 🔄 Transfer page
+│   ├── 📄 history.html       # 📜 Transaction history
+│   │
+│   ├── 📂 css/
+│   │   └── style.css         # 🎨 Custom styles
+│   │
+│   └── 📂 js/
+│       ├── auth.js           # 🔐 Authentication logic
+│       ├── dashboard.js      # 📊 Dashboard functions
+│       └── transactions.js   # 💰 Transaction operations
+│
+├── 📂 docs/                  # 📚 Documentation files
+│   ├── MONGODB-ATLAS-SETUP.md
+│   ├── QUICK-REFERENCE.md
+│   └── PROJECT_BLUEPRINT.md
+│
+├── 📂 .archive/              # 🗄️ Old/test files (git-ignored)
+├── 📄 README.md              # 📖 You are here!
+├── 📄 .gitignore            # 🚫 Git ignore rules
+└── 📄 LICENSE               # ⚖️ License file
 ```
-
-## 🐛 Troubleshooting
-
-### MongoDB Atlas Connection Error
-
-```
-Problem: "MongoDB Atlas connection error" or "Authentication failed"
-Solution:
-1. Check MONGODB-ATLAS-SETUP.md for complete setup guide
-2. Verify username and password in .env are correct
-3. Make sure IP is whitelisted (0.0.0.0/0)
-4. Ensure no extra spaces in connection string
-5. Check internet connection
-```
-
-### Backend Not Starting
-
-```
-Problem: "Import errors" or "Module not found"
-Solution:
-1. Make sure you're in backend directory
-2. Run: pip install -r requirements.txt
-3. Check Python version: python --version (must be 3.8+)
-```
-
-### Frontend Not Connecting to Backend
-
-```
-Problem: "Network error" or CORS issues
-Solution:
-1. Make sure backend is running on http://localhost:5000
-2. Check API_BASE_URL in JavaScript files
-3. Verify Flask-CORS is installed
-```
-
-### Port Already in Use
-
-```
-Problem: "Port 5000 already in use"
-Solution:
-1. Stop other applications using port 5000
-2. Or change port in app.py (last line)
-```
-
-## 📝 Testing Credentials
-
-For quick testing, you can use these demo credentials:
-
-**Demo Account (if you create one):**
-- Email: demo@securebank.com
-- Password: demo123
-
-**Note:** You'll need to register this account first!
-
-## 🎓 College Project Information
-
-This project demonstrates:
-- Full-stack web development
-- RESTful API design
-- Database operations (CRUD)
-- User authentication
-- Modern frontend design
-- Client-server architecture
-
-## 👥 Team
-
-- **Developer**: [Your Name]
-- **Documentation**: [Partner's Name]
-
-## 📄 License
-
-This project is created for educational purposes as a college project.
-
-## 🤝 Support
-
-For any issues or questions:
-1. Check the Troubleshooting section
-2. Review the code comments
-3. Contact the development team
-
-## 🎉 Features to Demonstrate
-
-During your presentation, highlight:
-1. **Beautiful UI** - Modern, responsive design
-2. **Smooth Transactions** - Real-time updates
-3. **Data Visualization** - Charts and graphs
-4. **Security** - Password hashing, validation
-5. **Complete CRUD** - Create, Read, Update operations
-6. **Error Handling** - User-friendly error messages
 
 ---
 
-**Made with ❤️ for 5th Semester College Project**
+## 🔌 API Documentation
 
-**Date**: November 2024
+### Base URL
+```
+http://localhost:5000/api
+```
+
+### Authentication Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| `POST` | `/auth/register` | Register new user | ❌ |
+| `POST` | `/auth/login` | Login user | ❌ |
+| `POST` | `/auth/logout` | Logout user | ✅ |
+| `GET` | `/auth/check` | Check session | ✅ |
+
+### Account Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| `POST` | `/account/create` | Create bank account | ✅ |
+| `GET` | `/account/info` | Get account details | ✅ |
+| `GET` | `/account/balance` | Get current balance | ✅ |
+
+### Transaction Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| `POST` | `/transactions/deposit` | Deposit money | ✅ |
+| `POST` | `/transactions/withdraw` | Withdraw money | ✅ |
+| `POST` | `/transactions/transfer` | Transfer funds | ✅ |
+| `GET` | `/transactions/history` | Get transaction history | ✅ |
+
+### Dashboard Endpoints
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| `GET` | `/dashboard/stats` | Get account statistics | ✅ |
+
+<details>
+<summary>📝 Click to see example API requests</summary>
+
+#### Register User
+```javascript
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "full_name": "John Doe",
+  "email": "john@example.com",
+  "phone": "9876543210",
+  "password": "secure123"
+}
+```
+
+#### Deposit Money
+```javascript
+POST /api/transactions/deposit
+Content-Type: application/json
+
+{
+  "amount": 1000,
+  "description": "Initial deposit"
+}
+```
+
+</details>
+
+---
+
+## 🚀 Deployment
+
+### Option 1: Render (Recommended - FREE)
+
+<details>
+<summary>Click for Render deployment guide</summary>
+
+1. Push your code to GitHub
+2. Go to [Render.com](https://render.com)
+3. Create new "Web Service"
+4. Connect your GitHub repository
+5. Configure:
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `python app.py`
+6. Add environment variables:
+   - `MONGODB_URI`: Your MongoDB Atlas connection string
+   - `SECRET_KEY`: Random secret key
+7. Click "Create Web Service"
+8. Wait for deployment (2-3 minutes)
+9. Access your app at `https://your-app.onrender.com`
+
+</details>
+
+### Option 2: Railway
+
+<details>
+<summary>Click for Railway deployment guide</summary>
+
+1. Push code to GitHub
+2. Go to [Railway.app](https://railway.app)
+3. Click "New Project" → "Deploy from GitHub"
+4. Select your repository
+5. Railway auto-detects Python
+6. Add environment variables in Settings
+7. Deploy automatically!
+
+</details>
+
+### Option 3: Heroku
+
+<details>
+<summary>Click for Heroku deployment guide</summary>
+
+**Note**: Heroku no longer has a free tier
+
+1. Install Heroku CLI
+2. Login: `heroku login`
+3. Create app: `heroku create your-app-name`
+4. Set environment variables:
+   ```bash
+   heroku config:set MONGODB_URI=your-connection-string
+   heroku config:set SECRET_KEY=your-secret-key
+   ```
+5. Deploy: `git push heroku main`
+
+</details>
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues & Solutions
+
+<details>
+<summary><b>❌ MongoDB Connection Error</b></summary>
+
+**Symptoms**: `Connection timeout`, `Authentication failed`
+
+**Solutions**:
+1. ✅ Verify MongoDB Atlas credentials in `.env`
+2. ✅ Whitelist IP address `0.0.0.0/0` in MongoDB Atlas
+3. ✅ Check internet connection
+4. ✅ Ensure no extra spaces in connection string
+5. ✅ Test connection string in MongoDB Compass
+
+**Check your `.env` format**:
+```env
+MONGODB_URI=mongodb+srv://username:password@cluster0.xxxxx.mongodb.net/
+```
+
+</details>
+
+<details>
+<summary><b>❌ Module Not Found Error</b></summary>
+
+**Symptoms**: `ImportError: No module named 'flask'`
+
+**Solutions**:
+```bash
+# Make sure you're in backend directory
+cd backend
+
+# Reinstall dependencies
+pip install -r requirements.txt
+
+# If using virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+</details>
+
+<details>
+<summary><b>❌ Port Already in Use</b></summary>
+
+**Symptoms**: `OSError: [Errno 48] Address already in use`
+
+**Solutions**:
+
+**Windows**:
+```bash
+# Find process using port 5000
+netstat -ano | findstr :5000
+
+# Kill the process (replace PID with actual process ID)
+taskkill /PID <PID> /F
+```
+
+**Linux/Mac**:
+```bash
+# Find and kill process
+lsof -ti:5000 | xargs kill -9
+```
+
+Or change port in `app.py`:
+```python
+app.run(host='0.0.0.0', port=8080)  # Use different port
+```
+
+</details>
+
+<details>
+<summary><b>❌ CORS Error</b></summary>
+
+**Symptoms**: `Access to fetch blocked by CORS policy`
+
+**Solutions**:
+1. ✅ Ensure Flask-CORS is installed
+2. ✅ Check CORS configuration in `app.py`
+3. ✅ Frontend served from same port as backend (already configured!)
+4. ✅ Clear browser cache
+
+</details>
+
+<details>
+<summary><b>❌ Session Not Persisting</b></summary>
+
+**Symptoms**: Keeps redirecting to login
+
+**Solutions**:
+1. ✅ Check `SECRET_KEY` is set in `.env`
+2. ✅ Access via `http://localhost:5000` (not file://)
+3. ✅ Enable cookies in browser
+4. ✅ Clear browser cookies and try again
+
+</details>
+
+---
+
+## 📚 Documentation
+
+Detailed documentation available in the `docs/` folder:
+
+- 📖 [MongoDB Atlas Setup Guide](docs/MONGODB-ATLAS-SETUP.md)
+- 📖 [Quick Reference](docs/QUICK-REFERENCE.md)
+- 📖 [Project Blueprint](docs/PROJECT_BLUEPRINT.md)
+
+---
+
+## 🎓 Learning Outcomes
+
+This project demonstrates:
+
+- ✅ **Full-Stack Development**: Frontend + Backend + Database
+- ✅ **RESTful API Design**: CRUD operations with proper HTTP methods
+- ✅ **Database Operations**: MongoDB with PyMongo
+- ✅ **Authentication**: Session-based user authentication
+- ✅ **Security**: Password hashing, input validation
+- ✅ **Modern UI/UX**: Responsive design with Bootstrap
+- ✅ **Version Control**: Git workflow
+- ✅ **Deployment**: Cloud deployment strategies
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. 🍴 Fork the repository
+2. 🌿 Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. 💾 Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. 📤 Push to branch (`git push origin feature/AmazingFeature`)
+5. 🔀 Open Pull Request
+
+---
+
+## 📝 License
+
+This project is created for **educational purposes** as a college project demonstration.
+
+---
+
+## 👥 Credits
+
+**Developed by**: Your Team Name
+- Developer: [Your Name]
+- Documentation: [Partner Name]
+
+**Technologies Used**: Python, Flask, MongoDB, Bootstrap, Chart.js
+
+---
+
+## 📞 Support
+
+Need help? Here's what to do:
+
+1. 📖 Check the [Troubleshooting](#-troubleshooting) section
+2. 📚 Read the documentation in `docs/` folder
+3. 🐛 Open an issue on GitHub
+4. 💬 Contact the development team
+
+---
+
+## 🎯 Future Enhancements
+
+Planned features for version 2.0:
+
+- [ ] Two-factor authentication (2FA)
+- [ ] Email notifications for transactions
+- [ ] Account statements (PDF generation)
+- [ ] Loan management system
+- [ ] Admin dashboard
+- [ ] Transaction limits and alerts
+- [ ] Multi-currency support
+- [ ] Mobile app (React Native)
+
+---
+
+## ⭐ Star This Repository!
+
+If this project helped you learn or if you found it useful, please give it a ⭐!
+
+---
+
+<div align="center">
+
+**Made with ❤️ for Educational Excellence**
+
+**Last Updated**: November 2025
+
+[⬆ Back to Top](#-securebank---mini-banking-system)
+
+</div>
