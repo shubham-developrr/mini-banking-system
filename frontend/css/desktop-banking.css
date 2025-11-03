@@ -94,9 +94,14 @@
 }
 
 .desktop-nav-item.active {
-    background: linear-gradient(135deg, var(--bank-primary), var(--bank-secondary));
-    color: white;
+    background: linear-gradient(135deg, var(--bank-primary), var(--bank-primary-light));
+    color: white !important;
     box-shadow: var(--shadow-md);
+}
+
+.desktop-nav-item.active i,
+.desktop-nav-item.active span {
+    color: white !important;
 }
 
 .desktop-nav-item.active::before {
