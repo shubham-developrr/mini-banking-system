@@ -3,7 +3,7 @@
  * Handles deposit, withdraw, transfer operations
  */
 
-const API_BASE_URL = 'http://localhost:5000/api';
+// API_BASE_URL is defined in auth.js
 
 // ==================== LOAD CURRENT BALANCE ====================
 
@@ -63,8 +63,9 @@ async function deposit() {
     depositBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
     
     try {
-        const response = await fetch(`${API_BASE_URL}/transaction/deposit`, {
+        const response = await fetch(`${API_BASE_URL}/transactions/deposit`, {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -130,8 +131,9 @@ async function withdraw() {
     withdrawBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
     
     try {
-        const response = await fetch(`${API_BASE_URL}/transaction/withdraw`, {
+        const response = await fetch(`${API_BASE_URL}/transactions/withdraw`, {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -204,8 +206,9 @@ async function transfer() {
     transferBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
     
     try {
-        const response = await fetch(`${API_BASE_URL}/transaction/transfer`, {
+        const response = await fetch(`${API_BASE_URL}/transactions/transfer`, {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -266,7 +269,7 @@ async function loadTransactionHistory() {
     }
     
     try {
-        const response = await fetch(`${API_BASE_URL}/transaction/history?limit=100`, {
+        const response = await fetch(`${API_BASE_URL}/transactions/history?limit=100`, {
             method: 'GET',
             credentials: 'include'
         });

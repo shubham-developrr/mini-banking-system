@@ -3,7 +3,7 @@
  * Handles dashboard data loading, charts, and account creation
  */
 
-const API_BASE_URL = 'http://localhost:5000/api';
+// API_BASE_URL is defined in auth.js
 
 // ==================== LOAD DASHBOARD DATA ====================
 
@@ -57,7 +57,7 @@ async function loadAccountInfo() {
  */
 async function loadStatistics() {
     try {
-        const response = await fetch(`${API_BASE_URL}/stats`, {
+        const response = await fetch(`${API_BASE_URL}/dashboard/stats`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -100,7 +100,7 @@ async function loadStatistics() {
  */
 async function loadRecentTransactions() {
     try {
-        const response = await fetch(`${API_BASE_URL}/transaction/history?limit=10`, {
+        const response = await fetch(`${API_BASE_URL}/transactions/history?limit=10`, {
             method: 'GET',
             credentials: 'include'
         });
@@ -289,6 +289,7 @@ async function createAccount(accountType = 'savings') {
     try {
         const response = await fetch(`${API_BASE_URL}/account/create`, {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -332,14 +333,18 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Update user name in navigation
     const navUserName = document.getElementById('navUserName');
-    if (navUserName && authData.user) {
+    if (navUserName && authData.user && authData.user.full_name) {
         navUserName.textContent = authData.user.full_name.split(' ')[0];
+    } else if (navUserName && authData.user && authData.user.name) {
+        navUserName.textContent = authData.user.name.split(' ')[0];
     }
     
     // Update welcome message
     const userName = document.getElementById('userName');
-    if (userName && authData.user) {
+    if (userName && authData.user && authData.user.full_name) {
         userName.textContent = authData.user.full_name.split(' ')[0];
+    } else if (userName && authData.user && authData.user.name) {
+        userName.textContent = authData.user.name.split(' ')[0];
     }
     
     // Load account info

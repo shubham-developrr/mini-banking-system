@@ -3,7 +3,7 @@
  * Handles login, register, logout, and session management
  */
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = '/api';
 
 // ==================== HELPER FUNCTIONS ====================
 
@@ -78,6 +78,7 @@ async function register() {
     try {
         const response = await fetch(`${API_BASE_URL}/auth/register`, {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -195,7 +196,7 @@ async function checkAuth() {
         
         const data = await response.json();
         
-        if (data.authenticated) {
+        if (data.logged_in) {  // Fixed: check logged_in instead of authenticated
             return data;
         } else {
             // Redirect to login if on a protected page

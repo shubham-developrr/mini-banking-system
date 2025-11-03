@@ -19,11 +19,20 @@ load_dotenv()
 # Initialize Flask app
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
+
+# Session configuration for same-origin cookies
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_SECURE'] = False
+app.config['SESSION_COOKIE_HTTPONLY'] = True
+app.config['SESSION_COOKIE_PATH'] = '/'
 
-# Enable CORS
-CORS(app, supports_credentials=True, origins=['http://localhost:8000', 'http://127.0.0.1:8000'])
+# Enable CORS with credentials
+CORS(app, 
+     supports_credentials=True, 
+     origins=['http://localhost:8000', 'http://127.0.0.1:8000', 'http://localhost:5000'],
+     allow_headers=['Content-Type', 'Authorization'],
+     expose_headers=['Set-Cookie'],
+     max_age=3600)
 
 # MongoDB Connection
 try:
@@ -529,11 +538,28 @@ def get_dashboard_stats():
         print(f"[ERROR] Stats error: {e}")
         return jsonify({'success': False, 'error': str(e)}), 500
 
+# ==================== SERVE FRONTEND ====================
+
+@app.route('/')
+def serve_index():
+    """Serve the frontend index page"""
+    from flask import send_from_directory
+    frontend_dir = os.path.join(os.path.dirname(__file__), '..', 'frontend')
+    return send_from_directory(frontend_dir, 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    """Serve static frontend files"""
+    from flask import send_from_directory
+    frontend_dir = os.path.join(os.path.dirname(__file__), '..', 'frontend')
+    return send_from_directory(frontend_dir, path)
+
 if __name__ == '__main__':
     print("\n" + "="*50)
     print("MINI BANKING SYSTEM - BACKEND API")
     print("="*50)
     print("[OK] Server starting on http://localhost:5000")
+    print("[OK] Frontend accessible at http://localhost:5000")
     print("[OK] Press CTRL+C to stop the server")
     print("="*50 + "\n")
     
