@@ -39,6 +39,16 @@
     --status-info: #0284c7;
     --status-info-bg: #e0f2fe;
     
+    /* Shorthand aliases for status colors */
+    --success: #059669;
+    --success-light: #d1fae5;
+    --error: #dc2626;
+    --error-light: #fee2e2;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --info: #0284c7;
+    --info-light: #e0f2fe;
+    
     /* Shadows - Banking Professional */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -102,6 +112,16 @@
     --status-warning-bg: #78350f;
     --status-info: #3b82f6;
     --status-info-bg: #1e3a8a;
+    
+    /* Shorthand aliases for status colors - BRIGHT for dark backgrounds */
+    --success: #34d399;        /* Bright green - visible on dark */
+    --success-light: #064e3b;
+    --error: #f87171;          /* Bright red - visible on dark */
+    --error-light: #7f1d1d;
+    --warning: #fbbf24;        /* Bright yellow - visible on dark */
+    --warning-light: #78350f;
+    --info: #60a5fa;           /* Bright blue - visible on dark */
+    --info-light: #1e3a8a;
     
     /* Shadows - Darker for depth */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
