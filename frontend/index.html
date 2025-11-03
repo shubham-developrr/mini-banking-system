@@ -3,12 +3,280 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="SecureBank - Modern banking made simple">
+    <meta name="description" content="SecureBank - Modern banking made simple. Instant transfers, 100% secure, smart analytics.">
     <meta name="theme-color" content="#2563eb">
     <title>SecureBank - Modern Banking Made Simple</title>
+    
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS - New Design System -->
     <link rel="stylesheet" href="css/theme.css">
     <link rel="stylesheet" href="css/mobile.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a href="index.html" class="navbar-brand">
+                    <i class="fas fa-university"></i>
+                    <span>SecureBank</span>
+                </a>
+                
+                <div class="d-flex align-center gap-md">
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                        <span class="theme-toggle-slider"></span>
+                        <span class="theme-toggle-icon">
+                            <i class="fas fa-sun"></i>
+                        </span>
+                    </button>
+                    
+                    <!-- Mobile Menu Toggle -->
+                    <button class="navbar-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="navbar-menu" id="navbar-menu">
+                <ul class="navbar-nav">
+                    <li class="navbar-nav-item">
+                        <a href="index.html" class="navbar-nav-link active">
+                            <i class="fas fa-home navbar-nav-icon"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="navbar-nav-item">
+                        <a href="login.html" class="navbar-nav-link">
+                            <i class="fas fa-sign-in-alt navbar-nav-icon"></i>
+                            <span>Login</span>
+                        </a>
+                    </li>
+                    <li class="navbar-nav-item">
+                        <a href="register.html" class="navbar-nav-link">
+                            <i class="fas fa-user-plus navbar-nav-icon"></i>
+                            <span>Register</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Mobile Menu Overlay -->
+            <div class="navbar-menu-overlay" id="navbar-menu-overlay"></div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Welcome to <span style="display: block; margin-top: 0.5rem;">SecureBank</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Experience modern banking with seamless transactions, real-time updates, and complete security. Your financial future starts here.
+                </p>
+                
+                <div class="hero-actions">
+                    <a href="register.html" class="btn btn-primary btn-lg btn-block">
+                        <i class="fas fa-user-plus"></i>
+                        Get Started
+                    </a>
+                    <a href="login.html" class="btn btn-outline btn-lg btn-block">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </a>
+                </div>
+                
+                <!-- Stats -->
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">99.9%</span>
+                        <span class="hero-stat-label">Uptime</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">50K+</span>
+                        <span class="hero-stat-label">Users</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-value">₹10Cr+</span>
+                        <span class="hero-stat-label">Transactions</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Why Choose SecureBank?</h2>
+                <p>Experience banking reimagined for the digital age</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="card feature-card">
+                    <div class="feature-icon feature-icon-primary">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Instant Transfers</h3>
+                    <p>Transfer money instantly to any account with zero delays. Real-time processing ensures your transactions complete in seconds.</p>
+                </div>
+                
+                <div class="card feature-card">
+                    <div class="feature-icon feature-icon-success">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Bank-Grade Security</h3>
+                    <p>Your money and data are protected with military-grade encryption, two-factor authentication, and advanced fraud detection.</p>
+                </div>
+                
+                <div class="card feature-card">
+                    <div class="feature-icon feature-icon-info">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Smart Analytics</h3>
+                    <p>Track your spending with intelligent insights and visual reports. Make informed financial decisions with AI-powered recommendations.</p>
+                </div>
+                
+                <div class="card feature-card">
+                    <div class="feature-icon feature-icon-warning">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile First</h3>
+                    <p>Manage your finances on the go with our intuitive mobile interface. Optimized for all devices with offline capabilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Everything you need for modern banking</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="card service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3>Savings Account</h3>
+                    <p>High-interest savings accounts with no minimum balance requirements and instant withdrawals.</p>
+                </div>
+                
+                <div class="card service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>Money Transfer</h3>
+                    <p>Send money to anyone, anywhere instantly. Support for UPI, IMPS, NEFT, and RTGS.</p>
+                </div>
+                
+                <div class="card service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>Transaction History</h3>
+                    <p>View detailed transaction history with advanced filters and download statements anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Join thousands of satisfied customers and experience banking done right</p>
+                <div class="cta-actions">
+                    <a href="register.html" class="btn btn-light btn-lg">
+                        <i class="fas fa-rocket"></i>
+                        Create Free Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>SecureBank</h4>
+                    <p>Modern banking made simple, secure, and accessible for everyone.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="login.html">Login</a></li>
+                        <li><a href="register.html">Register</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: support@securebank.com</p>
+                    <p>Phone: 1800-123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 SecureBank. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/theme.js"></script>
+    <script src="js/utils.js"></script>
+    
+    <script>
+        // Initialize theme
+        if (window.themeManager) {
+            window.themeManager.init();
+        }
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const navbarMenu = document.getElementById('navbar-menu');
+        const menuOverlay = document.getElementById('navbar-menu-overlay');
+        
+        if (menuToggle && navbarMenu) {
+            menuToggle.addEventListener('click', () => {
+                navbarMenu.classList.toggle('active');
+                menuOverlay.classList.toggle('active');
+                
+                // Haptic feedback
+                if (window.triggerHaptic) {
+                    window.triggerHaptic('light');
+                }
+            });
+            
+            menuOverlay.addEventListener('click', () => {
+                navbarMenu.classList.remove('active');
+                menuOverlay.classList.remove('active');
+            });
+        }
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
