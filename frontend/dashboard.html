@@ -21,6 +21,9 @@
     <!-- Mobile Banking UI -->
     <link rel="stylesheet" href="css/mobile-banking.css">
     
+    <!-- Desktop Banking UI -->
+    <link rel="stylesheet" href="css/desktop-banking.css">
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -33,172 +36,182 @@
     </button>
     
     <!-- ============================================================
-         DESKTOP UI (Bootstrap) - Shows on screens >= 768px
+         DESKTOP UI (Modern Banking) - Shows on screens >= 768px
          ============================================================ -->
     <div class="desktop-ui">
     
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="dashboard.html">
-                <i class="fas fa-university"></i> SecureBank
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="dashboard.html">
-                            <i class="fas fa-home me-1"></i>Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="history.html">
-                            <i class="fas fa-history me-1"></i>Transactions
-                        </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user-circle me-1"></i>
-                            <span id="navUserName">User</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container-fluid py-4">
-        <div class="row">
-            <!-- Welcome Header -->
-            <div class="col-12 mb-4">
-                <h2 class="fw-bold">Welcome back, <span id="userName">User</span>! 👋</h2>
-                <p class="text-muted">Here's what's happening with your account today.</p>
+    <div class="desktop-banking-container">
+        <!-- Sidebar Navigation -->
+        <aside class="desktop-sidebar">
+            <div class="desktop-logo">
+                <i class="fas fa-university"></i>
+                <span>SecureBank</span>
             </div>
             
-            <!-- Account Summary Cards -->
-            <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="text-muted mb-0">Account Balance</h6>
-                            <i class="fas fa-wallet fa-2x text-primary"></i>
-                        </div>
-                        <h2 class="fw-bold mb-0">₹<span id="accountBalance">0.00</span></h2>
-                        <small class="text-muted">Account: <span id="accountNumber">-</span></small>
-                    </div>
-                </div>
-            </div>
+            <nav class="desktop-nav-menu">
+                <a href="dashboard.html" class="desktop-nav-item active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="deposit.html" class="desktop-nav-item">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Deposit</span>
+                </a>
+                <a href="withdraw.html" class="desktop-nav-item">
+                    <i class="fas fa-minus-circle"></i>
+                    <span>Withdraw</span>
+                </a>
+                <a href="transfer.html" class="desktop-nav-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Transfer</span>
+                </a>
+                <a href="history.html" class="desktop-nav-item">
+                    <i class="fas fa-history"></i>
+                    <span>Transactions</span>
+                </a>
+            </nav>
             
-            <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="text-muted mb-0">Total Deposits</h6>
-                            <i class="fas fa-arrow-down fa-2x text-success"></i>
-                        </div>
-                        <h2 class="fw-bold mb-0 text-success">₹<span id="totalDeposits">0.00</span></h2>
-                        <small class="text-muted">All time</small>
+            <div class="desktop-user-profile">
+                <div class="desktop-user-card">
+                    <div class="desktop-user-avatar" id="userAvatar">U</div>
+                    <div class="desktop-user-info">
+                        <h6 id="userName">User</h6>
+                        <p id="userEmail">user@email.com</p>
                     </div>
                 </div>
+                <button class="desktop-logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
             </div>
-            
-            <div class="col-md-4 mb-4">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <h6 class="text-muted mb-0">Total Withdrawals</h6>
-                            <i class="fas fa-arrow-up fa-2x text-danger"></i>
-                        </div>
-                        <h2 class="fw-bold mb-0 text-danger">₹<span id="totalWithdrawals">0.00</span></h2>
-                        <small class="text-muted">All time</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </aside>
         
-        <div class="row">
+        <!-- Main Content -->
+        <main class="desktop-main-content">
+            <!-- Header -->
+            <div class="desktop-header">
+                <div>
+                    <h1>Welcome back, <span id="navUserName">User</span>! 👋</h1>
+                    <p class="desktop-header-subtitle">Here's what's happening with your account today</p>
+                </div>
+                <div class="desktop-header-actions">
+                    <button class="desktop-theme-toggle theme-toggle" aria-label="Toggle theme">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Balance Cards -->
+            <div class="desktop-balance-grid">
+                <div class="desktop-balance-card primary">
+                    <div class="desktop-balance-header">
+                        <span class="desktop-balance-label">Account Balance</span>
+                        <div class="desktop-balance-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                    </div>
+                    <div class="desktop-balance-amount">₹<span id="accountBalance">0.00</span></div>
+                    <div class="desktop-balance-meta">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Account: <span id="accountNumber">-</span></span>
+                    </div>
+                </div>
+                
+                <div class="desktop-balance-card">
+                    <div class="desktop-balance-header">
+                        <span class="desktop-balance-label">Total Deposits</span>
+                        <div class="desktop-balance-icon" style="background: var(--success-light); color: var(--success);">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                    </div>
+                    <div class="desktop-balance-amount" style="color: var(--success);">₹<span id="totalDeposits">0.00</span></div>
+                    <div class="desktop-balance-meta">
+                        <i class="fas fa-clock"></i>
+                        <span>All time</span>
+                    </div>
+                </div>
+                
+                <div class="desktop-balance-card">
+                    <div class="desktop-balance-header">
+                        <span class="desktop-balance-label">Total Withdrawals</span>
+                        <div class="desktop-balance-icon" style="background: var(--warning-light); color: var(--warning);">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                    </div>
+                    <div class="desktop-balance-amount" style="color: var(--warning);">₹<span id="totalWithdrawals">0.00</span></div>
+                    <div class="desktop-balance-meta">
+                        <i class="fas fa-clock"></i>
+                        <span>All time</span>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Quick Actions -->
-            <div class="col-lg-4 mb-4">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Quick Actions</h5>
-                        <div class="d-grid gap-3">
-                            <a href="deposit.html" class="btn btn-outline-success btn-lg">
-                                <i class="fas fa-plus-circle me-2"></i>Deposit Money
-                            </a>
-                            <a href="withdraw.html" class="btn btn-outline-warning btn-lg">
-                                <i class="fas fa-minus-circle me-2"></i>Withdraw Money
-                            </a>
-                            <a href="transfer.html" class="btn btn-outline-primary btn-lg">
-                                <i class="fas fa-exchange-alt me-2"></i>Transfer Funds
-                            </a>
-                            <a href="history.html" class="btn btn-outline-info btn-lg">
-                                <i class="fas fa-history me-2"></i>View History
-                            </a>
+            <div class="desktop-quick-actions-section">
+                <h2 class="desktop-section-title">Quick Actions</h2>
+                <div class="desktop-quick-actions-grid">
+                    <a href="deposit.html" class="desktop-quick-action-btn deposit">
+                        <div class="desktop-quick-action-icon">
+                            <i class="fas fa-plus-circle"></i>
                         </div>
-                    </div>
+                        <div class="desktop-quick-action-text">
+                            <h6>Deposit Money</h6>
+                            <p>Add funds to account</p>
+                        </div>
+                    </a>
+                    
+                    <a href="withdraw.html" class="desktop-quick-action-btn withdraw">
+                        <div class="desktop-quick-action-icon">
+                            <i class="fas fa-minus-circle"></i>
+                        </div>
+                        <div class="desktop-quick-action-text">
+                            <h6>Withdraw Money</h6>
+                            <p>Take out funds</p>
+                        </div>
+                    </a>
+                    
+                    <a href="transfer.html" class="desktop-quick-action-btn transfer">
+                        <div class="desktop-quick-action-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="desktop-quick-action-text">
+                            <h6>Transfer Funds</h6>
+                            <p>Send to another account</p>
+                        </div>
+                    </a>
+                    
+                    <a href="history.html" class="desktop-quick-action-btn history">
+                        <div class="desktop-quick-action-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="desktop-quick-action-text">
+                            <h6>View History</h6>
+                            <p>See all transactions</p>
+                        </div>
+                    </a>
                 </div>
             </div>
             
-            <!-- Transaction Chart -->
-            <div class="col-lg-8 mb-4">
-                <div class="card dashboard-card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Transaction Overview</h5>
-                        <canvas id="transactionChart" height="100"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
             <!-- Recent Transactions -->
-            <div class="col-12">
-                <div class="card dashboard-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h5 class="card-title mb-0">Recent Transactions</h5>
-                            <a href="history.html" class="btn btn-sm btn-outline-primary">View All</a>
-                        </div>
-                        
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Date & Time</th>
-                                        <th>Type</th>
-                                        <th>Description</th>
-                                        <th>Amount</th>
-                                        <th>Balance</th>
-                                        <th>Reference</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="recentTransactions">
-                                    <tr>
-                                        <td colspan="6" class="text-center py-5">
-                                            <div class="spinner-border text-primary" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                            <p class="text-muted mt-2">Loading transactions...</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+            <div class="desktop-transactions-section">
+                <div class="desktop-transactions-header">
+                    <h2 class="desktop-section-title">Recent Transactions</h2>
+                    <a href="history.html" class="desktop-view-all-link">
+                        <span>View All</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="desktop-transaction-list" id="recentTransactions">
+                    <div class="desktop-empty-state">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <h5>Loading transactions...</h5>
+                        <p>Please wait while we fetch your recent activity</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <!-- Create Account Modal -->
@@ -357,7 +370,7 @@
                 const mobileAccount = document.getElementById('mobileAccountNumber');
                 
                 if (desktopBalance && mobileBalance) {
-                    mobileBalance.textContent = desktopBalance.textContent;
+                    mobileBalance.textContent = '₹' + desktopBalance.textContent;
                 }
                 if (desktopAccount && mobileAccount) {
                     mobileAccount.textContent = 'Account: ' + desktopAccount.textContent;
@@ -370,6 +383,9 @@
                 observer.observe(balanceElement, { childList: true, characterData: true, subtree: true });
             }
             
+            // Update desktop sidebar user info
+            updateDesktopUserInfo();
+            
             // Mobile logout button
             document.getElementById('mobileLogoutBtn')?.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -377,6 +393,42 @@
                 window.location.href = 'index.html';
             });
         });
+        
+        // Update desktop sidebar with user information
+        async function updateDesktopUserInfo() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/account/info`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success && data.user) {
+                    const user = data.user;
+                    
+                    // Update all username fields
+                    const userNameElements = document.querySelectorAll('#userName, #navUserName');
+                    userNameElements.forEach(el => {
+                        if (el) el.textContent = user.full_name || 'User';
+                    });
+                    
+                    // Update email in desktop sidebar
+                    const userEmailEl = document.getElementById('userEmail');
+                    if (userEmailEl) {
+                        userEmailEl.textContent = user.email || 'user@email.com';
+                    }
+                    
+                    // Update avatar with first letter of name
+                    const userAvatarEl = document.getElementById('userAvatar');
+                    if (userAvatarEl && user.full_name) {
+                        userAvatarEl.textContent = user.full_name.charAt(0).toUpperCase();
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user info:', error);
+            }
+        }
     </script>
 </body>
 </html>

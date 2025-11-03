@@ -112,6 +112,7 @@ async function loadRecentTransactions() {
         
         if (response.ok && data.success) {
             displayRecentTransactions(data.transactions);
+            displayDesktopRecentTransactions(data.transactions);
             displayMobileRecentTransactions(data.transactions);
         } else {
             document.getElementById('recentTransactions').innerHTML = `
@@ -208,6 +209,86 @@ function displayRecentTransactions(transactions) {
                 <td>₹${txn.balance_after.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</td>
                 <td><code class="small">${txn.reference}</code></td>
             </tr>
+        `;
+    }).join('');
+}
+
+/**
+ * Display recent transactions in desktop card format
+ */
+function displayDesktopRecentTransactions(transactions) {
+    const container = document.querySelector('.desktop-transaction-list');
+    
+    if (!container) return;
+    
+    if (transactions.length === 0) {
+        container.innerHTML = `
+            <div class="desktop-empty-state">
+                <i class="fas fa-inbox"></i>
+                <h5>No Transactions Yet</h5>
+                <p>Your recent transactions will appear here</p>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = transactions.slice(0, 5).map(txn => {
+        const date = new Date(txn.timestamp);
+        const formattedDate = date.toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+        const formattedTime = date.toLocaleTimeString('en-IN', {
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        let icon = '';
+        let iconClass = '';
+        let amountClass = '';
+        let amountPrefix = '';
+        
+        switch(txn.type) {
+            case 'deposit':
+                icon = 'fas fa-plus-circle';
+                iconClass = 'deposit';
+                amountClass = 'positive';
+                amountPrefix = '+';
+                break;
+            case 'withdraw':
+                icon = 'fas fa-minus-circle';
+                iconClass = 'withdraw';
+                amountClass = 'negative';
+                amountPrefix = '-';
+                break;
+            case 'transfer_out':
+                icon = 'fas fa-arrow-up';
+                iconClass = 'transfer-out';
+                amountClass = 'negative';
+                amountPrefix = '-';
+                break;
+            case 'transfer_in':
+                icon = 'fas fa-arrow-down';
+                iconClass = 'transfer-in';
+                amountClass = 'positive';
+                amountPrefix = '+';
+                break;
+        }
+        
+        return `
+            <div class="desktop-transaction-item">
+                <div class="desktop-transaction-icon ${iconClass}">
+                    <i class="${icon}"></i>
+                </div>
+                <div class="desktop-transaction-details">
+                    <h6 class="desktop-transaction-title">${txn.description}</h6>
+                    <p class="desktop-transaction-meta">${formattedDate} • ${formattedTime}</p>
+                </div>
+                <div class="desktop-transaction-amount ${amountClass}">
+                    ${amountPrefix}₹${txn.amount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                </div>
+            </div>
         `;
     }).join('');
 }
