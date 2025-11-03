@@ -279,6 +279,32 @@
     <script>
         let allTransactions = [];
         
+        // Load transaction history from API
+        async function loadTransactionHistory() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/transactions/history`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    allTransactions = data.transactions || [];
+                    displayTransactions(allTransactions);
+                    displayMobileTransactions(allTransactions);
+                } else {
+                    console.error('Failed to load transactions:', data.message);
+                    displayTransactions([]);
+                    displayMobileTransactions([]);
+                }
+            } catch (error) {
+                console.error('Error loading transactions:', error);
+                displayTransactions([]);
+                displayMobileTransactions([]);
+            }
+        }
+        
         // Load transactions on page load
         window.addEventListener('DOMContentLoaded', async function() {
             await checkAuth();
@@ -291,34 +317,42 @@
             logout();
         });
         
-        // Refresh button
-        document.getElementById('refreshBtn').addEventListener('click', async function() {
-            await loadTransactionHistory();
-        });
+        // Refresh button (if exists)
+        const refreshBtn = document.getElementById('refreshBtn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', async function() {
+                await loadTransactionHistory();
+            });
+        }
         
-        // Filter functionality (desktop)
-        document.getElementById('filterType').addEventListener('change', filterTransactions);
-        document.getElementById('searchInput').addEventListener('input', filterTransactions);
+        // Filter functionality (desktop - if exists)
+        const filterType = document.getElementById('filterType');
+        const searchInput = document.getElementById('searchInput');
+        if (filterType) filterType.addEventListener('change', filterTransactions);
+        if (searchInput) searchInput.addEventListener('input', filterTransactions);
         
         // Filter functionality (mobile)
         document.getElementById('mobileFilterType').addEventListener('change', function() {
-            document.getElementById('filterType').value = this.value;
+            if (filterType) filterType.value = this.value;
             filterTransactions();
         });
         document.getElementById('mobileSearchInput').addEventListener('input', function() {
-            document.getElementById('searchInput').value = this.value;
+            if (searchInput) searchInput.value = this.value;
             filterTransactions();
         });
         
         function filterTransactions() {
-            const filterType = document.getElementById('filterType').value;
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterTypeEl = document.getElementById('filterType');
+            const searchInputEl = document.getElementById('searchInput');
+            
+            const filterType = filterTypeEl ? filterTypeEl.value : '';
+            const searchTerm = searchInputEl ? searchInputEl.value.toLowerCase() : '';
             
             let filtered = allTransactions;
             
             // Filter by type
             if (filterType) {
-                filtered = filtered.filter(txn => txn.type === filterType);
+                filtered = filtered.filter(txn => txn.type === filterType || txn.type === filterType.replace('withdraw', 'withdrawal'));
             }
             
             // Filter by search term
@@ -374,6 +408,7 @@
                         amountPrefix = '+';
                         break;
                     case 'withdraw':
+                    case 'withdrawal':
                         icon = 'fas fa-minus-circle';
                         iconClass = 'withdraw';
                         amountClass = 'negative';
@@ -446,6 +481,7 @@
                         amountPrefix = '+';
                         break;
                     case 'withdraw':
+                    case 'withdrawal':
                         icon = 'fas fa-minus-circle';
                         amountClass = 'amount-negative';
                         amountPrefix = '-';

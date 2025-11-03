@@ -705,7 +705,8 @@
     color: var(--status-success);
 }
 
-.transaction-icon.withdraw {
+.transaction-icon.withdraw,
+.transaction-icon.withdrawal {
     background: var(--status-warning-bg);
     color: var(--status-warning);
 }

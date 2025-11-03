@@ -549,7 +549,8 @@
     color: var(--success);
 }
 
-.desktop-transaction-icon.withdraw {
+.desktop-transaction-icon.withdraw,
+.desktop-transaction-icon.withdrawal {
     background: var(--warning-light);
     color: var(--warning);
 }

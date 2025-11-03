@@ -257,6 +257,7 @@ function displayDesktopRecentTransactions(transactions) {
                 amountPrefix = '+';
                 break;
             case 'withdraw':
+            case 'withdrawal':
                 icon = 'fas fa-minus-circle';
                 iconClass = 'withdraw';
                 amountClass = 'negative';
@@ -328,6 +329,7 @@ function displayMobileRecentTransactions(transactions) {
                 amountPrefix = '+';
                 break;
             case 'withdraw':
+            case 'withdrawal':
                 icon = 'fas fa-minus-circle';
                 amountClass = 'amount-negative';
                 amountPrefix = '-';
@@ -341,6 +343,11 @@ function displayMobileRecentTransactions(transactions) {
                 icon = 'fas fa-arrow-down';
                 amountClass = 'amount-positive';
                 amountPrefix = '+';
+                break;
+            default:
+                icon = 'fas fa-exchange-alt';
+                amountClass = 'amount-positive';
+                amountPrefix = '';
                 break;
         }
         
