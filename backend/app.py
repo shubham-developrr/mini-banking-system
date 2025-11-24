@@ -5,10 +5,11 @@ import os
 import time
 import random
 import string
+import secrets
 from datetime import datetime
 from flask import Flask, request, jsonify, session
 from flask_cors import CORS
-from pymongo import MongoClient
+from pymongo import MongoClient, ReturnDocument
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
@@ -18,11 +19,13 @@ load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
+# FIX: Use secure secret key generation if not provided
+app.secret_key = os.getenv('SECRET_KEY') or secrets.token_hex(32)
 
 # Session configuration for same-origin cookies
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-app.config['SESSION_COOKIE_SECURE'] = False
+# FIX: Enable secure cookies in production (or if explicitly set)
+app.config['SESSION_COOKIE_SECURE'] = os.getenv('FLASK_ENV') == 'production'
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_PATH'] = '/'
 
@@ -37,7 +40,7 @@ CORS(app,
 # MongoDB Connection
 try:
     mongo_uri = os.getenv('MONGODB_URI')
-    if not mongo_uri or 'mongodb+srv://' not in mongo_uri:
+    if not mongo_uri or ('mongodb+srv://' not in mongo_uri and 'mongodb://' not in mongo_uri):
         print("[WARN] MongoDB Atlas connection string not configured!")
         print("\n[INFO] SETUP INSTRUCTIONS:")
         print("  1. Create MongoDB Atlas account at https://cloud.mongodb.com")
@@ -77,13 +80,33 @@ def generate_account_number():
     random_num = ''.join(random.choices(string.digits, k=4))
     return f"1001{timestamp}{random_num}"
 
+def validate_amount(amount_val):
+    """
+    Validate amount and convert to integer (paisa/cents).
+    Returns (is_valid, value_in_cents_or_error_msg)
+    """
+    try:
+        val = float(amount_val)
+        if val <= 0:
+            return False, "Amount must be positive"
+        if val > 1000000:
+            return False, "Maximum amount is Rs.10,00,000"
+        # Convert to integer cents to avoid float precision issues
+        return True, int(round(val * 100))
+    except (ValueError, TypeError):
+        return False, "Invalid amount format"
+
+def format_money(amount_cents):
+    """Convert integer cents back to float for display"""
+    return amount_cents / 100.0
+
 # ====================  ROUTES ====================
 
 @app.route('/api/auth/register', methods=['POST'])
 def register():
     try:
         data = request.json
-        name = data.get('name') or data.get('full_name', '').strip()  # Support both name and full_name
+        name = data.get('name') or data.get('full_name', '').strip()
         email = data.get('email', '').strip().lower()
         phone = data.get('phone', '').strip()
         password = data.get('password', '')
@@ -116,7 +139,7 @@ def register():
         account = {
             'user_id': user_id,
             'account_number': account_number,
-            'balance': 0.0,
+            'balance': 0,  # Store as integer (cents)
             'created_at': datetime.utcnow()
         }
         accounts_collection.insert_one(account)
@@ -219,7 +242,7 @@ def create_account():
         account = {
             'user_id': ObjectId(user_id),
             'account_number': account_number,
-            'balance': 0.0,
+            'balance': 0, # Integer
             'created_at': datetime.utcnow()
         }
         
@@ -251,12 +274,18 @@ def get_account_info():
         if not account:
             return jsonify({'success': True, 'has_account': False})
         
+        # Handle legacy float balances if any exist (migration on read)
+        balance = account.get('balance', 0)
+        if isinstance(balance, float):
+            balance = int(round(balance * 100))
+            # Optionally update DB here, but let's just convert for display
+        
         return jsonify({
             'success': True,
             'has_account': True,
             'account': {
                 'account_number': account['account_number'],
-                'balance': account['balance']
+                'balance': format_money(balance)
             }
         })
     
@@ -276,9 +305,13 @@ def get_balance():
         if not account:
             return jsonify({'success': False, 'error': 'No account found'}), 404
         
+        balance = account.get('balance', 0)
+        if isinstance(balance, float):
+            balance = int(round(balance * 100))
+            
         return jsonify({
             'success': True,
-            'balance': account['balance'],
+            'balance': format_money(balance),
             'account_number': account['account_number']
         })
     
@@ -293,45 +326,42 @@ def deposit():
             return jsonify({'success': False, 'error': 'Please login first'}), 401
         
         data = request.json
-        amount = float(data.get('amount', 0))
+        is_valid, result = validate_amount(data.get('amount'))
         
-        if amount <= 0:
-            return jsonify({'success': False, 'error': 'Amount must be positive'}), 400
+        if not is_valid:
+            return jsonify({'success': False, 'error': result}), 400
         
-        if amount > 1000000:
-            return jsonify({'success': False, 'error': 'Maximum deposit amount is Rs.10,00,000'}), 400
-        
+        amount_cents = result
         user_id = session.get('user_id')
-        account = accounts_collection.find_one({'user_id': ObjectId(user_id)})
         
-        if not account:
-            return jsonify({'success': False, 'error': 'No account found'}), 404
-        
-        old_balance = account['balance']
-        new_balance = old_balance + amount
-        
-        accounts_collection.update_one(
-            {'_id': account['_id']},
-            {'$set': {'balance': new_balance}}
+        # Atomic update
+        updated_account = accounts_collection.find_one_and_update(
+            {'user_id': ObjectId(user_id)},
+            {'$inc': {'balance': amount_cents}},
+            return_document=ReturnDocument.AFTER
         )
         
+        if not updated_account:
+            return jsonify({'success': False, 'error': 'No account found'}), 404
+        
+        new_balance_cents = updated_account['balance']
+        
         transaction = {
-            'account_id': account['_id'],
+            'account_id': updated_account['_id'],
             'type': 'deposit',
-            'amount': amount,
-            'balance_before': old_balance,
-            'balance_after': new_balance,
+            'amount': format_money(amount_cents),
+            'balance_after': format_money(new_balance_cents),
             'timestamp': datetime.utcnow(),
-            'description': f'Deposit of Rs.{amount:,.2f}'
+            'description': f'Deposit of Rs.{format_money(amount_cents):,.2f}'
         }
         
         transactions_collection.insert_one(transaction)
         
-        print(f"[OK] Deposit: Rs.{amount} to {account['account_number']}")
+        print(f"[OK] Deposit: Rs.{format_money(amount_cents)} to {updated_account['account_number']}")
         return jsonify({
             'success': True,
-            'message': f'Successfully deposited Rs.{amount:,.2f}',
-            'new_balance': new_balance
+            'message': f'Successfully deposited Rs.{format_money(amount_cents):,.2f}',
+            'new_balance': format_money(new_balance_cents)
         })
     
     except Exception as e:
@@ -345,49 +375,49 @@ def withdraw():
             return jsonify({'success': False, 'error': 'Please login first'}), 401
         
         data = request.json
-        amount = float(data.get('amount', 0))
+        is_valid, result = validate_amount(data.get('amount'))
         
-        if amount <= 0:
-            return jsonify({'success': False, 'error': 'Amount must be positive'}), 400
-        
+        if not is_valid:
+            return jsonify({'success': False, 'error': result}), 400
+            
+        amount_cents = result
         user_id = session.get('user_id')
-        account = accounts_collection.find_one({'user_id': ObjectId(user_id)})
         
-        if not account:
-            return jsonify({'success': False, 'error': 'No account found'}), 404
-        
-        old_balance = account['balance']
-        
-        if amount > old_balance:
-            return jsonify({
-                'success': False,
-                'error': f'Insufficient balance. Available: Rs.{old_balance:,.2f}'
-            }), 400
-        
-        new_balance = old_balance - amount
-        
-        accounts_collection.update_one(
-            {'_id': account['_id']},
-            {'$set': {'balance': new_balance}}
+        # Atomic check and update
+        # Only update if balance >= amount
+        updated_account = accounts_collection.find_one_and_update(
+            {
+                'user_id': ObjectId(user_id),
+                'balance': {'$gte': amount_cents}
+            },
+            {'$inc': {'balance': -amount_cents}},
+            return_document=ReturnDocument.AFTER
         )
         
+        if not updated_account:
+            # Check if account exists at all to give better error message
+            if not accounts_collection.find_one({'user_id': ObjectId(user_id)}):
+                return jsonify({'success': False, 'error': 'No account found'}), 404
+            return jsonify({'success': False, 'error': 'Insufficient balance'}), 400
+        
+        new_balance_cents = updated_account['balance']
+        
         transaction = {
-            'account_id': account['_id'],
+            'account_id': updated_account['_id'],
             'type': 'withdrawal',
-            'amount': amount,
-            'balance_before': old_balance,
-            'balance_after': new_balance,
+            'amount': format_money(amount_cents),
+            'balance_after': format_money(new_balance_cents),
             'timestamp': datetime.utcnow(),
-            'description': f'Withdrawal of Rs.{amount:,.2f}'
+            'description': f'Withdrawal of Rs.{format_money(amount_cents):,.2f}'
         }
         
         transactions_collection.insert_one(transaction)
         
-        print(f"[OK] Withdrawal: Rs.{amount} from {account['account_number']}")
+        print(f"[OK] Withdrawal: Rs.{format_money(amount_cents)} from {updated_account['account_number']}")
         return jsonify({
             'success': True,
-            'message': f'Successfully withdrew Rs.{amount:,.2f}',
-            'new_balance': new_balance
+            'message': f'Successfully withdrew Rs.{format_money(amount_cents):,.2f}',
+            'new_balance': format_money(new_balance_cents)
         })
     
     except Exception as e:
@@ -402,78 +432,95 @@ def transfer():
         
         data = request.json
         to_account_number = data.get('to_account', '').strip()
-        amount = float(data.get('amount', 0))
+        is_valid, result = validate_amount(data.get('amount'))
         
         if not to_account_number:
             return jsonify({'success': False, 'error': 'Recipient account number required'}), 400
-        
-        if amount <= 0:
-            return jsonify({'success': False, 'error': 'Amount must be positive'}), 400
-        
+            
+        if not is_valid:
+            return jsonify({'success': False, 'error': result}), 400
+            
+        amount_cents = result
         user_id = session.get('user_id')
-        from_account = accounts_collection.find_one({'user_id': ObjectId(user_id)})
         
-        if not from_account:
-            return jsonify({'success': False, 'error': 'No account found'}), 404
-        
-        if from_account['account_number'] == to_account_number:
+        # 1. Verify sender account and check self-transfer
+        sender_account = accounts_collection.find_one({'user_id': ObjectId(user_id)})
+        if not sender_account:
+            return jsonify({'success': False, 'error': 'Sender account not found'}), 404
+            
+        if sender_account['account_number'] == to_account_number:
             return jsonify({'success': False, 'error': 'Cannot transfer to same account'}), 400
-        
-        to_account = accounts_collection.find_one({'account_number': to_account_number})
-        
-        if not to_account:
+
+        # 2. Verify recipient account exists
+        recipient_account = accounts_collection.find_one({'account_number': to_account_number})
+        if not recipient_account:
             return jsonify({'success': False, 'error': 'Recipient account not found'}), 404
+
+        # 3. Perform Transfer (Compensating Transaction Pattern)
         
-        from_balance = from_account['balance']
-        
-        if amount > from_balance:
-            return jsonify({
-                'success': False,
-                'error': f'Insufficient balance. Available: Rs.{from_balance:,.2f}'
-            }), 400
-        
-        new_from_balance = from_balance - amount
-        new_to_balance = to_account['balance'] + amount
-        
-        accounts_collection.update_one(
-            {'_id': from_account['_id']},
-            {'$set': {'balance': new_from_balance}}
+        # Step A: Deduct from Sender (Atomic)
+        updated_sender = accounts_collection.find_one_and_update(
+            {
+                '_id': sender_account['_id'],
+                'balance': {'$gte': amount_cents}
+            },
+            {'$inc': {'balance': -amount_cents}},
+            return_document=ReturnDocument.AFTER
         )
         
-        accounts_collection.update_one(
-            {'_id': to_account['_id']},
-            {'$set': {'balance': new_to_balance}}
-        )
+        if not updated_sender:
+            return jsonify({'success': False, 'error': 'Insufficient balance'}), 400
+            
+        # Step B: Add to Recipient (Atomic)
+        try:
+            updated_recipient = accounts_collection.find_one_and_update(
+                {'_id': recipient_account['_id']},
+                {'$inc': {'balance': amount_cents}},
+                return_document=ReturnDocument.AFTER
+            )
+            
+            if not updated_recipient:
+                raise Exception("Recipient account update failed (account might have been deleted)")
+                
+        except Exception as transfer_error:
+            # COMPENSATION: Refund Sender
+            print(f"[ERROR] Transfer failed, refunding sender: {transfer_error}")
+            accounts_collection.update_one(
+                {'_id': sender_account['_id']},
+                {'$inc': {'balance': amount_cents}}
+            )
+            return jsonify({'success': False, 'error': 'Transfer failed. Amount refunded.'}), 500
+
+        # 4. Record Transactions
+        timestamp = datetime.utcnow()
         
         from_transaction = {
-            'account_id': from_account['_id'],
+            'account_id': sender_account['_id'],
             'type': 'transfer_out',
-            'amount': amount,
-            'balance_before': from_balance,
-            'balance_after': new_from_balance,
+            'amount': format_money(amount_cents),
+            'balance_after': format_money(updated_sender['balance']),
             'to_account': to_account_number,
-            'timestamp': datetime.utcnow(),
+            'timestamp': timestamp,
             'description': f'Transfer to {to_account_number}'
         }
         
         to_transaction = {
-            'account_id': to_account['_id'],
+            'account_id': recipient_account['_id'],
             'type': 'transfer_in',
-            'amount': amount,
-            'balance_before': to_account['balance'],
-            'balance_after': new_to_balance,
-            'from_account': from_account['account_number'],
-            'timestamp': datetime.utcnow(),
-            'description': f'Transfer from {from_account["account_number"]}'
+            'amount': format_money(amount_cents),
+            'balance_after': format_money(updated_recipient['balance']),
+            'from_account': sender_account['account_number'],
+            'timestamp': timestamp,
+            'description': f'Transfer from {sender_account["account_number"]}'
         }
         
         transactions_collection.insert_many([from_transaction, to_transaction])
         
-        print(f"[OK] Transfer: Rs.{amount} from {from_account['account_number']} to {to_account_number}")
+        print(f"[OK] Transfer: Rs.{format_money(amount_cents)} from {sender_account['account_number']} to {to_account_number}")
         return jsonify({
             'success': True,
-            'message': f'Successfully transferred Rs.{amount:,.2f} to {to_account_number}',
-            'new_balance': new_from_balance
+            'message': f'Successfully transferred Rs.{format_money(amount_cents):,.2f} to {to_account_number}',
+            'new_balance': format_money(updated_sender['balance'])
         })
     
     except Exception as e:
@@ -537,10 +584,15 @@ def get_dashboard_stats():
             t['account_id'] = str(t['account_id'])
             t['date'] = t['timestamp'].strftime('%Y-%m-%d %H:%M:%S')
         
+        # Handle legacy float balance
+        balance = account.get('balance', 0)
+        if isinstance(balance, float):
+            balance = int(round(balance * 100))
+            
         return jsonify({
             'success': True,
             'stats': {
-                'balance': account['balance'],
+                'balance': format_money(balance),
                 'total_deposits': total_deposits,
                 'total_withdrawals': total_withdrawals,
                 'total_transfers_out': total_transfers_out,
