@@ -277,7 +277,7 @@ def get_account_info():
         # Handle legacy float balances if any exist (migration on read)
         balance = account.get('balance', 0)
         if isinstance(balance, float):
-            balance = int(round(balance * 100))
+            balance = int(balance)
             # Optionally update DB here, but let's just convert for display
         
         return jsonify({
@@ -307,7 +307,7 @@ def get_balance():
         
         balance = account.get('balance', 0)
         if isinstance(balance, float):
-            balance = int(round(balance * 100))
+            balance = int(balance)
             
         return jsonify({
             'success': True,
@@ -587,7 +587,7 @@ def get_dashboard_stats():
         # Handle legacy float balance
         balance = account.get('balance', 0)
         if isinstance(balance, float):
-            balance = int(round(balance * 100))
+            balance = int(balance)
             
         return jsonify({
             'success': True,
