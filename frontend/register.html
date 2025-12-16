@@ -101,7 +101,7 @@
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="password" 
                                                placeholder="Create a password" required>
-                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                        <button class="btn btn-outline-secondary" type="button" id="togglePassword" aria-label="Show password">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -115,7 +115,7 @@
                                     <div class="input-group">
                                         <input type="password" class="form-control" id="confirmPassword" 
                                                placeholder="Confirm your password" required>
-                                        <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword">
+                                        <button class="btn btn-outline-secondary" type="button" id="toggleConfirmPassword" aria-label="Show password">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -162,10 +162,12 @@
                 passwordField.type = 'text';
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
+                this.setAttribute('aria-label', 'Hide password');
             } else {
                 passwordField.type = 'password';
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
+                this.setAttribute('aria-label', 'Show password');
             }
         });
         
@@ -177,10 +179,12 @@
                 passwordField.type = 'text';
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
+                this.setAttribute('aria-label', 'Hide password');
             } else {
                 passwordField.type = 'password';
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
+                this.setAttribute('aria-label', 'Show password');
             }
         });
         
