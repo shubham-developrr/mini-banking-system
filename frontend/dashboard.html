@@ -266,7 +266,7 @@
         <section class="mobile-balance-card">
             <div class="balance-header">
                 <div class="balance-label">Total Balance</div>
-                <button class="balance-refresh" onclick="location.reload()">
+                <button class="balance-refresh" onclick="refreshDashboard()" aria-label="Refresh balance">
                     <i class="fas fa-sync-alt"></i>
                 </button>
             </div>
@@ -357,6 +357,7 @@
     <!-- Custom JavaScript -->
     <script src="js/auth.js"></script>
     <script src="js/dashboard.js"></script>
+    <script src="js/dashboard-refresh.js"></script>
     
     <!-- Mobile UI Updates -->
     <script>
