@@ -179,6 +179,61 @@ if (typeof window !== 'undefined') {
         setButtonLoading,
         showSuccessFeedback,
         hapticFeedback,
-        showToast
+        showToast,
+        refreshBalance
     };
+}
+
+/**
+ * Refresh balance with animation
+ * @param {HTMLElement} btnElement - The button element triggered
+ */
+async function refreshBalance(btnElement) {
+    // Add animation class
+    const icon = btnElement.querySelector('i');
+    if (icon) {
+        icon.classList.add('fa-spin');
+    }
+
+    // Disable button to prevent multiple clicks
+    btnElement.disabled = true;
+
+    // Haptic feedback
+    hapticFeedback('medium');
+
+    try {
+        // Minimum spin time of 500ms for UX
+        const minSpinTime = new Promise(resolve => setTimeout(resolve, 500));
+
+        const tasks = [minSpinTime];
+
+        // Determine which load function to call
+        if (typeof window.loadAccountInfo === 'function') {
+            tasks.push(window.loadAccountInfo());
+        } else if (typeof window.loadCurrentBalance === 'function') {
+            tasks.push(window.loadCurrentBalance());
+        }
+
+        // Also refresh transactions if available
+        if (typeof window.loadRecentTransactions === 'function') {
+            tasks.push(window.loadRecentTransactions());
+        }
+
+        await Promise.all(tasks);
+
+        // Show success feedback
+        showToast('Balance updated', 'success');
+        hapticFeedback('success');
+
+    } catch (error) {
+        console.error('Error refreshing balance:', error);
+        showToast('Failed to refresh', 'error');
+        hapticFeedback('error');
+    } finally {
+        // Remove animation and enable button
+        if (icon) {
+            icon.classList.remove('fa-spin');
+        }
+        btnElement.disabled = false;
+    }
 }
