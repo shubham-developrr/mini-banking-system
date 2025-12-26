@@ -534,3 +534,45 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 });
+
+/**
+ * Refresh dashboard data with visual feedback
+ */
+async function refreshDashboardData(button) {
+    // Add loading animation
+    const icon = button.querySelector('i');
+    if (icon) {
+        icon.classList.add('fa-spin');
+    }
+
+    // Haptic feedback
+    if (window.mobileUI) {
+        window.mobileUI.hapticFeedback('medium');
+    }
+
+    try {
+        // Load all data concurrently
+        await Promise.all([
+            loadAccountInfo(),
+            loadStatistics(),
+            loadRecentTransactions()
+        ]);
+
+        // Success feedback
+        if (window.mobileUI) {
+            window.mobileUI.hapticFeedback('success');
+            window.mobileUI.showToast('Dashboard updated', 'success');
+        }
+    } catch (error) {
+        console.error('Error refreshing dashboard:', error);
+        if (window.mobileUI) {
+            window.mobileUI.hapticFeedback('error');
+            window.mobileUI.showToast('Update failed', 'error');
+        }
+    } finally {
+        // Remove loading animation
+        if (icon) {
+            icon.classList.remove('fa-spin');
+        }
+    }
+}

@@ -325,6 +325,43 @@ async function loadTransactionHistory() {
 }
 
 /**
+ * Refresh balance with visual feedback
+ */
+async function refreshBalanceWithFeedback(button) {
+    // Add loading animation
+    const icon = button.querySelector('i');
+    if (icon) {
+        icon.classList.add('fa-spin');
+    }
+
+    // Haptic feedback
+    if (window.mobileUI) {
+        window.mobileUI.hapticFeedback('medium');
+    }
+
+    try {
+        await loadCurrentBalance();
+
+        // Success feedback
+        if (window.mobileUI) {
+            window.mobileUI.hapticFeedback('success');
+            window.mobileUI.showToast('Balance updated', 'success');
+        }
+    } catch (error) {
+        console.error('Error refreshing balance:', error);
+        if (window.mobileUI) {
+            window.mobileUI.hapticFeedback('error');
+            window.mobileUI.showToast('Update failed', 'error');
+        }
+    } finally {
+        // Remove loading animation
+        if (icon) {
+            icon.classList.remove('fa-spin');
+        }
+    }
+}
+
+/**
  * Update transaction summary cards
  */
 function updateTransactionSummary(transactions) {
