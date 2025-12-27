@@ -533,4 +533,43 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Refresh dashboard button handler
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            // Visual feedback
+            const icon = this.querySelector('i');
+            if (icon) icon.classList.add('fa-spin');
+
+            if (window.mobileUI) {
+                window.mobileUI.hapticFeedback('light');
+            }
+
+            try {
+                // Minimum loading time for UX (500ms) to prevent flashing
+                const minLoadTime = new Promise(resolve => setTimeout(resolve, 500));
+
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions(),
+                    minLoadTime
+                ]);
+
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('success');
+                    window.mobileUI.showToast('Dashboard updated', 'success');
+                }
+            } catch (error) {
+                console.error('Error refreshing dashboard:', error);
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('error');
+                    window.mobileUI.showToast('Failed to update', 'error');
+                }
+            } finally {
+                if (icon) icon.classList.remove('fa-spin');
+            }
+        });
+    }
 });
