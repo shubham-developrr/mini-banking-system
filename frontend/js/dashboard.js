@@ -533,4 +533,27 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Refresh Dashboard Button (Mobile)
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            const icon = this.querySelector('i');
+            if (icon) icon.classList.add('fa-spin');
+
+            // Add minimum delay for UX (so user sees the spin)
+            const minDelay = new Promise(resolve => setTimeout(resolve, 800));
+            const loadData = loadAccountInfo();
+
+            await Promise.all([loadData, minDelay]);
+
+            if (icon) icon.classList.remove('fa-spin');
+
+            // Haptic feedback and toast if available
+            if (window.mobileUI) {
+                if (window.mobileUI.hapticFeedback) window.mobileUI.hapticFeedback('light');
+                if (window.mobileUI.showToast) window.mobileUI.showToast('Balance updated', 'success');
+            }
+        });
+    }
 });
