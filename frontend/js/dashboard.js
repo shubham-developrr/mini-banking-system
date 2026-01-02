@@ -534,3 +534,55 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 });
+
+// ==================== DASHBOARD REFRESH ====================
+
+/**
+ * Refresh dashboard data with visual feedback
+ */
+async function refreshDashboard() {
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    const icon = refreshBtn?.querySelector('i');
+
+    if (icon) {
+        icon.classList.add('fa-spin');
+    }
+
+    if (refreshBtn) {
+        refreshBtn.disabled = true;
+    }
+
+    try {
+        // Run all load functions in parallel
+        await Promise.all([
+            loadAccountInfo(),
+            loadStatistics(),
+            loadRecentTransactions()
+        ]);
+
+        // Haptic feedback if on mobile
+        if (window.mobileUI) {
+            window.mobileUI.hapticFeedback('light');
+        }
+    } catch (error) {
+        console.error('Error refreshing dashboard:', error);
+    } finally {
+        // Minimum delay to prevent flashing
+        setTimeout(() => {
+            if (icon) {
+                icon.classList.remove('fa-spin');
+            }
+            if (refreshBtn) {
+                refreshBtn.disabled = false;
+            }
+        }, 800);
+    }
+}
+
+// Attach event listener when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', refreshDashboard);
+    }
+});
