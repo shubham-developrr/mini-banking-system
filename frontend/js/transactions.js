@@ -394,3 +394,39 @@ function showAlert(elementId, message, type = 'success') {
         alertElement.classList.add('d-none');
     }, 5000);
 }
+
+// ==================== REFRESH BALANCE WITH FEEDBACK ====================
+
+/**
+ * Refresh balance with visual feedback
+ * Used by transfer and withdraw pages
+ * @param {HTMLElement} buttonElement - The button element that triggered the refresh
+ */
+async function refreshBalanceWithFeedback(buttonElement) {
+    const icon = buttonElement.querySelector('i');
+
+    if (icon) {
+        icon.classList.add('fa-spin');
+    }
+
+    buttonElement.disabled = true;
+
+    try {
+        await loadCurrentBalance();
+
+        // Haptic feedback if on mobile
+        if (window.mobileUI) {
+            window.mobileUI.hapticFeedback('light');
+        }
+    } catch (error) {
+        console.error('Error refreshing balance:', error);
+    } finally {
+        // Minimum delay to prevent flashing
+        setTimeout(() => {
+            if (icon) {
+                icon.classList.remove('fa-spin');
+            }
+            buttonElement.disabled = false;
+        }, 800);
+    }
+}
