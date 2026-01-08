@@ -533,4 +533,44 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Refresh Dashboard Button Handler (Mobile)
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            const icon = this.querySelector('i');
+
+            // Add loading state
+            if (icon) icon.classList.add('fa-spin');
+
+            // Haptic feedback for start
+            if (window.mobileUI) window.mobileUI.hapticFeedback('light');
+
+            try {
+                // Load all data in parallel with a minimum delay for UX
+                // (so the spinner doesn't just flicker)
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions(),
+                    new Promise(resolve => setTimeout(resolve, 500))
+                ]);
+
+                // Success feedback
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('success');
+                    window.mobileUI.showToast('Dashboard updated', 'success');
+                }
+            } catch (error) {
+                console.error('Error refreshing dashboard:', error);
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('error');
+                    window.mobileUI.showToast('Update failed', 'error');
+                }
+            } finally {
+                // Remove loading state
+                if (icon) icon.classList.remove('fa-spin');
+            }
+        });
+    }
 });
