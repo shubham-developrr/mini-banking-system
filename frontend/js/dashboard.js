@@ -533,4 +533,43 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Dashboard Refresh Handler (Mobile)
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function(e) {
+            e.preventDefault();
+
+            const icon = this.querySelector('i');
+            if (icon) icon.classList.add('fa-spin');
+
+            // Haptic feedback if available
+            if (window.mobileUI && window.mobileUI.hapticFeedback) {
+                window.mobileUI.hapticFeedback('light');
+            }
+
+            try {
+                // Minimum loading time of 500ms for better UX
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions(),
+                    new Promise(resolve => setTimeout(resolve, 500))
+                ]);
+
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('success');
+                    window.mobileUI.showToast('Dashboard updated', 'success');
+                }
+            } catch (error) {
+                console.error('Refresh failed:', error);
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('error');
+                    window.mobileUI.showToast('Refresh failed', 'error');
+                }
+            } finally {
+                if (icon) icon.classList.remove('fa-spin');
+            }
+        });
+    }
 });
