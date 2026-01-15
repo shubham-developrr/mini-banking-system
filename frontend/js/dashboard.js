@@ -533,4 +533,18 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Handle dashboard refresh
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn && window.mobileUI && window.mobileUI.handleRefresh) {
+        refreshBtn.addEventListener('click', function() {
+            window.mobileUI.handleRefresh(this, async () => {
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions()
+                ]);
+            });
+        });
+    }
 });
