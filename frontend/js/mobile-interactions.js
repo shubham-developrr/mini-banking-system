@@ -105,6 +105,37 @@ function showToast(message, type = 'info', duration = 3000) {
     }, duration);
 }
 
+// Handle refresh with feedback
+async function handleRefresh(button, refreshFn, successMessage = 'Balance updated') {
+    if (button.disabled) return;
+
+    const icon = button.querySelector('i');
+    if (icon) icon.classList.add('fa-spin');
+    button.disabled = true;
+
+    hapticFeedback('light');
+
+    try {
+        const start = Date.now();
+        await refreshFn();
+        const elapsed = Date.now() - start;
+
+        if (elapsed < 800) {
+            await new Promise(resolve => setTimeout(resolve, 800 - elapsed));
+        }
+
+        hapticFeedback('success');
+        showToast(successMessage, 'success');
+    } catch (error) {
+        console.error('Refresh error:', error);
+        hapticFeedback('error');
+        showToast('Update failed', 'error');
+    } finally {
+        if (icon) icon.classList.remove('fa-spin');
+        button.disabled = false;
+    }
+}
+
 // Initialize mobile interactions
 function initializeMobileInteractions() {
     // Add ripple effect only to form submit buttons and quick amount buttons (not navigation)
@@ -179,6 +210,7 @@ if (typeof window !== 'undefined') {
         setButtonLoading,
         showSuccessFeedback,
         hapticFeedback,
-        showToast
+        showToast,
+        handleRefresh
     };
 }
