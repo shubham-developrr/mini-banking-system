@@ -533,4 +533,35 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Dashboard Refresh Handler (Mobile)
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            const icon = this.querySelector('i');
+            icon.classList.add('fa-spin');
+
+            try {
+                // Refresh all data
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions(),
+                    new Promise(resolve => setTimeout(resolve, 500)) // Min spinner duration
+                ]);
+
+                if (window.mobileUI) {
+                    window.mobileUI.showToast('Balance updated', 'success');
+                    window.mobileUI.hapticFeedback('success');
+                }
+            } catch (error) {
+                console.error('Refresh failed:', error);
+                if (window.mobileUI) {
+                    window.mobileUI.showToast('Failed to update', 'error');
+                }
+            } finally {
+                icon.classList.remove('fa-spin');
+            }
+        });
+    }
 });
