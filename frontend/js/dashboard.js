@@ -488,6 +488,45 @@ async function createAccount(accountType = 'savings') {
     }
 }
 
+// ==================== DASHBOARD REFRESH ====================
+
+/**
+ * Refresh dashboard data
+ */
+async function refreshDashboard() {
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    const icon = refreshBtn?.querySelector('i');
+
+    if (icon) icon.classList.add('fa-spin');
+    if (refreshBtn) refreshBtn.disabled = true;
+
+    try {
+        // Add a minimum delay to show the spinner (UX)
+        const minDelay = new Promise(resolve => setTimeout(resolve, 500));
+
+        await Promise.all([
+            loadAccountInfo(),
+            loadStatistics(),
+            loadRecentTransactions(),
+            minDelay
+        ]);
+
+        if (window.mobileUI) {
+            window.mobileUI.showToast('Balance updated', 'success');
+            window.mobileUI.hapticFeedback('success');
+        }
+    } catch (error) {
+        console.error('Error refreshing dashboard:', error);
+        if (window.mobileUI) {
+            window.mobileUI.showToast('Failed to refresh', 'error');
+            window.mobileUI.hapticFeedback('error');
+        }
+    } finally {
+        if (icon) icon.classList.remove('fa-spin');
+        if (refreshBtn) refreshBtn.disabled = false;
+    }
+}
+
 // ==================== INITIALIZE DASHBOARD ====================
 
 /**
@@ -524,6 +563,12 @@ document.addEventListener('DOMContentLoaded', async function() {
         await loadRecentTransactions();
     }
     
+    // Refresh button handler
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', refreshDashboard);
+    }
+
     // Create account form handler
     const createAccountForm = document.getElementById('createAccountForm');
     if (createAccountForm) {
