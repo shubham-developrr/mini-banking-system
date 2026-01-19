@@ -524,6 +524,36 @@ document.addEventListener('DOMContentLoaded', async function() {
         await loadRecentTransactions();
     }
     
+    // Refresh dashboard button handler
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            // Add loading state
+            const icon = this.querySelector('i');
+            if (icon) icon.classList.add('fa-spin');
+
+            // Haptic feedback
+            if (window.mobileUI) window.mobileUI.hapticFeedback('light');
+
+            // Fetch data (with minimum delay for UX)
+            await Promise.all([
+                loadAccountInfo(),
+                loadStatistics(),
+                loadRecentTransactions(),
+                new Promise(resolve => setTimeout(resolve, 500))
+            ]);
+
+            // Remove loading state
+            if (icon) icon.classList.remove('fa-spin');
+
+            // Success feedback
+            if (window.mobileUI) {
+                window.mobileUI.hapticFeedback('success');
+                window.mobileUI.showToast('Balance updated', 'success');
+            }
+        });
+    }
+
     // Create account form handler
     const createAccountForm = document.getElementById('createAccountForm');
     if (createAccountForm) {
