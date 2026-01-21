@@ -533,4 +533,38 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Dashboard Refresh Button
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            const icon = this.querySelector('i');
+            if (icon) icon.classList.add('fa-spin');
+
+            // Artificial delay to let user see the spinner (good UX)
+            const minLoadTime = new Promise(resolve => setTimeout(resolve, 500));
+
+            try {
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions(),
+                    minLoadTime
+                ]);
+
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('light');
+                    window.mobileUI.showToast('Balance updated', 'success');
+                }
+            } catch (error) {
+                console.error('Refresh failed:', error);
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('error');
+                    window.mobileUI.showToast('Failed to refresh', 'error');
+                }
+            } finally {
+                if (icon) icon.classList.remove('fa-spin');
+            }
+        });
+    }
 });
