@@ -394,3 +394,49 @@ function showAlert(elementId, message, type = 'success') {
         alertElement.classList.add('d-none');
     }, 5000);
 }
+
+// ==================== UI EVENTS ====================
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Mobile Balance Refresh Logic
+    const refreshBtn = document.getElementById('refreshBalanceBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            const icon = this.querySelector('i');
+
+            // Add spinning animation
+            if (icon) icon.classList.add('fa-spin');
+
+            // Haptic feedback if available
+            if (window.mobileUI && window.mobileUI.hapticFeedback) {
+                window.mobileUI.hapticFeedback('light');
+            }
+
+            try {
+                // Load balance with artificial delay for better UX
+                await Promise.all([
+                    loadCurrentBalance(),
+                    // Artificial delay (min 800ms)
+                    new Promise(resolve => setTimeout(resolve, 800))
+                ]);
+
+                // Success feedback
+                if (window.mobileUI && window.mobileUI.showToast) {
+                    window.mobileUI.showToast('Balance updated', 'success');
+                }
+                if (window.mobileUI && window.mobileUI.hapticFeedback) {
+                    window.mobileUI.hapticFeedback('success');
+                }
+
+            } catch (error) {
+                console.error('Refresh failed:', error);
+                if (window.mobileUI && window.mobileUI.showToast) {
+                    window.mobileUI.showToast('Failed to refresh', 'error');
+                }
+            } finally {
+                // Remove animation
+                if (icon) icon.classList.remove('fa-spin');
+            }
+        });
+    }
+});

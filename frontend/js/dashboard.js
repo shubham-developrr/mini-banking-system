@@ -533,4 +533,48 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Dashboard Refresh Button Logic (Mobile)
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            const icon = this.querySelector('i');
+
+            // Add spinning animation
+            if (icon) icon.classList.add('fa-spin');
+
+            // Haptic feedback if available
+            if (window.mobileUI && window.mobileUI.hapticFeedback) {
+                window.mobileUI.hapticFeedback('light');
+            }
+
+            try {
+                // Load all data in parallel
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions(),
+                    // Artificial delay to ensure user sees the refresh happen (min 500ms)
+                    new Promise(resolve => setTimeout(resolve, 500))
+                ]);
+
+                // Success feedback
+                if (window.mobileUI && window.mobileUI.showToast) {
+                    window.mobileUI.showToast('Balance updated', 'success');
+                }
+                if (window.mobileUI && window.mobileUI.hapticFeedback) {
+                    window.mobileUI.hapticFeedback('success');
+                }
+
+            } catch (error) {
+                console.error('Refresh failed:', error);
+                if (window.mobileUI && window.mobileUI.showToast) {
+                    window.mobileUI.showToast('Failed to refresh', 'error');
+                }
+            } finally {
+                // Remove animation
+                if (icon) icon.classList.remove('fa-spin');
+            }
+        });
+    }
 });
