@@ -534,3 +534,37 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 });
+
+// ==================== UX ENHANCEMENTS ====================
+
+/**
+ * Refresh dashboard data with visual feedback
+ * @param {HTMLElement} btn - The refresh button element
+ */
+async function refreshDashboard(btn) {
+    const icon = btn.querySelector('i');
+
+    // Visual feedback
+    if (icon) icon.classList.add('fa-spin');
+    if (window.mobileUI) window.mobileUI.hapticFeedback('medium');
+
+    try {
+        // Load data with minimum delay for UX
+        await Promise.all([
+            loadAccountInfo(),
+            loadStatistics(),
+            loadRecentTransactions(),
+            new Promise(resolve => setTimeout(resolve, 500))
+        ]);
+
+        // Success feedback
+        if (window.mobileUI) window.mobileUI.showToast('Balance updated', 'success');
+
+    } catch (error) {
+        console.error('Error refreshing dashboard:', error);
+        if (window.mobileUI) window.mobileUI.showToast('Failed to update', 'error');
+    } finally {
+        // Remove loading state
+        if (icon) icon.classList.remove('fa-spin');
+    }
+}
