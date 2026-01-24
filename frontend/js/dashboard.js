@@ -8,6 +8,49 @@
 // ==================== LOAD DASHBOARD DATA ====================
 
 /**
+ * Refresh dashboard data
+ */
+async function refreshDashboard(btnElement) {
+    if (!btnElement) return;
+
+    // Add loading state
+    const icon = btnElement.querySelector('i');
+    if (icon) icon.classList.add('fa-spin');
+    btnElement.disabled = true;
+
+    try {
+        // Haptic feedback
+        if (window.mobileUI && window.mobileUI.hapticFeedback) {
+            window.mobileUI.hapticFeedback('light');
+        }
+
+        // Load all data
+        await Promise.all([
+            loadAccountInfo(),
+            loadStatistics(),
+            loadRecentTransactions(),
+            // Minimum loading time for UX
+            new Promise(resolve => setTimeout(resolve, 500))
+        ]);
+
+        // Success feedback
+        if (window.mobileUI) {
+            if (window.mobileUI.hapticFeedback) window.mobileUI.hapticFeedback('success');
+            if (window.mobileUI.showToast) window.mobileUI.showToast('Balance updated', 'success');
+        }
+    } catch (error) {
+        console.error('Error refreshing dashboard:', error);
+        if (window.mobileUI && window.mobileUI.showToast) {
+            window.mobileUI.showToast('Failed to refresh', 'error');
+        }
+    } finally {
+        // Remove loading state
+        if (icon) icon.classList.remove('fa-spin');
+        btnElement.disabled = false;
+    }
+}
+
+/**
  * Load account information
  */
 async function loadAccountInfo() {
