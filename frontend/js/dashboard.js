@@ -534,3 +534,43 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 });
+
+// ==================== DASHBOARD REFRESH ====================
+
+/**
+ * Refresh dashboard data with visual feedback
+ * @param {HTMLElement} button - The refresh button element
+ */
+async function refreshDashboard(button) {
+    // Add loading state
+    const icon = button.querySelector('i');
+    if (icon) icon.classList.add('fa-spin');
+    button.disabled = true;
+
+    try {
+        // Execute all refresh operations in parallel
+        await Promise.all([
+            loadAccountInfo(),
+            loadStatistics(),
+            loadRecentTransactions(),
+            // Artificial delay to prevent flashing (min 500ms)
+            new Promise(resolve => setTimeout(resolve, 500))
+        ]);
+
+        // Success feedback
+        if (window.mobileUI) {
+            window.mobileUI.hapticFeedback('success');
+            window.mobileUI.showToast('Balance updated', 'success');
+        }
+    } catch (error) {
+        console.error('Refresh failed:', error);
+        if (window.mobileUI) {
+            window.mobileUI.hapticFeedback('error');
+            window.mobileUI.showToast('Failed to update', 'error');
+        }
+    } finally {
+        // Remove loading state
+        if (icon) icon.classList.remove('fa-spin');
+        button.disabled = false;
+    }
+}
