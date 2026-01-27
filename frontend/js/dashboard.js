@@ -533,4 +533,52 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Refresh button handler
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function() {
+            refreshDashboard(this);
+        });
+    }
 });
+
+// ==================== REFRESH DASHBOARD ====================
+
+/**
+ * Refresh dashboard data with visual feedback
+ */
+async function refreshDashboard(button) {
+    // Add loading state
+    const icon = button.querySelector('i');
+    if (icon) icon.classList.add('fa-spin');
+
+    // Trigger haptic feedback
+    if (window.mobileUI) window.mobileUI.hapticFeedback('medium');
+
+    try {
+        // Minimum delay to prevent flashing (500ms)
+        const minDelay = new Promise(resolve => setTimeout(resolve, 500));
+
+        // Refresh all data
+        await Promise.all([
+            loadAccountInfo(),
+            loadStatistics(),
+            loadRecentTransactions(),
+            minDelay
+        ]);
+
+        // Show success message
+        if (window.mobileUI) {
+            window.mobileUI.showToast('Balance updated', 'success');
+            window.mobileUI.hapticFeedback('success');
+        }
+
+    } catch (error) {
+        console.error('Refresh failed:', error);
+        if (window.mobileUI) window.mobileUI.showToast('Failed to refresh', 'error');
+    } finally {
+        // Remove loading state
+        if (icon) icon.classList.remove('fa-spin');
+    }
+}
