@@ -533,4 +533,50 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Mobile refresh button handler
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            const icon = this.querySelector('i');
+
+            // Add loading state
+            if (icon) icon.classList.add('fa-spin');
+            this.disabled = true;
+
+            // Haptic feedback
+            if (window.mobileUI && window.mobileUI.hapticFeedback) {
+                window.mobileUI.hapticFeedback('light');
+            }
+
+            try {
+                // Minimum loading time for better UX
+                const delayPromise = new Promise(resolve => setTimeout(resolve, 500));
+
+                // Fetch data in parallel
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions(),
+                    delayPromise
+                ]);
+
+                // Success feedback
+                if (window.mobileUI) {
+                    if (window.mobileUI.hapticFeedback) window.mobileUI.hapticFeedback('success');
+                    if (window.mobileUI.showToast) window.mobileUI.showToast('Balance updated', 'success');
+                }
+            } catch (error) {
+                console.error('Refresh failed:', error);
+                if (window.mobileUI) {
+                    if (window.mobileUI.hapticFeedback) window.mobileUI.hapticFeedback('error');
+                    if (window.mobileUI.showToast) window.mobileUI.showToast('Failed to update', 'error');
+                }
+            } finally {
+                // Remove loading state
+                if (icon) icon.classList.remove('fa-spin');
+                this.disabled = false;
+            }
+        });
+    }
 });
