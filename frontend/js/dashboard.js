@@ -533,4 +533,47 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Refresh button logic (Mobile)
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            // Visual feedback
+            const icon = this.querySelector('i');
+            if (icon) icon.classList.add('fa-spin');
+
+            // Haptic feedback
+            if (window.mobileUI && window.mobileUI.hapticFeedback) {
+                window.mobileUI.hapticFeedback('light');
+            }
+
+            try {
+                // Minimum loading time for UX (500ms)
+                const minLoadTime = new Promise(resolve => setTimeout(resolve, 500));
+
+                // Fetch all data in parallel
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions(),
+                    minLoadTime
+                ]);
+
+                // Success feedback
+                if (window.mobileUI) {
+                    if (window.mobileUI.showToast) window.mobileUI.showToast('Balance updated', 'success');
+                    if (window.mobileUI.hapticFeedback) window.mobileUI.hapticFeedback('success');
+                }
+            } catch (error) {
+                console.error('Refresh failed:', error);
+                if (window.mobileUI) {
+                    if (window.mobileUI.showToast) window.mobileUI.showToast('Refresh failed', 'error');
+                    if (window.mobileUI.hapticFeedback) window.mobileUI.hapticFeedback('error');
+                }
+            } finally {
+                // Stop spinning
+                if (icon) icon.classList.remove('fa-spin');
+            }
+        });
+    }
 });
