@@ -533,4 +533,43 @@ document.addEventListener('DOMContentLoaded', async function() {
             await createAccount(accountType);
         });
     }
+
+    // Refresh Dashboard Handler
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            // Add loading state
+            const icon = this.querySelector('i');
+            if (icon) icon.classList.add('fa-spin');
+
+            if (window.mobileUI) {
+                window.mobileUI.hapticFeedback('medium');
+            }
+
+            try {
+                // Execute all load functions and a minimum delay in parallel
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions(),
+                    new Promise(resolve => setTimeout(resolve, 500))
+                ]);
+
+                // Success feedback
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('success');
+                    window.mobileUI.showToast('Balance updated', 'success');
+                }
+            } catch (error) {
+                console.error('Refresh failed:', error);
+                if (window.mobileUI) {
+                    window.mobileUI.hapticFeedback('error');
+                    window.mobileUI.showToast('Refresh failed', 'error');
+                }
+            } finally {
+                // Remove loading state
+                if (icon) icon.classList.remove('fa-spin');
+            }
+        });
+    }
 });
