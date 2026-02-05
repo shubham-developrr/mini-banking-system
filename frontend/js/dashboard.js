@@ -524,6 +524,45 @@ document.addEventListener('DOMContentLoaded', async function() {
         await loadRecentTransactions();
     }
     
+    // Refresh Dashboard Handler
+    const refreshBtn = document.getElementById('refreshDashboardBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', async function() {
+            // Visual feedback
+            const icon = this.querySelector('i');
+            if (icon) icon.classList.add('fa-spin');
+
+            // Haptic feedback
+            if (window.mobileUI && window.mobileUI.hapticFeedback) {
+                window.mobileUI.hapticFeedback('medium');
+            }
+
+            try {
+                // Fetch all data
+                await Promise.all([
+                    loadAccountInfo(),
+                    loadStatistics(),
+                    loadRecentTransactions(),
+                    // Artificial delay for better UX (so spinner doesn't flash)
+                    new Promise(resolve => setTimeout(resolve, 500))
+                ]);
+
+                // Success feedback
+                if (window.mobileUI && window.mobileUI.showToast) {
+                    window.mobileUI.showToast('Balance updated', 'success');
+                }
+            } catch (error) {
+                console.error('Refresh error:', error);
+                if (window.mobileUI && window.mobileUI.showToast) {
+                    window.mobileUI.showToast('Failed to refresh', 'error');
+                }
+            } finally {
+                // Stop spinner
+                if (icon) icon.classList.remove('fa-spin');
+            }
+        });
+    }
+
     // Create account form handler
     const createAccountForm = document.getElementById('createAccountForm');
     if (createAccountForm) {
